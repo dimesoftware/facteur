@@ -2,7 +2,7 @@
 
 # Facteur 
 
-[![Build Status](https://dev.azure.com/dimenicsbe/Utilities/_apis/build/status/dimenics.facteur?branchName=master)](https://dev.azure.com/dimenicsbe/Utilities/_build/latest?definitionId=166&branchName=master) ![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/dimenicsbe/utilities/166)
+[![Build Status](https://dev.azure.com/dimenicsbe/Utilities/_apis/build/status/dimenics.facteur?branchName=master)](https://dev.azure.com/dimenicsbe/Utilities/_build/latest?definitionId=177&branchName=master) ![Azure DevOps coverage](https://img.shields.io/azure-devops/coverage/dimenicsbe/utilities/177)
 
 Facteur (French for mailman) is a library for sending e-mails in .NET. Its modular approach allows you to assemble a mail system rather than using a take-it-or-leave it service.
 
