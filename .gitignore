@@ -1,0 +1,6 @@
+**/bin
+**/obj
+*.vs
+TestResults
+**/**.DotSettings.user
+src/packages

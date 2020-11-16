@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net461;netstandard2.0;netstandard2.1</TargetFrameworks>
+    <RuntimeIdentifiers>win</RuntimeIdentifiers>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <AssemblyTitle>Facteur</AssemblyTitle>
+    <Company>Dimenics</Company>
+    <Product>Facteur</Product>
+    <LangVersion>latest</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <NeutralLanguage>en</NeutralLanguage>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/dimenics/facteur</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/dimenics/facteur</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>Facteur e-mail kit resolver using view model</Description>
+    <Version>1.0.0-alpha.3</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Facteur\Facteur.csproj" />
+  </ItemGroup>
+
+</Project>

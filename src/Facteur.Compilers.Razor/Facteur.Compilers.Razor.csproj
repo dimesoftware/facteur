@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <NeutralLanguage>en</NeutralLanguage>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/dimenics/facteur</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/dimenics/facteur</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>Razor engine body builder for the facteur e-mail kit.</Description>
+    <Version>1.0.0-alpha.3</Version>
+    <Authors>Dimenics</Authors>
+    <Company>Dimenics</Company>
+    <Product>Facteur</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="RazorEngine" Version="3.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Facteur.TemplateProviders.IO\Facteur.TemplateProviders.IO.csproj" />
+    <ProjectReference Include="..\Facteur\Facteur.csproj" />
+  </ItemGroup>
+
+</Project>

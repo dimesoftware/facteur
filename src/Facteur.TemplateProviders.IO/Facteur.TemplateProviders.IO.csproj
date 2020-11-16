@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.1;netstandard2.0;net461</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <NeutralLanguage>en</NeutralLanguage>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/dimenics/facteur</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/dimenics/facteur</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>IO for facteur.</Description>
+    <Version>1.0.0-alpha.3</Version>
+    <Authors>Dimenics</Authors>
+    <Company>Dimenics</Company>
+    <Product>Facteur</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Facteur\Facteur.csproj" />
+  </ItemGroup>
+
+</Project>
