@@ -12,7 +12,7 @@ namespace Facteur.Compilers.Scriban.Tests
         public async Task ScribanCompiler_ShouldPopulateTemplate()
         {
             ITemplateCompiler scribanCompiler = new ScribanCompiler(new AppDirectoryTemplateProvider());
-            string body = await scribanCompiler.CompileBody(new TestMailModel() { Name = "Handsome B. Wonderful" }, "Test");
+            string body = await scribanCompiler.CompileBody(new TestMailModel { Name = "Handsome B. Wonderful" }, "Test");
 
             Assert.IsTrue(body.Contains("Handsome B. Wonderful"));
         }
