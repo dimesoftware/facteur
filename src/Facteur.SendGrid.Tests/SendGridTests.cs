@@ -18,7 +18,7 @@ namespace Facteur.Tests
                 .SetTo("majev@getnada.com")
                 .Build();
 
-            Assert.ThrowsException<ArgumentNullException>(() => new SendGridMailer(null));
+            Assert.ThrowsException<ArgumentNullException>(() => new SendGridMailer(null, new ViewModelTemplateResolver(), new SimpleHtmlTemplateCompiler()));
         }
 
         [TestMethod]
@@ -32,7 +32,7 @@ namespace Facteur.Tests
                 .SetTo("majev@getnada.com")
                 .Build();
 
-            Assert.ThrowsException<ArgumentNullException>(() => new SendGridMailer(""));
+            Assert.ThrowsException<ArgumentNullException>(() => new SendGridMailer("", new ViewModelTemplateResolver(), new SimpleHtmlTemplateCompiler()));
         }
 
         [TestMethod]
@@ -46,7 +46,7 @@ namespace Facteur.Tests
                 .SetTo("majev@getnada.com")
                 .Build();
 
-            IMailer mailer = new SendGridMailer("MySGKey");
+            IMailer mailer = new SendGridMailer("MySGKey", new ViewModelTemplateResolver(), new SimpleHtmlTemplateCompiler());
         }
     }
 }

@@ -21,9 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Facteur.Compilers.Razor\Facteur.Compilers.Razor.csproj" />
-    <ProjectReference Include="..\Facteur.TemplateProviders.IO\Facteur.TemplateProviders.IO.csproj" />
-    <ProjectReference Include="..\Facteur.Resolvers.ViewModel\Facteur.Resolvers.ViewModel.csproj" />
     <ProjectReference Include="..\Facteur\Facteur.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Facteur.Smtp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -21,7 +20,7 @@ namespace Facteur.Tests
                 .SetTo("tibipi@getnada.com")
                 .Build();
 
-            IMailer mailer = new SmtpMailer(credentials);
+            IMailer mailer = new SmtpMailer(credentials, new ViewModelTemplateResolver(), new SimpleHtmlTemplateCompiler());
             await mailer.SendMailAsync(request);
         }
     }

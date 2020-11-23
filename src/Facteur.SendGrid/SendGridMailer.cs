@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,15 +10,6 @@ namespace Facteur.SendGrid
     [ExcludeFromCodeCoverage]
     public class SendGridMailer : SendGridBaseMailer, IMailer
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SendGridMailer"/> class
-        /// </summary>
-        /// <param name="key">The SendGrid API key</param>
-        public SendGridMailer(string key)
-            : this(key, new ViewModelTemplateResolver(), new RazorEngineTemplateCompiler())
-        {
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SendGridMailer"/> class
         /// </summary>
@@ -57,7 +47,7 @@ namespace Facteur.SendGrid
             where T : class
         {
             string populatedBody = await Compiler.CompileBody(request.Model, Resolver.Resolve(request.Model)).ConfigureAwait(false);
-            
+
             EmailComposer composer = new EmailComposer();
             EmailRequest mailRequest = composer
                 .SetSubject(request.Subject)

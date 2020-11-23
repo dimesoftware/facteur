@@ -1,6 +1,6 @@
 ﻿namespace Facteur
 {
-    public abstract class BaseEmailComposer<T> where T: EmailRequest, new()
+    public abstract class BaseEmailComposer<T> where T : EmailRequest, new()
     {
         protected BaseEmailComposer()
         {

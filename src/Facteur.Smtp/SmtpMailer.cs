@@ -13,15 +13,6 @@ namespace Facteur.Smtp
         /// <summary>
         /// Initializes a new instance of the <see cref="SmtpMailer"/> class
         /// </summary>
-        /// <param name="smtpCredentials"></param>
-        public SmtpMailer(SmtpCredentials smtpCredentials)
-            : this(smtpCredentials, new ViewModelTemplateResolver(), new RazorEngineTemplateCompiler())
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SmtpMailer"/> class
-        /// </summary>
         /// <param name="smtpCredentials">The SendGrid API key</param>
         /// <param name="templateResolver"></param>
         /// <param name="compiler"></param>

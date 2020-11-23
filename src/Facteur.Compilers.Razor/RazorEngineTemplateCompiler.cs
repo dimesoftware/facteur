@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using Facteur.TemplateProviders.IO;
 using RazorEngine.Templating;
 
 namespace Facteur
@@ -10,10 +9,6 @@ namespace Facteur
     /// </summary>
     public class RazorEngineTemplateCompiler : ITemplateCompiler
     {
-        public RazorEngineTemplateCompiler() : this(new AppDirectoryTemplateProvider())
-        {
-        }
-
         public RazorEngineTemplateCompiler(ITemplateProvider templateProvider)
         {
             Provider = templateProvider;

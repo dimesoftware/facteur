@@ -1,8 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Text;
-
-namespace Facteur
+﻿namespace Facteur
 {
     public class EmailComposer : BaseEmailComposer<EmailRequest>
     {

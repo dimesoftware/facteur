@@ -14,7 +14,7 @@ namespace Facteur.Tests
         [DataRow("clientId", "", "clientSecret", "from")]
         [DataRow("clientId", "tenantId", "", "from")]
         [DataRow("clientId", "tenantId", "clientSecret", "")]
-        public void Graph_SendMail_InvalidParameter_ShouldThrowArgumentNullException(string clientId, string tenantId, string clientSecret, string from) 
+        public void Graph_SendMail_InvalidParameter_ShouldThrowArgumentNullException(string clientId, string tenantId, string clientSecret, string from)
             => Assert.ThrowsException<ArgumentNullException>(() => new GraphCredentials(clientId, tenantId, clientSecret, @from));
 
 

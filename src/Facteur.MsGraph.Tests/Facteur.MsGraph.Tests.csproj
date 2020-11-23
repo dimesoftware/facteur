@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFrameworks>net5.0;netcoreapp3.1;net461</TargetFrameworks>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Facteur.MsGraph\Facteur.MsGraph.csproj" />
+    <ProjectReference Include="..\Facteur.Resolvers.ViewModel\Facteur.Resolvers.ViewModel.csproj" />
   </ItemGroup>
 
   <ItemGroup>

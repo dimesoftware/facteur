@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Facteur
+﻿namespace Facteur
 {
     public class EmailRequest<T> : EmailRequest
     {

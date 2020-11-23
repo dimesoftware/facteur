@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http.Headers;
 using Microsoft.Graph;
@@ -14,15 +13,6 @@ namespace Facteur.MsGraph
     [ExcludeFromCodeCoverage]
     public class GraphMailer : IMailer
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GraphMailer"/> class
-        /// </summary>
-        /// <param name="credentials"></param>
-        public GraphMailer(GraphCredentials credentials)
-            : this(credentials, new ViewModelTemplateResolver(), new RazorEngineTemplateCompiler())
-        {
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="GraphMailer"/> class
         /// </summary>

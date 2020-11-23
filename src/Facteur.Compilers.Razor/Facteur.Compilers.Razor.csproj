@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Facteur.TemplateProviders.IO\Facteur.TemplateProviders.IO.csproj" />
     <ProjectReference Include="..\Facteur\Facteur.csproj" />
   </ItemGroup>
 
