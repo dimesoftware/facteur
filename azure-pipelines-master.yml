@@ -32,4 +32,4 @@ steps:
     inputs:
       command: test
       projects: '**/*.csproj'
-      arguments: '--configuration $(BuildConfiguration) --collect "XPlat Code Coverage"'
+      arguments: '--configuration $(BuildConfiguration) --collect "Code Coverage" -f "net5.0"'
