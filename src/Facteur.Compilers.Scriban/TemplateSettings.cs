@@ -25,7 +25,7 @@ namespace Facteur
 
         #region Properties
 
-        public string Extension { get; set; } = ".dhtml";
+        public string Extension { get; set; } = ".sbnhtml";
         public string RelativePath { get; set; } = Path.Combine("Templates");
 
         private static volatile TemplateSettings _instance;
