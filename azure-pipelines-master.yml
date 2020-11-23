@@ -8,24 +8,17 @@ variables:
   BuildPlatform: "Any CPU"
 
 steps:
-  - task: NuGetToolInstaller@1
-    displayName: "Use NuGet 5.x"
+  - task: UseDotNet@2
+    displayName: 'Use .NET 5'
     inputs:
-      versionSpec: 5.x
-      checkLatest: true
-
-  - task: NuGetCommand@2
-    displayName: "NuGet Restore"
-    inputs:
-      restoreSolution: "**/Facteur.sln"
-      feedsToUse: config
+      packageType: 'sdk'
+      version: '5.x'
 
   - task: DotNetCoreCLI@2
-    displayName: "dotnet restore"
+    displayName: "Restore packages"
     inputs:
       command: restore
       projects: "**/Facteur.sln"
-      feedsToUse: config
 
   - task: MSBuild@1
     displayName: "Build solution"
