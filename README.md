@@ -46,26 +46,27 @@ Next it is up to you to decide which *endpoint* you want to use:
 
 Next, you should decide which *compiler* to use to generate the body of your e-mail. The following packages are available:
 
-| Resolvers     | Command                              |
-| ----------- | ------------------------------------ |
-| RazorEngine | `dotnet add package Facteur.Compilers.Razor` |
+| Resolvers   | Command                                        |
+| ----------- | ---------------------------------------------- |
+| RazorEngine | `dotnet add package Facteur.Compilers.Razor`   |
+| Scriban     | `dotnet add package Facteur.Compilers.Scriban` |
 
 You also have a choice in the template providers. Templates can be stored on a regular file drive but it might as well be stored on a blob on Azure.
 
-| Providers     | Command                              |
-| ----------- | ------------------------------------ |
-| IO | `dotnet add package Facteur.TemplateProviders.IO` |
+| Providers | Command                                           |
+| --------- | ------------------------------------------------- |
+| IO        | `dotnet add package Facteur.TemplateProviders.IO` |
 
 The resolvers are the glue between the storage of templates and the runtime. Resolvers enable you to map templates to models.
 
-| Resolvers     | Command                              |
-| ----------- | ------------------------------------ |
-| View  | `dotnet add package Facteur.Resolvers.ViewModel` |
+| Resolvers | Command                                          |
+| --------- | ------------------------------------------------ |
+| View      | `dotnet add package Facteur.Resolvers.ViewModel` |
 
 Finally, there are some ancillary packages:
 
-| Purpose     | Command                              |
-| ----------- | ------------------------------------ |
+| Purpose      | Command                                                     |
+| ------------ | ----------------------------------------------------------- |
 | .NET Core DI | `dotnet add package Facteur.Extensions.DependencyInjection` |
 
 ## Usage
