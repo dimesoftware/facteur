@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.1;netstandard2.0;net461</TargetFrameworks>
+    <TargetFrameworks>net5.0;netstandard2.1;netstandard2.0;net461</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <NeutralLanguage>en</NeutralLanguage>
@@ -10,14 +10,14 @@
     <PackageProjectUrl>https://github.com/dimenics/facteur</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>SendGrid endpoint for the facteur e-mail kit.</Description>
-    <Version>1.0.0-alpha.4</Version>
+    <Version>1.0.0-alpha.5</Version>
     <Authors>Dimenics</Authors>
     <Company>Dimenics</Company>
     <Product>Facteur</Product>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Sendgrid" Version="9.21.0" />
+    <PackageReference Include="Sendgrid" Version="9.21.2" />
   </ItemGroup>
 
   <ItemGroup>

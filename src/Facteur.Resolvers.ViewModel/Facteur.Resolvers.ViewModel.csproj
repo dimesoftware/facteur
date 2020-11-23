@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard2.0;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard2.0;netstandard2.1;net5.0</TargetFrameworks>
     <RuntimeIdentifiers>win</RuntimeIdentifiers>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -18,7 +18,7 @@
     <PackageProjectUrl>https://github.com/dimenics/facteur</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Facteur e-mail kit resolver using view model</Description>
-    <Version>1.0.0-alpha.5</Version>
+    <Version>1.0.0-alpha.6</Version>
   </PropertyGroup>
 
   <ItemGroup>

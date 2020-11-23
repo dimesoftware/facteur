@@ -54,13 +54,13 @@ You also have a choice in the template providers. Templates can be stored on a r
 
 | Providers     | Command                              |
 | ----------- | ------------------------------------ |
-| RazorEngine | `dotnet add package Facteur.TemplateProviders.IO` |
+| IO | `dotnet add package Facteur.TemplateProviders.IO` |
 
 The resolvers are the glue between the storage of templates and the runtime. Resolvers enable you to map templates to models.
 
 | Resolvers     | Command                              |
 | ----------- | ------------------------------------ |
-| RazorEngine | `dotnet add package Facteur.Resolvers.ViewModel` |
+| View  | `dotnet add package Facteur.Resolvers.ViewModel` |
 
 Finally, there are some ancillary packages:
 

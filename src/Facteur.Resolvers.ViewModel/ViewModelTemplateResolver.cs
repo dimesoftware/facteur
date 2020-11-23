@@ -13,7 +13,7 @@ namespace Facteur
         /// <typeparam name="T">The view model</typeparam>
         /// <returns>The file name</returns>
         public string Resolve<T>()
-            => Resolve(typeof(T).Name, FindTemplateNameIndex(typeof(T).Name));
+            => Resolve(typeof(T).Name);
 
         /// <summary>
         /// Resolves the model type to its corresponding template file name
@@ -22,16 +22,18 @@ namespace Facteur
         /// <typeparam name="T">The view model</typeparam>
         /// <returns>The file name</returns>
         public string Resolve<T>(T model)
-            => Resolve(model.GetType().Name, FindTemplateNameIndex(model.GetType().Name));
+            => Resolve(model.GetType().Name);
 
         /// <summary>
         /// Resolves the model type to its corresponding template file name
         /// </summary>
         /// <param name="typeName">The model instance</param>
-        /// <param name="index">The index of the mail/view model suffix</param>
         /// <returns>The file name</returns>
-        private static string Resolve(string typeName, int index) 
-            => typeName.Remove(index, typeName.Length - index);
+        private static string Resolve(string typeName)
+        {
+            int index = FindTemplateNameIndex(typeName);
+            return typeName.Remove(index, typeName.Length - index);
+        }
 
         /// <summary>
         /// Finds the index of the mail/view model suffix

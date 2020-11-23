@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Facteur.Extensions.DependencyInjection
 {
+    [ExcludeFromCodeCoverage]
     public static class MailerServiceCollectionExtensions
     {
         public static IServiceCollection AddMailer<TMailer>(this IServiceCollection services)
