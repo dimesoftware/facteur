@@ -15,9 +15,12 @@ namespace Facteur.Tests
             EmailComposer<TestMailModel> composer = new EmailComposer<TestMailModel>();
             EmailRequest<TestMailModel> request = composer
                 .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
+                .SetBody("<html><body><h1>Hello world!</h1></body></html>")
                 .SetSubject("Hello world")
                 .SetFrom("info@facteur.com")
                 .SetTo("tibipi@getnada.com")
+                .SetCc("tibipi@getnada.com")
+                .SetBcc("tibipi@getnada.com")
                 .Build();
 
             IMailer mailer = new SmtpMailer(credentials, new ViewModelTemplateResolver(), new SimpleHtmlTemplateCompiler());

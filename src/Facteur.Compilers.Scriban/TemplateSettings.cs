@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace Facteur
@@ -7,6 +8,7 @@ namespace Facteur
     ///
     /// </summary>
     [DebuggerStepThrough]
+    [ExcludeFromCodeCoverage]
     public class TemplateSettings
     {
         #region Constructor
