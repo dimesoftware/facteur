@@ -39,9 +39,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facteur.Resolvers.ViewModel
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facteur.TemplateProviders.IO.Tests", "Facteur.TemplateProviders.IO.Tests\Facteur.TemplateProviders.IO.Tests.csproj", "{5D95879F-E936-4B20-81FF-06DBB5CC8FE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facteur.Compilers.Scriban", "Facteur.Compilers.Scriban\Facteur.Compilers.Scriban.csproj", "{3AEBAEE7-D6B7-4D97-A7F5-E00CE9625916}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facteur.Compilers.Scriban", "Facteur.Compilers.Scriban\Facteur.Compilers.Scriban.csproj", "{3AEBAEE7-D6B7-4D97-A7F5-E00CE9625916}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facteur.Compilers.Scriban.Tests", "Facteur.Compilers.Scriban.Tests\Facteur.Compilers.Scriban.Tests.csproj", "{9E34966A-68AA-4CC5-B416-42A69DA0E118}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facteur.Compilers.Scriban.Tests", "Facteur.Compilers.Scriban.Tests\Facteur.Compilers.Scriban.Tests.csproj", "{9E34966A-68AA-4CC5-B416-42A69DA0E118}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6478E55B-5903-487A-9AFC-CB86C117CA94}"
+	ProjectSection(SolutionItems) = preProject
+		test.runsettings = test.runsettings
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
