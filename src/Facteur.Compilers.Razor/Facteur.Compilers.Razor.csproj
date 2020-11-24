@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://github.com/dimenics/facteur</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Razor engine body builder for the facteur e-mail kit.</Description>
-    <Version>1.0.0-alpha.4</Version>
+    <Version>1.0.0-alpha.7</Version>
     <Authors>Dimenics</Authors>
     <Company>Dimenics</Company>
     <Product>Facteur</Product>
