@@ -11,33 +11,42 @@ namespace Facteur.TemplateProviders.IO
     public abstract class FileTemplateProvider : ITemplateProvider
     {
         /// <summary>
-        ///
+        /// 
         /// </summary>
         /// <param name="basePath"></param>
-        protected FileTemplateProvider(string basePath)
+        /// <param name="relativePath"></param>
+        /// <param name="extensionName"></param>
+        protected FileTemplateProvider(string basePath, string relativePath, string extensionName)
         {
             if (!Directory.Exists(basePath))
                 throw new DirectoryNotFoundException();
 
             BasePath = basePath;
+            RelativePath = relativePath;
+            ExtensionName = extensionName;
         }
 
-        protected string BasePath { get; set; }
+        protected string BasePath { get; }
+        protected string RelativePath { get; }
+        protected string ExtensionName { get; }
 
         /// <summary>
         /// Gets the file.
         /// </summary>
-        /// <param name="relativePath"></param>
         /// <param name="fileName">The full path.</param>
         /// <returns></returns>
         /// <exception cref="System.IO.FileNotFoundException"></exception>
-        public virtual Task<string> GetFile(string relativePath, string fileName)
+        public virtual Task<string> GetFile(string fileName)
         {
             // Create full path
-            string fullPath = relativePath != null ? Path.Combine(BasePath, relativePath) : BasePath;
+            string fullPath = RelativePath != null 
+                ? $"{Path.Combine(BasePath, RelativePath)}"
+                : $"{Path.Combine(BasePath)}";
+
+            string fullFileName = fileName + ExtensionName;
 
             // Get file name from full path and its subdirectories
-            IEnumerable<string> files = Directory.GetFiles(fullPath, fileName, SearchOption.AllDirectories);
+            IEnumerable<string> files = Directory.GetFiles(fullPath, fullFileName, SearchOption.AllDirectories);
             return files.Count() == 1
                 ? Task.Run(() => File.ReadAllText(files.FirstOrDefault()))
                 : throw new FileNotFoundException();

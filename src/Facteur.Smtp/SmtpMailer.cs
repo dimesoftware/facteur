@@ -16,17 +16,12 @@ namespace Facteur.Smtp
         /// <param name="smtpCredentials">The SendGrid API key</param>
         /// <param name="templateResolver"></param>
         /// <param name="compiler"></param>
-        public SmtpMailer(SmtpCredentials smtpCredentials, ITemplateResolver templateResolver, ITemplateCompiler compiler)
+        public SmtpMailer(SmtpCredentials smtpCredentials)
         {
             Credentials = smtpCredentials;
-
-            Resolver = templateResolver;
-            Compiler = compiler;
         }
 
         protected SmtpCredentials Credentials { get; }
-        private ITemplateResolver Resolver { get; }
-        private ITemplateCompiler Compiler { get; }
 
         /// <summary>
         /// Sends the mail asynchronous.
@@ -69,11 +64,7 @@ namespace Facteur.Smtp
         /// <typeparam name="T"></typeparam>
         /// <param name="request">The request.</param>
         /// <returns></returns>
-        public async Task SendMailAsync<T>(EmailRequest<T> request)
-            where T : class
-        {
-            request.Body = await Compiler.CompileBody(request.Model, Resolver.Resolve(request.Model)).ConfigureAwait(false);
-            await SendMailAsync((EmailRequest)request).ConfigureAwait(false);
-        }
+        public async Task SendMailAsync<T>(EmailRequest<T> request) where T : class
+            => await SendMailAsync((EmailRequest)request).ConfigureAwait(false);
     }
 }

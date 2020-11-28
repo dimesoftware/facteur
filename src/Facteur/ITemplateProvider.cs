@@ -10,9 +10,8 @@ namespace Facteur
         /// <summary>
         ///
         /// </summary>
-        /// <param name="relativePath"></param>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        Task<string> GetFile(string relativePath, string fileName);
+        Task<string> GetFile(string fileName);
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Scriban;
 
 namespace Facteur
@@ -9,24 +8,19 @@ namespace Facteur
     /// </summary>
     public class ScribanCompiler : ITemplateCompiler
     {
-        public ScribanCompiler(ITemplateProvider templateProvider)
+        public ScribanCompiler()
         {
-            Provider = templateProvider;
         }
-
-        private ITemplateProvider Provider { get; }
 
         /// <summary>
         /// Gets the body for specified templates & data model
         /// </summary>
         /// <typeparam name="T">The mail model</typeparam>
-        /// <param name="templateName">Name of the template.</param>
+        /// <param name="fileContent">Name of the template.</param>
         /// <param name="model">The model to compile into the e-mail template</param>
         /// <returns>A populated e-mail body</returns>
-        public async Task<string> CompileBody<T>(T model, string templateName)
+        public async Task<string> CompileBody<T>(T model, string fileContent)
         {
-            string templatePath = Path.Combine(templateName + TemplateSettings.Instance.Extension);
-            string fileContent = await Provider.GetFile(TemplateSettings.Instance.RelativePath, templatePath).ConfigureAwait(false);
             Template template = Template.Parse(fileContent);
             return await template.RenderAsync(model);
         }

@@ -9,25 +9,21 @@ namespace Facteur
     /// </summary>
     public class RazorEngineTemplateCompiler : ITemplateCompiler
     {
-        public RazorEngineTemplateCompiler(ITemplateProvider templateProvider)
+        public RazorEngineTemplateCompiler()
         {
-            Provider = templateProvider;
         }
 
-        private ITemplateProvider Provider { get; }
-
         /// <summary>
-        /// Gets the body for specified templates & data model
+        /// Gets the body for specified templates and data model
         /// </summary>
         /// <typeparam name="T">The mail model</typeparam>
-        /// <param name="templateName">Name of the template.</param>
+        /// <param name="fileContent">The body template</param>
         /// <param name="model">The model to compile into the e-mail template</param>
         /// <returns>A populated e-mail body</returns>
-        public async Task<string> CompileBody<T>(T model, string templateName)
+        public Task<string> CompileBody<T>(T model, string fileContent)
         {
-            string templatePath = Path.Combine(templateName + TemplateSettings.Instance.Extension);
-            string fileContent = await Provider.GetFile(TemplateSettings.Instance.RelativePath, templatePath).ConfigureAwait(false);
-            return RazorEngine.Engine.Razor.RunCompile(fileContent, templateName, model.GetType(), model);
+            string compiledBody = RazorEngine.Engine.Razor.RunCompile(fileContent, fileContent, model.GetType(), model);
+            return Task.FromResult(compiledBody);
         }
 
         /// <summary>

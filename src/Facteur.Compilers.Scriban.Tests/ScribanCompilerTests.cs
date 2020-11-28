@@ -11,8 +11,8 @@ namespace Facteur.Compilers.Scriban.Tests
         [TestMethod]
         public async Task ScribanCompiler_ShouldPopulateTemplate()
         {
-            ITemplateCompiler scribanCompiler = new ScribanCompiler(new AppDirectoryTemplateProvider());
-            string body = await scribanCompiler.CompileBody(new TestMailModel { Name = "Handsome B. Wonderful" }, "Test");
+            ITemplateCompiler scribanCompiler = new ScribanCompiler();
+            string body = await scribanCompiler.CompileBody(new TestMailModel { Name = "Handsome B. Wonderful" }, "Hello {{name}}!");
 
             Assert.IsTrue(body.Contains("Handsome B. Wonderful"));
         }

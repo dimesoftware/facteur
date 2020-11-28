@@ -11,8 +11,9 @@ namespace Facteur.Compilers.Scriban.Tests
         [TestMethod]
         public async Task RazorEngineCompiler_ShouldPopulateTemplate()
         {
-            ITemplateCompiler compiler = new RazorEngineTemplateCompiler(new AppDirectoryTemplateProvider());
-            string body = await compiler.CompileBody(new TestMailModel { Name = "Handsome B. Wonderful" }, "Test");
+            string cshtml = @"<html><body><h1>Hi @Raw(Model.Name)</h1></body></html>";
+            ITemplateCompiler compiler = new RazorEngineTemplateCompiler();
+            string body = await compiler.CompileBody(new TestMailModel { Name = "Handsome B. Wonderful" }, cshtml);
 
             Assert.IsTrue(body.Contains("Handsome B. Wonderful"));
         }

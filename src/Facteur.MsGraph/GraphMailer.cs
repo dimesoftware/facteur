@@ -17,18 +17,12 @@ namespace Facteur.MsGraph
         /// Initializes a new instance of the <see cref="GraphMailer"/> class
         /// </summary>
         /// <param name="credentials"></param>
-        /// <param name="provider"></param>
-        /// <param name="compiler"></param>
-        public GraphMailer(GraphCredentials credentials, ITemplateResolver provider, ITemplateCompiler compiler)
+        public GraphMailer(GraphCredentials credentials)
         {
             Credentials = credentials;
-            Provider = provider;
-            Compiler = compiler;
         }
 
         private GraphCredentials Credentials { get; }
-        private ITemplateResolver Provider { get; }
-        private ITemplateCompiler Compiler { get; }
 
         /// <summary>
         /// Sends the mail asynchronous.
@@ -60,13 +54,12 @@ namespace Facteur.MsGraph
         /// <returns></returns>
         public async t.Task SendMailAsync<T>(EmailRequest<T> request) where T : class
         {
-            string populatedBody = await Compiler.CompileBody(request.Model, Provider.Resolve(request.Model)).ConfigureAwait(false);
             GraphServiceClient graphClient = await ConnectClient().ConfigureAwait(false);
 
             Message message = new Message
             {
                 Subject = request.Subject,
-                Body = new ItemBody { ContentType = BodyType.Html, Content = populatedBody },
+                Body = new ItemBody { ContentType = BodyType.Html, Content = request.Body },
                 ToRecipients = request.To.Select(x => new Recipient { EmailAddress = new EmailAddress { Address = x } }),
                 CcRecipients = request.Cc.Select(x => new Recipient { EmailAddress = new EmailAddress { Address = x } }),
                 BccRecipients = request.Bcc.Select(x => new Recipient { EmailAddress = new EmailAddress { Address = x } }),

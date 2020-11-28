@@ -4,7 +4,13 @@ namespace Facteur.TemplateProviders.IO
 {
     public class AppDirectoryTemplateProvider : FileTemplateProvider
     {
-        public AppDirectoryTemplateProvider() : base(AppDomain.CurrentDomain.BaseDirectory)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="relativePath"></param>
+        /// <param name="extensionName"></param>
+        public AppDirectoryTemplateProvider(string relativePath, string extensionName) 
+            : base(AppDomain.CurrentDomain.BaseDirectory, relativePath, extensionName)
         {
         }
     }
