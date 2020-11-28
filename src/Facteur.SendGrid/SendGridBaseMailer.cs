@@ -33,15 +33,14 @@ namespace Facteur.SendGrid
         /// </summary>
         /// <param name="request">The subject.</param>
         /// <returns></returns>
-        public virtual async Task SendMailAsync(EmailRequest request)
+        public virtual Task SendMailAsync(EmailRequest request)
         {
             SendGridClient client = new SendGridClient(ApiKey);
             EmailAddress sendFrom = new EmailAddress(request.From);
             List<EmailAddress> sendTo = request.To.Select(x => new EmailAddress(x)).ToList();
             SendGridMessage message = MailHelper.CreateSingleEmailToMultipleRecipients(sendFrom, sendTo, request.Subject, null, request.Body);
 
-            // Send the email.
-            Response response = await client.SendEmailAsync(message).ConfigureAwait(false);
+            return client.SendEmailAsync(message);
         }
     }
 }

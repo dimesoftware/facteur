@@ -33,7 +33,7 @@ namespace Facteur.SendGrid
         /// <returns></returns>
         public override async Task SendMailAsync(EmailRequest request)
         {
-            request.Body = await Compiler.CompileBody(Resolver.Resolve<DefaultViewModel>(), request.Body).ConfigureAwait(false); ;
+            request.Body = await Compiler.CompileBody(Resolver.Resolve<DefaultViewModel>(), request.Body).ConfigureAwait(false);
             await base.SendMailAsync(request).ConfigureAwait(false);
         }
 

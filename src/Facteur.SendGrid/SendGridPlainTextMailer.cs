@@ -26,26 +26,24 @@ namespace Facteur.SendGrid
         /// </summary>
         /// <param name="request">The subject</param>
         /// <returns>An instance of <see cref="System.Threading.Tasks.Task"/></returns>
-        public override async Task SendMailAsync(EmailRequest request)
+        public override Task SendMailAsync(EmailRequest request)
         {
             SendGridClient client = new SendGridClient(ApiKey);
             EmailAddress sendFrom = new EmailAddress(request.From);
             List<EmailAddress> sendTo = request.To.Select(x => new EmailAddress(x)).ToList();
             SendGridMessage message = MailHelper.CreateSingleEmailToMultipleRecipients(sendFrom, sendTo, request.Subject, null, request.Body);
 
-            // Send the email.
-            Response response = await client.SendEmailAsync(message).ConfigureAwait(false);
+            return client.SendEmailAsync(message);
         }
 
-        public async Task SendMailAsync<T>(EmailRequest<T> request) where T : class
+        public Task SendMailAsync<T>(EmailRequest<T> request) where T : class
         {
             SendGridClient client = new SendGridClient(ApiKey);
             EmailAddress sendFrom = new EmailAddress(request.From);
             List<EmailAddress> sendTo = request.To.Select(x => new EmailAddress(x)).ToList();
             SendGridMessage message = MailHelper.CreateSingleEmailToMultipleRecipients(sendFrom, sendTo, request.Subject, null, request.Body);
 
-            // Send the email.
-            Response response = await client.SendEmailAsync(message).ConfigureAwait(false);
+            return client.SendEmailAsync(message);
         }
     }
 }

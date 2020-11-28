@@ -60,7 +60,7 @@ namespace Facteur.Smtp
             if (request.Bcc != null && request.Bcc.Any())
                 msg.Bcc.Add(string.Join(",", request.Bcc));
 
-            await smtpClient.SendMailAsync(msg).ConfigureAwait(false);
+            await smtpClient.SendMailAsync(msg);
         }
 
         /// <summary>

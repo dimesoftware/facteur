@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facteur.MsGraph.Tests", "Fa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facteur.Extensions.DependencyInjection", "Facteur.Extensions.DependencyInjection\Facteur.Extensions.DependencyInjection.csproj", "{A2C238B2-F4E5-4B88-AF7C-D99F4B40F060}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Template Providers", "Template Providers", "{4AF38A30-DBF1-4558-9289-06ADA53EA93E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Providers", "Providers", "{4AF38A30-DBF1-4558-9289-06ADA53EA93E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resolvers", "Resolvers", "{76879E78-274E-4186-8E1D-CF2D489F9A3E}"
 EndProject
@@ -47,6 +47,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		test.runsettings = test.runsettings
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facteur.Compilers.Razor.Tests", "Facteur.Compilers.Razor.Tests\Facteur.Compilers.Razor.Tests.csproj", "{1452B058-0848-49EF-9149-1F2996A43C70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -114,6 +116,10 @@ Global
 		{9E34966A-68AA-4CC5-B416-42A69DA0E118}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E34966A-68AA-4CC5-B416-42A69DA0E118}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E34966A-68AA-4CC5-B416-42A69DA0E118}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1452B058-0848-49EF-9149-1F2996A43C70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1452B058-0848-49EF-9149-1F2996A43C70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1452B058-0848-49EF-9149-1F2996A43C70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1452B058-0848-49EF-9149-1F2996A43C70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -132,6 +138,7 @@ Global
 		{5D95879F-E936-4B20-81FF-06DBB5CC8FE6} = {2122E2F7-F19A-4728-B04F-57E68490E32A}
 		{3AEBAEE7-D6B7-4D97-A7F5-E00CE9625916} = {92C54A3D-6071-4080-8E37-E3639AE94D02}
 		{9E34966A-68AA-4CC5-B416-42A69DA0E118} = {2122E2F7-F19A-4728-B04F-57E68490E32A}
+		{1452B058-0848-49EF-9149-1F2996A43C70} = {2122E2F7-F19A-4728-B04F-57E68490E32A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FCF5E92E-021C-423A-B60E-800E20DC32B4}
