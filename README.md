@@ -101,6 +101,27 @@ public async Task SendConfirmationMail(string customerMail, string customerName)
 }
 ```
 
+This particular example uses scriban templates that are stored inside the application's directory. Inside the HTML template, you will find scriban syntax:
+
+```html
+<p>Hi {{name}},</p>
+```
+
+This text template is resolved using the model that is passed to the `EmailRequest` instance, which in this sample is of the `TestMailModel` type:
+
+```csharp
+public class TestMailModel
+{
+  public string Name { get; set; }
+  public string Email { get; set; }
+}
+```
+
+The resolver is responsible for locating the right file name. In this example, the `ViewModelTemplateResolver` is used. This class essentially strips the 'MailModel' or 'ViewModel' of the name of the mail request's model. After that, the provider (`AppDirectoryTemplateProvider`) will make the system to look for file in the application's `Templates` directory with the .sbnhtml file and with the name 'Test' (from Test~~MailModel~~).
+
+The `IMailBodyBuilder` brings everything together and generates a populated mail body. Then it's up to the `ÌMailer` to merely send the mail.
+
+
 ## Contributing
 
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)
