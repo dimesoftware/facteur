@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Facteur.TemplateProviders.IO;
 using Facteur.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

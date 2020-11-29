@@ -21,7 +21,6 @@
     <ProjectReference Include="..\Facteur.Resolvers.ViewModel\Facteur.Resolvers.ViewModel.csproj" />
     <ProjectReference Include="..\Facteur.Smtp\Facteur.Smtp.csproj" />
     <ProjectReference Include="..\Facteur.TemplateProviders.IO\Facteur.TemplateProviders.IO.csproj" />
-    <ProjectReference Include="..\Facteur.Tests\Facteur.Tests.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">

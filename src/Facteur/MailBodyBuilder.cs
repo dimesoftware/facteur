@@ -9,6 +9,18 @@ namespace Facteur
         private ITemplateProvider _provider;
         private ITemplateResolver _resolver;
 
+        public MailBodyBuilder()
+        {
+        }
+
+        public MailBodyBuilder(ITemplateCompiler compiler, ITemplateProvider provider, ITemplateResolver resolver)
+            : this()
+        {
+            _compiler = compiler;
+            _provider = provider;
+            _resolver = resolver;
+        }
+
         public IMailBodyBuilder UseCompiler(ITemplateCompiler compiler) => Use(() => _compiler = compiler);
 
         public IMailBodyBuilder UseProvider(ITemplateProvider provider) => Use(() => _provider = provider);
