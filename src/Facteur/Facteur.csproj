@@ -12,13 +12,17 @@
     <Product>Facteur</Product>
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Dimenics</Authors>
+    <Company>Dimenics</Company>
+    <Product>Facteur</Product>
     <NeutralLanguage>en</NeutralLanguage>
     <RepositoryType>git</RepositoryType>
+    <PackageIconUrl>https://raw.githubusercontent.com/dimenics/facteur/master/assets/letter.png?raw=true</PackageIconUrl>
     <RepositoryUrl>https://github.com/dimenics/facteur</RepositoryUrl>
     <PackageProjectUrl>https://github.com/dimenics/facteur</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Facteur e-mail kit base library.</Description>
-    <Version>1.0.0-beta.2</Version>
+    <Version>1.0.0-beta.4</Version>
     <DebugType>Full</DebugType>
   </PropertyGroup>
 </Project>
