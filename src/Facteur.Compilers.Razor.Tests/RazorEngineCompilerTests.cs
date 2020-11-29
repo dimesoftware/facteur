@@ -9,11 +9,21 @@ namespace Facteur.Compilers.Scriban.Tests
     public class RazorEngineCompilerTests
     {
         [TestMethod]
-        public async Task RazorEngineCompiler_ShouldPopulateTemplate()
+        public async Task RazorEngineCompiler_UseModel_ShouldPopulateTemplate()
         {
-            string cshtml = @"<html><body><h1>Hi @Raw(Model.Name)</h1></body></html>";
+            const string cshtml = @"<html><body><h1>Hi @Raw(Model.Name)</h1></body></html>";
             ITemplateCompiler compiler = new RazorEngineTemplateCompiler();
             string body = await compiler.CompileBody(new TestMailModel { Name = "Handsome B. Wonderful" }, cshtml);
+
+            Assert.IsTrue(body.Contains("Handsome B. Wonderful"));
+        }
+
+        [TestMethod]
+        public async Task RazorEngineCompiler_UseString_ShouldPopulateTemplate()
+        {
+            const string cshtml = @"<html><body><h1>Hi @Raw(Model.Text)</h1></body></html>";
+            ITemplateCompiler compiler = new RazorEngineTemplateCompiler();
+            string body = await compiler.CompileBody("Handsome B. Wonderful", cshtml);
 
             Assert.IsTrue(body.Contains("Handsome B. Wonderful"));
         }

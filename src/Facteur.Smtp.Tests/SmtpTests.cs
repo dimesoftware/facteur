@@ -23,14 +23,16 @@ namespace Facteur.Tests
                 .SetBcc("tibipi@getnada.com")
                 .Build();
 
-            IMailFactory factory = new MailFactory();
-            IMailer mailer = factory
-                .UseMailer(new SmtpMailer(credentials))
+            IMailer mailer = new SmtpMailer(credentials);
+
+            IMailBodyBuilder builder = new MailBodyBuilder();
+            EmailRequest populatedRequest = await builder
                 .UseProvider(new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
                 .UseResolver(new ViewModelTemplateResolver())
-                .UseCompiler(new ScribanCompiler());
+                .UseCompiler(new ScribanCompiler())
+                .BuildAsync(request);
 
-            await mailer.SendMailAsync(request);
+            await mailer.SendMailAsync(populatedRequest);
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Facteur.SendGrid
         protected string ApiKey { get; }
 
         /// <summary>
-        /// Sends the mail asynchronous.
+        /// Sends the mail.
         /// </summary>
         /// <param name="request">The subject.</param>
         /// <returns></returns>

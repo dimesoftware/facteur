@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://github.com/dimenics/facteur</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>SendGrid endpoint for the facteur e-mail kit.</Description>
-    <Version>1.0.0-alpha.7</Version>
+    <Version>1.0.0-beta.1</Version>
     <Authors>Dimenics</Authors>
     <Company>Dimenics</Company>
     <Product>Facteur</Product>

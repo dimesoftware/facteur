@@ -18,7 +18,7 @@
     <PackageProjectUrl>https://github.com/dimenics/facteur</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Facteur e-mail kit resolver using view model</Description>
-    <Version>1.0.0-alpha.7</Version>
+    <Version>1.0.0-beta.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

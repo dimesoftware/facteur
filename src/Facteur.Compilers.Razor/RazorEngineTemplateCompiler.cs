@@ -29,13 +29,13 @@ namespace Facteur
         /// <summary>
         /// Gets the body for non-specified templates & data model
         /// </summary>
-        /// <param name="templateName">Name of the template.</param>
-        /// <param name="text">The text.</param>
+        /// <param name="text">Name of the template.</param>
+        /// <param name="fileContent">The text.</param>
         /// <returns>A populated e-mail body</returns>
-        public async Task<string> CompileBody(string templateName, string text)
+        public async Task<string> CompileBody(string text, string fileContent)
         {
             DefaultViewModel model = new DefaultViewModel { Text = text };
-            return await CompileBody(model, templateName).ConfigureAwait(false);
+            return await CompileBody(model, fileContent).ConfigureAwait(false);
         }
     }
 }

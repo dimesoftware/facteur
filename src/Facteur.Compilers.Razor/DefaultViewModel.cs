@@ -6,15 +6,15 @@ namespace Facteur
     /// Represents a view model for default templates
     /// </summary>
     [ExcludeFromCodeCoverage]
-    internal class DefaultViewModel
+    public class DefaultViewModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DefaultViewModel"/> class
         /// </summary>
-        internal DefaultViewModel()
+        public DefaultViewModel()
         {
         }
 
-        internal string Text { get; set; }
+        public string Text { get; set; }
     }
 }

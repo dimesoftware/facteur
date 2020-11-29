@@ -13,9 +13,7 @@ namespace Facteur.Smtp
         /// <summary>
         /// Initializes a new instance of the <see cref="SmtpMailer"/> class
         /// </summary>
-        /// <param name="smtpCredentials">The SendGrid API key</param>
-        /// <param name="templateResolver"></param>
-        /// <param name="compiler"></param>
+        /// <param name="smtpCredentials">The SMTP credentials</param>
         public SmtpMailer(SmtpCredentials smtpCredentials)
         {
             Credentials = smtpCredentials;
@@ -24,7 +22,7 @@ namespace Facteur.Smtp
         protected SmtpCredentials Credentials { get; }
 
         /// <summary>
-        /// Sends the mail asynchronous.
+        /// Sends the mail.
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns></returns>
@@ -59,7 +57,7 @@ namespace Facteur.Smtp
         }
 
         /// <summary>
-        /// Sends the mail asynchronous.
+        /// Sends the mail.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="request">The request.</param>

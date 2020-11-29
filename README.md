@@ -71,6 +71,8 @@ Finally, there are some ancillary packages:
 
 ## Usage
 
+The power of this project is to create a dynamic mail body as you can populate any template with any type of data. This is when the compilers, providers and resolvers come in. They can be produced using the `MailBodyBuilder` class, which orchestrates the process of retrieving and populating the template. It is ultimately up to the instance of the `IMailer` to actually send the e-mail.
+
 ``` csharp
 public async Task SendConfirmationMail(string customerMail, string customerName)
 {
@@ -78,14 +80,24 @@ public async Task SendConfirmationMail(string customerMail, string customerName)
 
   EmailComposer<TestMailModel> composer = new EmailComposer<TestMailModel>();
   EmailRequest<TestMailModel> request = composer
-      .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
-      .SetSubject("Thanks for signing up!")
+      .SetModel(new TestMailModel { Email = customerMail, Name = customerMail })
+      .SetSubject("Hello world")
       .SetFrom("info@facteur.com")
-      .SetTo("orders@contoso.com")
+      .SetTo("guy.gadbois@facteur.com")
+      .SetCc("jacques.clouseau@facteur.com")
+      .SetBcc("charles.dreyfus@facteur.com")
       .Build();
 
   IMailer mailer = new SmtpMailer(credentials);
-  await mailer.SendMailAsync(request);
+
+  IMailBodyBuilder builder = new MailBodyBuilder();
+  EmailRequest populatedRequest = await builder
+      .UseProvider(new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
+      .UseResolver(new ViewModelTemplateResolver())
+      .UseCompiler(new ScribanCompiler())
+      .BuildAsync(request);
+
+  await mailer.SendMailAsync(populatedRequest);
 }
 ```
 

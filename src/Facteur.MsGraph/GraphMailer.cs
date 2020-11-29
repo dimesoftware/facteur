@@ -25,7 +25,7 @@ namespace Facteur.MsGraph
         private GraphCredentials Credentials { get; }
 
         /// <summary>
-        /// Sends the mail asynchronous.
+        /// Sends the mail.
         /// </summary>
         /// <param name="request">The request</param>
         /// <returns></returns>
@@ -47,7 +47,7 @@ namespace Facteur.MsGraph
         }
 
         /// <summary>
-        /// Sends the mail asynchronous.
+        /// Sends the mail.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="request">The request.</param>
