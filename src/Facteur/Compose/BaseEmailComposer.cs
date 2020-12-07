@@ -45,6 +45,13 @@
             return this;
         }
 
-        public T Build() => Request;
+        public T Build()
+        {
+            Guard.ThrowIfNullOrEmpty(Request.From, nameof(Request.From));
+            Guard.ThrowIfNullOrEmpty(Request.Subject, nameof(Request.Subject));
+            Guard.ThrowIfNullOrEmpty(Request.To, nameof(Request.From));
+
+            return Request;
+        }
     }
 }

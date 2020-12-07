@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFrameworks>netcoreapp3.1;net5.0</TargetFrameworks>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -17,14 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Facteur.Compilers.Razor\Facteur.Compilers.Razor.csproj" />
-    <ProjectReference Include="..\Facteur.TemplateProviders.IO\Facteur.TemplateProviders.IO.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Templates\Test.dhtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\Facteur\Facteur.csproj" />
   </ItemGroup>
 
 </Project>

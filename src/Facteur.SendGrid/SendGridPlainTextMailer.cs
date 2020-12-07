@@ -31,7 +31,7 @@ namespace Facteur.SendGrid
             SendGridClient client = new SendGridClient(ApiKey);
             EmailAddress sendFrom = new EmailAddress(request.From);
             List<EmailAddress> sendTo = request.To.Select(x => new EmailAddress(x)).ToList();
-            SendGridMessage message = MailHelper.CreateSingleEmailToMultipleRecipients(sendFrom, sendTo, request.Subject, null, request.Body);
+            SendGridMessage message = MailHelper.CreateSingleEmailToMultipleRecipients(sendFrom, sendTo, request.Subject, request.Body, null);
 
             return client.SendEmailAsync(message);
         }
@@ -41,7 +41,7 @@ namespace Facteur.SendGrid
             SendGridClient client = new SendGridClient(ApiKey);
             EmailAddress sendFrom = new EmailAddress(request.From);
             List<EmailAddress> sendTo = request.To.Select(x => new EmailAddress(x)).ToList();
-            SendGridMessage message = MailHelper.CreateSingleEmailToMultipleRecipients(sendFrom, sendTo, request.Subject, null, request.Body);
+            SendGridMessage message = MailHelper.CreateSingleEmailToMultipleRecipients(sendFrom, sendTo, request.Subject, request.Body, null);
 
             return client.SendEmailAsync(message);
         }
