@@ -22,7 +22,7 @@
     <PackageProjectUrl>https://github.com/dimenics/facteur</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Facteur e-mail kit base library.</Description>
-    <Version>1.0.0-beta.4</Version>
+    <Version>1.0.0-beta.6</Version>
     <DebugType>Full</DebugType>
   </PropertyGroup>
 </Project>
