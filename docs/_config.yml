@@ -3,7 +3,6 @@ title: Facteur
 description: Facteur, the mailing kit for .NET.
 color:
   header: "#000"
-  gradient_left: "#46276d"
-  gradient_right: "#6e62b5"
-logo_url: https://raw.githubusercontent.com/dimenics/facteur/master/assets/letter.png
+  gradient_left: "#6e62b5"
+  gradient_right: "#46276d"
 syntax_theme: https://stylishthemes.github.io/Syntax-Themes/pygments/css-github/pygments-monokai.css
