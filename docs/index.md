@@ -1,19 +1,6 @@
-<p align="center"><img src="assets/letter.svg?raw=true" width="350" alt="Logo"></p>
+## Facteur
 
-<h1 align="center"> Facteur </h1> 
-
-<p align="center">
-<img src="https://dev.azure.com/dimenicsbe/Utilities/_apis/build/status/dimenics.facteur?branchName=master" />
-<img src="https://img.shields.io/azure-devops/coverage/dimenicsbe/utilities/177" />
-<img src="https://img.shields.io/badge/License-MIT-blue.svg" />
-<img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" />
-</p>
-
-Facteur (French for mailman) is a library for sending e-mails in .NET. Its modular approach allows you to assemble a mail system rather than using a take-it-or-leave it service.
-
-Check out the **[docs »](https://dimenics.github.io/facteur/)** for more info.
-
-## About the project
+### About the project
 
 The entire premise of this project is to provide a flexible and modular mailing kit. Applications should not be bound by one specific mailing service. If you get blacklisted by a mailing service or if the performance is unacceptable, you should be able to swap providers without modifying a single line of code. 
 
@@ -35,7 +22,7 @@ The templates can be stored anywhere. By default they are stored in the folder w
 
 Lastly and obviously, there are the various mail services, also known as **endpoints** in Facteur. E-mails can be sent with good old SMTP, Microsoft Graph API, SendGrid, etc.
 
-## Installation
+### Installation
 
 > 🚧 Warning: the packages are not available yet on NuGet.
 
@@ -76,7 +63,8 @@ Finally, there are some ancillary packages:
 | ------------ | ----------------------------------------------------------- |
 | .NET Core DI | `dotnet add package Facteur.Extensions.DependencyInjection` |
 
-## Usage
+### Usage
+
 
 The power of this project is to create a dynamic mail body as you can populate any template with any type of data. This is when the compilers, providers and resolvers come in. They can be produced using the `MailBodyBuilder` class, which orchestrates the process of retrieving and populating the template. It is ultimately up to the instance of the `IMailer` to actually send the e-mail.
 
@@ -127,7 +115,3 @@ public class TestMailModel
 The resolver is responsible for locating the right file name. In this example, the `ViewModelTemplateResolver` is used. This class essentially strips the 'MailModel' or 'ViewModel' of the name of the mail request's model. After that, the provider (`AppDirectoryTemplateProvider`) will make the system to look for file in the application's `Templates` directory with the .sbnhtml file and with the name 'Test' (from Test~~MailModel~~).
 
 The `IMailBodyBuilder` brings everything together and generates a populated mail body. Then it's up to the `ÌMailer` to merely send the mail.
-
-## Contributing
-
-Pull requests are welcome. Please check out the contribution and code of conduct guidelines.
