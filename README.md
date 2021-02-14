@@ -7,6 +7,12 @@
 <img src="https://img.shields.io/azure-devops/coverage/dimenicsbe/utilities/177" />
 <img src="https://img.shields.io/badge/License-MIT-blue.svg" />
 <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" />
+<a href="https://github.com/dimenics/facteur/discussions">
+  <img src="https://img.shields.io/badge/chat-discussions-green">
+</a>
+<a href="https://gitter.im/facteur-dotnet/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge">
+  <img src="https://badges.gitter.im/facteur-dotnet/community.svg">
+</a>
 </p>
 
 Facteur (French for mailman) is a library for sending e-mails in .NET. Its modular approach allows you to assemble a mail system rather than using a take-it-or-leave it service.
@@ -83,8 +89,6 @@ The power of this project is to create a dynamic mail body as you can populate a
 ``` csharp
 public async Task SendConfirmationMail(string customerMail, string customerName)
 {
-  SmtpCredentials credentials = new SmtpCredentials("smtp.gmail.com", "587", "false", "true", "myuser@gmail.com", "mypassword");
-
   EmailComposer<TestMailModel> composer = new EmailComposer<TestMailModel>();
   EmailRequest<TestMailModel> request = composer
       .SetModel(new TestMailModel { Email = customerMail, Name = customerMail })
@@ -95,15 +99,15 @@ public async Task SendConfirmationMail(string customerMail, string customerName)
       .SetBcc("charles.dreyfus@facteur.com")
       .Build();
 
+  IMailBodyBuilder builder = new MailBodyBuilder(
+   new ScribanCompiler(),
+   new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
+   new ViewModelTemplateResolver());
+
+  EmailRequest populatedRequest = await builder.BuildAsync(request);
+
+  SmtpCredentials credentials = new("smtp.gmail.com", "587", "false", "true", "myuser@gmail.com", "mypassword");
   IMailer mailer = new SmtpMailer(credentials);
-
-  IMailBodyBuilder builder = new MailBodyBuilder();
-  EmailRequest populatedRequest = await builder
-      .UseProvider(new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
-      .UseResolver(new ViewModelTemplateResolver())
-      .UseCompiler(new ScribanCompiler())
-      .BuildAsync(request);
-
   await mailer.SendMailAsync(populatedRequest);
 }
 ```
@@ -127,6 +131,15 @@ public class TestMailModel
 The resolver is responsible for locating the right file name. In this example, the `ViewModelTemplateResolver` is used. This class essentially strips the 'MailModel' or 'ViewModel' of the name of the mail request's model. After that, the provider (`AppDirectoryTemplateProvider`) will make the system to look for file in the application's `Templates` directory with the .sbnhtml file and with the name 'Test' (from Test~~MailModel~~).
 
 The `IMailBodyBuilder` brings everything together and generates a populated mail body. Then it's up to the `ÌMailer` to merely send the mail.
+
+With .NET's dependency injection, hooking up the mailer is as simple as adding one line in the Startup class:
+
+```csharp
+services.AddMailer<SmtpMailer, ScribanCompiler, AppDirectoryTemplateProvider, ViewModelTemplateResolver>(
+  mailerFactory: x => new SmtpMailer(credentials),
+  templateProviderFactory: x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml")
+);
+```
 
 ## Contributing
 
