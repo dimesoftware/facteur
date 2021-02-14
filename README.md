@@ -15,6 +15,8 @@ Check out the **[docs »](https://dimenics.github.io/facteur/)** for more info.
 
 ## About the project
 
+[![Join the chat at https://gitter.im/facteur-dotnet/community](https://badges.gitter.im/facteur-dotnet/community.svg)](https://gitter.im/facteur-dotnet/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 The entire premise of this project is to provide a flexible and modular mailing kit. Applications should not be bound by one specific mailing service. If you get blacklisted by a mailing service or if the performance is unacceptable, you should be able to swap providers without modifying a single line of code. 
 
 This is why we created facteur. The desire to create a flexible and vendor-independent framework is clearly reflected in the architecture.
