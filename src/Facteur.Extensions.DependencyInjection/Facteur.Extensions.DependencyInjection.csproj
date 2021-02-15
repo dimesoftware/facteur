@@ -10,7 +10,7 @@
     <PackageIconUrl>https://raw.githubusercontent.com/dimenics/facteur/master/assets/letter.png?raw=true</PackageIconUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>ASP.NET Core extensions for facteur.</Description>
-    <Version>1.0.0-beta.6</Version>
+    <Version>1.0.0-beta.7</Version>
     <Authors>Dimenics</Authors>
     <Company>Dimenics</Company>
     <Product>Facteur</Product>

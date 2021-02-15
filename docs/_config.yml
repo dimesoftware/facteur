@@ -1,6 +1,6 @@
 theme: jekyll-theme-cayman
 title: Facteur
-description: Facteur, the mailing kit for .NET.
+description: The mailing kit for .NET.
 color:
   header: "#000"
   gradient_left: "#6e62b5"

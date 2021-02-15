@@ -1,5 +1,19 @@
 ## Facteur
 
+<p>
+<img src="https://dev.azure.com/dimenicsbe/Utilities/_apis/build/status/dimenics.facteur?branchName=master" />
+<img src="https://img.shields.io/azure-devops/coverage/dimenicsbe/utilities/177" />
+<img src="https://img.shields.io/badge/License-MIT-blue.svg" />
+<img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" />
+<a href="https://github.com/dimenics/facteur/discussions">
+  <img src="https://img.shields.io/badge/chat-discussions-green">
+</a>
+<a href="https://gitter.im/facteur-dotnet/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge">
+  <img src="https://badges.gitter.im/facteur-dotnet/community.svg">
+</a>
+<img src="https://img.shields.io/nuget/v/facteur" />
+</p>
+
 ### About the project
 
 The entire premise of this project is to provide a flexible and modular mailing kit. Applications should not be bound by one specific mailing service. If you get blacklisted by a mailing service or if the performance is unacceptable, you should be able to swap providers without modifying a single line of code.
@@ -23,8 +37,6 @@ The templates can be stored anywhere. By default they are stored in the folder w
 Lastly and obviously, there are the various mail services, also known as **endpoints** in Facteur. E-mails can be sent with good old SMTP, Microsoft Graph API, SendGrid, etc.
 
 ### Installation
-
-> 🚧 Warning: the packages are not available yet on NuGet.
 
 Use the package manager NuGet to install the base library of Facteur:
 

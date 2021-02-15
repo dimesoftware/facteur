@@ -13,6 +13,7 @@
 <a href="https://gitter.im/facteur-dotnet/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge">
   <img src="https://badges.gitter.im/facteur-dotnet/community.svg">
 </a>
+<img src="https://img.shields.io/nuget/v/facteur" />
 </p>
 
 Facteur (French for mailman) is a library for sending e-mails in .NET. Its modular approach allows you to assemble a mail system rather than using a take-it-or-leave it service.
@@ -42,8 +43,6 @@ The templates can be stored anywhere. By default they are stored in the folder w
 Lastly and obviously, there are the various mail services, also known as **endpoints** in Facteur. E-mails can be sent with good old SMTP, Microsoft Graph API, SendGrid, etc.
 
 ## Installation
-
-> 🚧 Warning: the packages are not available yet on NuGet.
 
 Use the package manager NuGet to install the base library of Facteur:
 
