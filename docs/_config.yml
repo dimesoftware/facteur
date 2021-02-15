@@ -1,8 +1,8 @@
 theme: jekyll-theme-cayman
 title: Facteur
-description: The mailing kit for .NET.
+description: The mailing kit for .NET
 color:
-  header: "#000"
-  gradient_left: "#6e62b5"
-  gradient_right: "#46276d"
+  header: "#ffffff"
+  gradient_left: "#229dfb"
+  gradient_right: "#10d797"
 syntax_theme: https://stylishthemes.github.io/Syntax-Themes/pygments/css-github/pygments-monokai.css
