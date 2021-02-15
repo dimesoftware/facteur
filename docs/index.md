@@ -108,7 +108,7 @@ public async Task SendConfirmationMail(string customerMail, string customerName)
 This particular example uses scriban templates that are stored inside the application's directory. Inside the HTML template, you will find scriban syntax:
 
 ```html
-<p>Hi {{name}},</p>
+<p>Hi {{{name}}},</p>
 ```
 
 This text template is resolved using the model that is passed to the `EmailRequest` instance, which in this sample is of the `TestMailModel` type:

@@ -1,4 +1,4 @@
-<p align="center"><img src="assets/letter.svg?raw=true" width="350" alt="Logo"></p>
+<p align="center"><img src="assets/facteur.svg?raw=true" width="350" alt="Logo"></p>
 
 <h1 align="center"> Facteur </h1> 
 
