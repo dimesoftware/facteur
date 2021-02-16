@@ -30,7 +30,7 @@ namespace Facteur
         public async Task<EmailRequest> BuildAsync<T>(EmailRequest<T> request) where T : class
         {
             string templateName = _resolver.Resolve(request.Model);
-            string templateContent = await _provider.GetFile(templateName).ConfigureAwait(false);
+            string templateContent = await _provider.GetTemplate(templateName).ConfigureAwait(false);
             string compiledBody = await _compiler.CompileBody(request.Model, templateContent).ConfigureAwait(false);
 
             return request.Copy(compiledBody);

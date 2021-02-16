@@ -2,7 +2,7 @@
   <PropertyGroup>
     <ProjectGuid>{F18C39F6-E4A6-4290-B08E-481B04A6855E}</ProjectGuid>
     <TargetFrameworks>net5.0;netstandard2.1;net461</TargetFrameworks>
-    <RuntimeIdentifiers>win</RuntimeIdentifiers>  
+    <RuntimeIdentifiers>win</RuntimeIdentifiers>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
@@ -21,8 +21,9 @@
     <RepositoryUrl>https://github.com/dimenics/facteur</RepositoryUrl>
     <PackageProjectUrl>https://github.com/dimenics/facteur</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>Facteur e-mail kit base library.</Description>
-    <Version>1.0.0-beta.8</Version>
+    <Description>A modular and composable mailing kit for .NET</Description>
+    <PackageTags>Facteur;Email;Mail;RazorEngine;Scriban;SendGrid;Graph;SMTP</PackageTags>
+    <Version>1.0.0-beta.9</Version>
     <DebugType>Full</DebugType>
   </PropertyGroup>
 </Project>

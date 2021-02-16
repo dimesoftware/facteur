@@ -10,8 +10,8 @@ namespace Facteur
         /// <summary>
         ///
         /// </summary>
-        /// <param name="fileName"></param>
+        /// <param name="name"></param>
         /// <returns></returns>
-        Task<string> GetFile(string fileName);
+        Task<string> GetTemplate(string name);
     }
 }

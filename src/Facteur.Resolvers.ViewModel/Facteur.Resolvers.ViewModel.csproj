@@ -20,9 +20,10 @@
     <PackageIconUrl>https://raw.githubusercontent.com/dimenics/facteur/master/assets/facteur.png?raw=true</PackageIconUrl>
     <RepositoryUrl>https://github.com/dimenics/facteur</RepositoryUrl>
     <PackageProjectUrl>https://github.com/dimenics/facteur</PackageProjectUrl>
+    <PackageTags>Facteur;Email;Mail</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>Facteur e-mail kit resolver using view model</Description>
-    <Version>1.0.0-beta.8</Version>
+    <Description>Map and resolve e-mail templates using the view model type names</Description>
+    <Version>1.0.0-beta.9</Version>
   </PropertyGroup>
 
   <ItemGroup>

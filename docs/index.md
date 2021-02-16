@@ -77,6 +77,8 @@ Finally, there are some ancillary packages:
 
 ### Usage
 
+#### Typical example
+
 The power of this project is to create a dynamic mail body as you can populate any template with any type of data. This is when the compilers, providers and resolvers come in. They can be produced using the `MailBodyBuilder` class, which orchestrates the process of retrieving and populating the template. It is ultimately up to the instance of the `IMailer` to actually send the e-mail.
 
 ```csharp
@@ -107,9 +109,11 @@ public async Task SendConfirmationMail(string customerMail, string customerName)
 
 This particular example uses scriban templates that are stored inside the application's directory. Inside the HTML template, you will find scriban syntax:
 
+{% raw %}
 ```html
 <p>Hi {{{name}}},</p>
 ```
+{% endraw %}
 
 This text template is resolved using the model that is passed to the `EmailRequest` instance, which in this sample is of the `TestMailModel` type:
 
@@ -125,6 +129,95 @@ The resolver is responsible for locating the right file name. In this example, t
 
 The `IMailBodyBuilder` brings everything together and generates a populated mail body. Then it's up to the `ÌMailer` to merely send the mail.
 
+#### Basic usage
+
+Of course, simple use case scenarios are supported as well. You can simply drop the mail body building workflow:
+
+```csharp
+EmailComposer composer = new EmailComposer());
+EmailRequest request = composer
+    .SetSubject("Hello world")
+    .SetBody("This is the body of the mail. No template was used int the making of this e-mail")
+    .SetFrom("info@facteur.com")
+    .SetTo("guy.gadbois@facteur.com")
+    .SetCc("jacques.clouseau@facteur.com")
+    .SetBcc("charles.dreyfus@facteur.com")
+    .Build();
+
+SmtpCredentials credentials = new("smtp.gmail.com", "587", "false", "true", "myuser@gmail.com", "mypassword");
+IMailer mailer = new SmtpMailer(credentials);
+await mailer.SendMailAsync(populatedRequest);
+```
+
+### Composing the e-mail body
+
+E-mail templates have an important role in Facteur. Composers, resolvers and providers only exist to fetch the templates, map them with the business logic and populate them in the e-mail body. Let's walk through the setup from the example above:
+
+```csharp
+IMailBodyBuilder builder = new MailBodyBuilder(
+   new ScribanCompiler(),
+   new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
+   new ViewModelTemplateResolver());
+```
+
+First up the list is the **compiler**. There are many templating languages available, and Scriban is one of the more popular ones. The syntax is interspersed with static content and markup in the e-mail template. The e-mail templates themselves have to be stored somewhere and loaded into memory to populate and send the template. The **providers** take on this burden and are responsible for fetching the templates from any storage medium like blobs, FTP servers, local directories, etc. Finally, we need to instruct the library which template to retrieve. **Resolvers** provide a dynamic and generic way to find the right template for the e-mail, and the possibilities are endless. In this example, the ViewModelTemplateResolver type is used, which is a very simple mechanism that maps the name of the type to the name of the file. 
+
+Let's say we want to send an e-mail to new users. We create a `NewUserViewModel` class with public properties that need to be passed into the template.
+
+```csharp
+public class NewUserViewModel
+{
+  public string Name {get; set; }
+  public string Manager { get; set; }
+  public string IntranetUri {get;set;}
+}
+```
+
+With this particular setup, there should be a file named **NewUser.sbnthml** in the `Templates` directory inside the application's app directory (in Visual Studio, make sure to mark the file to be copied to the output directory). In this file, you can use simple HTML with Scriban placeholders:
+
+{% raw %}
+
+```html
+<html>
+<body>
+  <h1>Welcome, {{name}}!</h1>
+  <p>Static text</p>
+  <p>You will be reporting to {{manager}}.</p>
+
+  For more information, check out the <a href="{{ intraneturi }}">company's intranet</a>.
+</body>
+</html>
+```
+{%endraw%}
+
+Finally, to send out this particular e-mail, you just need to use the `NewUserViewModel` class in the e-mail request:
+
+```csharp
+public async Task SendWelcomeMail(string newEmployeeName, string newEmployeeMail, string managerName, string intranetUri)
+{
+  EmailComposer<NewUserViewModel> composer = new EmailComposer<NewUserViewModel>();
+  EmailRequest<NewUserViewModel> request = composer
+      .SetModel(new NewUserViewModel { Name = newEmployeeName, Manager = managerName, IntranetUri= intranetUri })
+      .SetSubject("Welcome to the company!")
+      .SetFrom("info@facteur.com")
+      .SetTo(newEmployeeMail)
+      .Build();
+
+  IMailBodyBuilder builder = new MailBodyBuilder(
+   new ScribanCompiler(),
+   new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
+   new ViewModelTemplateResolver());
+
+  EmailRequest populatedRequest = await builder.BuildAsync(request);
+
+  SmtpCredentials credentials = new("smtp.gmail.com", "587", "false", "true", "myuser@gmail.com", "mypassword");
+  IMailer mailer = new SmtpMailer(credentials);
+  await mailer.SendMailAsync(populatedRequest);
+}
+```
+
+The library will pick up the model type, look for the template, populate it and send the mail.
+
 ### Dependency injection
 
 With .NET's dependency injection, hooking up the mailer is as simple as adding one line in the Startup class:
@@ -134,4 +227,4 @@ services.AddMailer<SmtpMailer, ScribanCompiler, AppDirectoryTemplateProvider, Vi
   mailerFactory: x => new SmtpMailer(credentials),
   templateProviderFactory: x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml")
 );
-```
+````

@@ -12,7 +12,7 @@ namespace Facteur.TemplateProviders.IO.Tests
         public async Task AppDirectoryTemplateProvider_HasCorrectData_ShouldReturnPath()
         {
             ITemplateProvider provider = new AppDirectoryTemplateProvider("Templates", ".dhtml");
-            string template = await provider.GetFile("Test");
+            string template = await provider.GetTemplate("Test");
 
             Assert.IsFalse(string.IsNullOrEmpty(template));
         }

@@ -36,7 +36,7 @@ namespace Facteur.TemplateProviders.IO
         /// <param name="fileName">The full path.</param>
         /// <returns></returns>
         /// <exception cref="System.IO.FileNotFoundException"></exception>
-        public virtual Task<string> GetFile(string fileName)
+        public virtual Task<string> GetTemplate(string fileName)
         {
             // Create full path
             string fullPath = RelativePath != null 

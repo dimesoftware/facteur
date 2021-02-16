@@ -10,8 +10,9 @@
     <PackageProjectUrl>https://github.com/dimenics/facteur</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/dimenics/facteur/master/assets/facteur.png?raw=true</PackageIconUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>IO for facteur.</Description>
-    <Version>1.0.0-beta.8</Version>
+    <PackageTags>Facteur;Email;Mail;IO</PackageTags>
+    <Description>Store and retrieve e-mail templates in local Windows directories</Description>
+    <Version>1.0.0-beta.9</Version>
     <Authors>Dimenics</Authors>
     <Company>Dimenics</Company>
     <Product>Facteur</Product>
