@@ -4,6 +4,7 @@
 
 <p align="center">
 <img src="https://dev.azure.com/dimenicsbe/Utilities/_apis/build/status/dimenics.facteur?branchName=master" />
+<img src="https://img.shields.io/nuget/v/facteur" />
 <img src="https://img.shields.io/azure-devops/coverage/dimenicsbe/utilities/177" />
 <img src="https://img.shields.io/badge/License-MIT-blue.svg" />
 <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" />
@@ -13,18 +14,17 @@
 <a href="https://gitter.im/facteur-dotnet/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge">
   <img src="https://badges.gitter.im/facteur-dotnet/community.svg">
 </a>
-<img src="https://img.shields.io/nuget/v/facteur" />
 </p>
 
-Facteur (French for mailman) is a library for sending e-mails in .NET. Its modular approach allows you to assemble a mail system rather than using a take-it-or-leave it service.
+Facteur (French for mailman) is a library for sending e-mails in .NET. Its modular approach allows you to assemble a mail system rather than having to use a take-it-or-leave it service.
 
-Check out the **[docs »](https://dimenics.github.io/facteur/)** for more info.
+Check out the **[📚 docs »](https://dimenics.github.io/facteur/)** for more info.
 
 ## About the project
 
-The entire premise of this project is to provide a flexible and modular mailing kit. Applications should not be bound by one specific mailing service. If you get blacklisted by a mailing service or if the performance is unacceptable, you should be able to swap providers without modifying a single line of code. 
+The entire premise of this project is to provide a flexible and modular mailing and templating kit. Applications should not be bound by one specific mailing service; like when you get blacklisted by a mailing service or when the performance is unacceptable, you should be able to swap providers without having to modify a single line of code. 
 
-This is why we created facteur. The desire to create a flexible and vendor-independent framework is clearly reflected in the architecture.
+This is why we created Facteur. The desire to create a flexible and vendor-independent framework is clearly reflected in the library's architecture.
 
 There are a few moving parts:
 

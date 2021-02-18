@@ -1,7 +1,8 @@
-## Facteur
+<img align="center" src="assets/images/facteur.svg">
 
-<p>
+<p align="center">
 <img src="https://dev.azure.com/dimenicsbe/Utilities/_apis/build/status/dimenics.facteur?branchName=master" />
+<img src="https://img.shields.io/nuget/v/facteur" />
 <img src="https://img.shields.io/azure-devops/coverage/dimenicsbe/utilities/177" />
 <img src="https://img.shields.io/badge/License-MIT-blue.svg" />
 <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" />
@@ -11,14 +12,13 @@
 <a href="https://gitter.im/facteur-dotnet/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge">
   <img src="https://badges.gitter.im/facteur-dotnet/community.svg">
 </a>
-<img src="https://img.shields.io/nuget/v/facteur" />
 </p>
 
-### About the project
+## About the project
 
-The entire premise of this project is to provide a flexible and modular mailing kit. Applications should not be bound by one specific mailing service. If you get blacklisted by a mailing service or if the performance is unacceptable, you should be able to swap providers without modifying a single line of code.
+The entire premise of this project is to provide a **flexible** and **modular** **mailing** and **templating** kit. Applications should not be bound by one specific mailing service; like when you get blacklisted by a mailing service or when the performance is unacceptable, you should be able to swap providers without having to modify a single line of code. 
 
-This is why we created facteur. The desire to create a flexible and vendor-independent framework is clearly reflected in the architecture.
+This is why we created Facteur. The desire to create a flexible and vendor-independent framework is clearly reflected in the library's architecture.
 
 There are a few moving parts:
 
@@ -36,7 +36,7 @@ The templates can be stored anywhere. By default they are stored in the folder w
 
 Lastly and obviously, there are the various mail services, also known as **endpoints** in Facteur. E-mails can be sent with good old SMTP, Microsoft Graph API, SendGrid, etc.
 
-### Installation
+## Installation
 
 Use the package manager NuGet to install the base library of Facteur:
 
@@ -75,9 +75,9 @@ Finally, there are some ancillary packages:
 | ------------ | ----------------------------------------------------------- |
 | .NET Core DI | `dotnet add package Facteur.Extensions.DependencyInjection` |
 
-### Usage
+## Usage
 
-#### Typical example
+### Typical example
 
 The power of this project is to create a dynamic mail body as you can populate any template with any type of data. This is when the compilers, providers and resolvers come in. They can be produced using the `MailBodyBuilder` class, which orchestrates the process of retrieving and populating the template. It is ultimately up to the instance of the `IMailer` to actually send the e-mail.
 
@@ -111,7 +111,7 @@ This particular example uses scriban templates that are stored inside the applic
 
 {% raw %}
 ```html
-<p>Hi {{{name}}},</p>
+<p>Hi {{name}},</p>
 ```
 {% endraw %}
 
@@ -129,7 +129,7 @@ The resolver is responsible for locating the right file name. In this example, t
 
 The `IMailBodyBuilder` brings everything together and generates a populated mail body. Then it's up to the `ÌMailer` to merely send the mail.
 
-#### Basic usage
+### Basic usage
 
 Of course, simple use case scenarios are supported as well. You can simply drop the mail body building workflow:
 
@@ -149,7 +149,7 @@ IMailer mailer = new SmtpMailer(credentials);
 await mailer.SendMailAsync(populatedRequest);
 ```
 
-### Composing the e-mail body
+## Composing the e-mail body
 
 E-mail templates have an important role in Facteur. Composers, resolvers and providers only exist to fetch the templates, map them with the business logic and populate them in the e-mail body. Let's walk through the setup from the example above:
 
@@ -218,13 +218,13 @@ public async Task SendWelcomeMail(string newEmployeeName, string newEmployeeMail
 
 The library will pick up the model type, look for the template, populate it and send the mail.
 
-### Dependency injection
+## Dependency injection
 
-With .NET's dependency injection, hooking up the mailer is as simple as adding one line in the Startup class:
+With .NET's dependency injection, hooking up the mailer is as simple as adding one line in the `Startup` class:
 
 ```csharp
 services.AddMailer<SmtpMailer, ScribanCompiler, AppDirectoryTemplateProvider, ViewModelTemplateResolver>(
   mailerFactory: x => new SmtpMailer(credentials),
   templateProviderFactory: x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml")
 );
-````
+```
