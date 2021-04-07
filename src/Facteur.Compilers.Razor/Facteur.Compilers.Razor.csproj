@@ -4,6 +4,8 @@
     <TargetFrameworks>net461</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <NeutralLanguage>en</NeutralLanguage>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/dimenics/facteur</RepositoryUrl>
@@ -12,7 +14,7 @@
     <Description>Create e-mail bodies using the RazorEngine template engine.</Description>
     <PackageTags>Facteur;Email;Mail;RazorEngine</PackageTags>
     <PackageIconUrl>https://raw.githubusercontent.com/dimenics/facteur/master/assets/facteur.png?raw=true</PackageIconUrl>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Authors>Dimenics</Authors>
     <Company>Dimenics</Company>
     <Product>Facteur</Product>
