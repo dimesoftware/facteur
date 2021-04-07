@@ -31,5 +31,5 @@ steps:
     displayName: Test
     inputs:
       command: test
-      projects: '**/*.csproj'
+      projects: 'src/**/*.csproj'
       arguments: '--configuration $(BuildConfiguration) --collect "Code Coverage" -f "net461" -s "src/test.runsettings"'
