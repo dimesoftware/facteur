@@ -12,7 +12,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>Facteur;Email;Mail;SendGrid</PackageTags>
     <Description>Send e-mails using the SendGrid endpoint</Description>
-    <Version>1.0.0-beta.9</Version>
+    <Version>1.0.0</Version>
     <Authors>Dimenics</Authors>
     <Company>Dimenics</Company>
     <Product>Facteur</Product>
