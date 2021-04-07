@@ -8,10 +8,10 @@
 
   <ItemGroup>
     <PackageReference Include="Facteur" Version="1.0.1" />
-    <PackageReference Include="Facteur.Compilers.Scriban" Version="1.0.0" />
-    <PackageReference Include="Facteur.Resolvers.ViewModel" Version="1.0.0" />
-    <PackageReference Include="Facteur.Smtp" Version="1.0.0" />
-    <PackageReference Include="Facteur.TemplateProviders.IO" Version="1.0.0" />
+    <PackageReference Include="Facteur.Compilers.Scriban" Version="1.0.1" />
+    <PackageReference Include="Facteur.Resolvers.ViewModel" Version="1.0.1" />
+    <PackageReference Include="Facteur.Smtp" Version="1.0.1" />
+    <PackageReference Include="Facteur.TemplateProviders.IO" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
