@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -52,6 +53,9 @@ namespace Facteur.Smtp
 
             if (request.Bcc != null && request.Bcc.Any())
                 msg.Bcc.Add(string.Join(",", request.Bcc));
+
+            foreach (Attachment attachment in request.Attachments)
+                msg.Attachments.Add(new System.Net.Mail.Attachment(new MemoryStream(attachment.ContentBytes), attachment.Name));
 
             await smtpClient.SendMailAsync(msg);
         }

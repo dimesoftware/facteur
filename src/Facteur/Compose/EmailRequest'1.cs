@@ -12,7 +12,8 @@
                 From = From,
                 To = To,
                 Cc = Cc,
-                Bcc = Bcc
+                Bcc = Bcc,
+                Attachments = Attachments
             };
     }
 }

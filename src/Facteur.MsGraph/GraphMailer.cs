@@ -36,7 +36,8 @@ namespace Facteur.MsGraph
             {
                 Subject = request.Subject,
                 Body = new ItemBody { ContentType = BodyType.Html, Content = request.Body },
-                ToRecipients = request.To.Select(x => new Recipient { EmailAddress = new EmailAddress { Address = x } })
+                ToRecipients = request.To.Select(x => new Recipient { EmailAddress = new EmailAddress { Address = x } }),
+                Attachments = request.AddAttachments()
             };
 
             await graphClient.Users[Credentials.From]
@@ -63,6 +64,7 @@ namespace Facteur.MsGraph
                 ToRecipients = request.To.Select(x => new Recipient { EmailAddress = new EmailAddress { Address = x } }),
                 CcRecipients = request.Cc.Select(x => new Recipient { EmailAddress = new EmailAddress { Address = x } }),
                 BccRecipients = request.Bcc.Select(x => new Recipient { EmailAddress = new EmailAddress { Address = x } }),
+                Attachments = request.AddAttachments()
             };
 
             await graphClient.Users[Credentials.From]

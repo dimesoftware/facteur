@@ -19,5 +19,7 @@ namespace Facteur
         public IEnumerable<string> Cc { get; set; }
 
         public IEnumerable<string> Bcc { get; set; }
+
+        public List<Attachment> Attachments { get; set; } = new();
     }
 }
