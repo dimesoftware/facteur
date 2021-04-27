@@ -38,7 +38,18 @@ namespace Facteur.SendGrid
             SendGridClient client = new SendGridClient(ApiKey);
             EmailAddress sendFrom = new EmailAddress(request.From);
             List<EmailAddress> sendTo = request.To.Select(x => new EmailAddress(x)).ToList();
-            SendGridMessage message = MailHelper.CreateSingleEmailToMultipleRecipients(sendFrom, sendTo, request.Subject, null, request.Body);
+            SendGridMessage message = MailHelper
+                .CreateSingleEmailToMultipleRecipients(sendFrom, sendTo, request.Subject, null, request.Body)
+                .AddAttachments(request);
+
+            message.Attachments = request
+                .Attachments
+                .Select(x => new global::SendGrid.Helpers.Mail.Attachment()
+                {
+                    Content = Convert.ToBase64String(x.ContentBytes),
+                    Filename = x.Name,
+                    Disposition = "attachment"
+                }).ToList();
 
             return client.SendEmailAsync(message);
         }

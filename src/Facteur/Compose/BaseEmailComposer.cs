@@ -1,4 +1,6 @@
-﻿namespace Facteur
+﻿using System.Collections.Generic;
+
+namespace Facteur
 {
     public abstract class BaseEmailComposer<T> where T : EmailRequest, new()
     {
@@ -42,6 +44,18 @@
         public BaseEmailComposer<T> SetBcc(params string[] bcc)
         {
             Request.Bcc = bcc;
+            return this;
+        }
+
+        public BaseEmailComposer<T> Attach(Attachment attachment)
+        {
+            Request.Attachments.Add(attachment);
+            return this;
+        }
+
+        public BaseEmailComposer<T> Attach(IEnumerable<Attachment> attachments)
+        {
+            Request.Attachments.AddRange(attachments);
             return this;
         }
 

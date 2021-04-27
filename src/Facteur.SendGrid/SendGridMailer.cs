@@ -44,6 +44,7 @@ namespace Facteur.SendGrid
                 .SetTo(request.To?.ToArray())
                 .SetCc(request.Cc?.ToArray())
                 .SetBcc(request.Bcc?.ToArray())
+                .Attach(request.Attachments)
                 .Build();
 
             await base.SendMailAsync(mailRequest).ConfigureAwait(false);
