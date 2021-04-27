@@ -35,8 +35,8 @@ namespace Facteur.SendGrid
         /// <returns></returns>
         public virtual Task SendMailAsync(EmailRequest request)
         {
-            SendGridClient client = new SendGridClient(ApiKey);
-            EmailAddress sendFrom = new EmailAddress(request.From);
+            SendGridClient client = new(ApiKey);
+            EmailAddress sendFrom = new(request.From);
             List<EmailAddress> sendTo = request.To.Select(x => new EmailAddress(x)).ToList();
             SendGridMessage message = MailHelper
                 .CreateSingleEmailToMultipleRecipients(sendFrom, sendTo, request.Subject, null, request.Body)

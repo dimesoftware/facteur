@@ -10,13 +10,6 @@ namespace Facteur
     internal class DefaultViewModel
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultViewModel"/> class
-        /// </summary>
-        internal DefaultViewModel()
-        {
-        }
-
-        /// <summary>
         ///
         /// </summary>
         public string Name { get; set; }

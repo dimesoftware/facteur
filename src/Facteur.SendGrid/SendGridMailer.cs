@@ -36,7 +36,7 @@ namespace Facteur.SendGrid
         public async Task SendMailAsync<T>(EmailRequest<T> request)
             where T : class
         {
-            EmailComposer composer = new EmailComposer();
+            EmailComposer composer = new();
             EmailRequest mailRequest = composer
                 .SetSubject(request.Subject)
                 .SetBody(request.Body)

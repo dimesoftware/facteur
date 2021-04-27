@@ -14,7 +14,7 @@ namespace Facteur.Extensions.DependencyInjection.Tests
         [TestMethod]
         public async Task ServiceCollection_DI_ShouldConstructAndSendMail()
         {
-            EmailComposer<TestMailModel> composer = new EmailComposer<TestMailModel>();
+            EmailComposer<TestMailModel> composer = new();
             EmailRequest<TestMailModel> request = composer
                 .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
                 .SetSubject("Hello world")
@@ -32,7 +32,7 @@ namespace Facteur.Extensions.DependencyInjection.Tests
         {
             SmtpCredentials credentials = new("smtp.mailtrap.io", "587", "false", "true", "d3538ae47a016d", "d4add3690c408c");
 
-            ServiceCollection serviceCollection = new ServiceCollection();
+            ServiceCollection serviceCollection = new();
             serviceCollection.AddMailer<SmtpMailer, ScribanCompiler, AppDirectoryTemplateProvider, ViewModelTemplateResolver>(
                 mailerFactory: x => new SmtpMailer(credentials),
                 templateProviderFactory: x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"));

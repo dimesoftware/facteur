@@ -8,10 +8,6 @@ namespace Facteur
     /// </summary>
     public class ScribanCompiler : ITemplateCompiler
     {
-        public ScribanCompiler()
-        {
-        }
-
         /// <summary>
         /// Gets the body for specified templates & data model
         /// </summary>
@@ -33,7 +29,7 @@ namespace Facteur
         /// <returns>A populated e-mail body</returns>
         public async Task<string> CompileBody(string templateName, string text)
         {
-            DefaultViewModel model = new DefaultViewModel { Text = text };
+            DefaultViewModel model = new() { Text = text };
             return await CompileBody(model, templateName).ConfigureAwait(false);
         }
     }

@@ -21,9 +21,9 @@ namespace Facteur.Tests
         [TestMethod]
         public void Graph_SendMail_ShouldSend()
         {
-            GraphCredentials credentials = new GraphCredentials("clientId", "tenantId", "secret", "from");
+            GraphCredentials credentials = new("clientId", "tenantId", "secret", "from");
 
-            EmailComposer<TestMailModel> composer = new EmailComposer<TestMailModel>();
+            EmailComposer<TestMailModel> composer = new();
             EmailRequest<TestMailModel> request = composer
                 .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
                 .SetSubject("Hello world")
@@ -31,7 +31,7 @@ namespace Facteur.Tests
                 .SetTo("tibipi@getnada.com")
                 .Build();
 
-            Mock<IMailer> mock = new Mock<IMailer>();
+            Mock<IMailer> mock = new();
             mock.Setup(foo => foo.SendMailAsync(request)).Returns(Task.CompletedTask);
         }
     }

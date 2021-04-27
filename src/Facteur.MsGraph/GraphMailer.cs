@@ -32,7 +32,7 @@ namespace Facteur.MsGraph
         public async t.Task SendMailAsync(EmailRequest request)
         {
             GraphServiceClient graphClient = await ConnectClient().ConfigureAwait(false);
-            Message message = new Message
+            Message message = new()
             {
                 Subject = request.Subject,
                 Body = new ItemBody { ContentType = BodyType.Html, Content = request.Body },
@@ -57,7 +57,7 @@ namespace Facteur.MsGraph
         {
             GraphServiceClient graphClient = await ConnectClient().ConfigureAwait(false);
 
-            Message message = new Message
+            Message message = new()
             {
                 Subject = request.Subject,
                 Body = new ItemBody { ContentType = BodyType.Html, Content = request.Body },

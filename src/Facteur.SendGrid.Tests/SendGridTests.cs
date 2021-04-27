@@ -10,7 +10,7 @@ namespace Facteur.Tests
         [TestMethod]
         public void Sendgrid_SendMail_KeyIsNull_ShouldThrowException()
         {
-            EmailComposer<TestMailModel> composer = new EmailComposer<TestMailModel>();
+            EmailComposer<TestMailModel> composer = new();
             EmailRequest<TestMailModel> request = composer
                 .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
                 .SetSubject("Hello world")
@@ -24,7 +24,7 @@ namespace Facteur.Tests
         [TestMethod]
         public void Sendgrid_SendMail_KeyIsEmpty_ShouldThrowException()
         {
-            EmailComposer<TestMailModel> composer = new EmailComposer<TestMailModel>();
+            EmailComposer<TestMailModel> composer = new();
             EmailRequest<TestMailModel> request = composer
                 .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
                 .SetSubject("Hello world")
@@ -38,7 +38,7 @@ namespace Facteur.Tests
         [TestMethod]
         public void Sendgrid_SendMail_KeyIsNotEmpty_ShouldConstruct()
         {
-            EmailComposer<TestMailModel> composer = new EmailComposer<TestMailModel>();
+            EmailComposer<TestMailModel> composer = new();
             EmailRequest<TestMailModel> request = composer
                 .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
                 .SetSubject("Hello world")

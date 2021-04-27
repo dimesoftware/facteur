@@ -15,7 +15,7 @@ namespace Facteur.Resolvers.ViewModel.Tests
         [TestMethod]
         public void ViewModelTemplateResolver_ByInstance_ShouldReturnCorrectTemplate()
         {
-            TestMailModel model = new TestMailModel();
+            TestMailModel model = new();
             ITemplateResolver resolver = new ViewModelTemplateResolver();
             Assert.IsTrue(resolver.Resolve(model) == "Test");
         }
@@ -23,7 +23,7 @@ namespace Facteur.Resolvers.ViewModel.Tests
         [TestMethod]
         public void ViewModelTemplateResolver_ViewModelType_ShouldReturnCorrectTemplate()
         {
-            TestViewModel model = new TestViewModel();
+            TestViewModel model = new();
             ITemplateResolver resolver = new ViewModelTemplateResolver();
             Assert.IsTrue(resolver.Resolve(model) == "Test");
         }

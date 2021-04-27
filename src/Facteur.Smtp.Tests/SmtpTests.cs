@@ -13,9 +13,9 @@ namespace Facteur.Tests
         [TestMethod]
         public async Task Smtp_SendTemplateMail_ShouldSend()
         {
-            SmtpCredentials credentials = new SmtpCredentials("smtp.mailtrap.io", "587", "false", "true", "d3538ae47a016d", "d4add3690c408c");
+            SmtpCredentials credentials = new("smtp.mailtrap.io", "587", "false", "true", "d3538ae47a016d", "d4add3690c408c");
 
-            EmailComposer<TestMailModel> composer = new EmailComposer<TestMailModel>();
+            EmailComposer<TestMailModel> composer = new();
             EmailRequest<TestMailModel> request = composer
                 .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
                 .SetSubject("Hello world")
@@ -40,9 +40,9 @@ namespace Facteur.Tests
         [TestMethod]
         public async Task Smtp_SendTemplateMail_SimulateDependencyInjection_ShouldSend()
         {
-            SmtpCredentials credentials = new SmtpCredentials("smtp.mailtrap.io", "587", "false", "true", "d3538ae47a016d", "d4add3690c408c");
+            SmtpCredentials credentials = new("smtp.mailtrap.io", "587", "false", "true", "d3538ae47a016d", "d4add3690c408c");
 
-            EmailComposer<TestMailModel> composer = new EmailComposer<TestMailModel>();
+            EmailComposer<TestMailModel> composer = new();
             EmailRequest<TestMailModel> request = composer
                 .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
                 .SetSubject("Hello world")
@@ -66,18 +66,18 @@ namespace Facteur.Tests
         [TestMethod]
         public async Task Smtp_SendTemplateMail_WithAttachments_ShouldSend()
         {
-            SmtpCredentials credentials = new SmtpCredentials("smtp.mailtrap.io", "587", "false", "true", "d3538ae47a016d", "d4add3690c408c");
+            SmtpCredentials credentials = new("smtp.mailtrap.io", "587", "false", "true", "d3538ae47a016d", "d4add3690c408c");
 
             byte[] txtBytes = File.ReadAllBytes("Attachments\\Attachment.txt");
             byte[] pdfBytes = File.ReadAllBytes("Attachments\\Attachment.pdf");
 
             List<Attachment> attachments = new()
             {
-                new() { ContentBytes = txtBytes, Name = "Attachment.txt" },
-                new() { ContentBytes = pdfBytes, Name = "Attachment.pdf" }
+                new Attachment() { ContentBytes = txtBytes, Name = "Attachment.txt" },
+                new Attachment() { ContentBytes = pdfBytes, Name = "Attachment.pdf" }
             };
 
-            EmailComposer<TestMailModel> composer = new EmailComposer<TestMailModel>();
+            EmailComposer<TestMailModel> composer = new();
             EmailRequest<TestMailModel> request = composer
                 .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
                 .SetSubject("Hello world")

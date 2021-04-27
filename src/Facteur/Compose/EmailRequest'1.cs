@@ -5,7 +5,7 @@
         public T Model { get; set; }
 
         public EmailRequest<T> Copy(string body = null)
-            => new EmailRequest<T>
+            => new()
             {
                 Subject = Subject,
                 Body = body ?? Body,

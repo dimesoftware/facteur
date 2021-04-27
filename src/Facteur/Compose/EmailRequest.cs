@@ -4,10 +4,6 @@ namespace Facteur
 {
     public class EmailRequest
     {
-        public EmailRequest()
-        {
-        }
-
         public string Subject { get; set; }
 
         public string Body { get; set; }

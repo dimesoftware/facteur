@@ -8,10 +8,6 @@ namespace Facteur
     [ExcludeFromCodeCoverage]
     internal class DefaultViewModel
     {
-        internal DefaultViewModel()
-        {
-        }
-
         internal string Text { get; set; }
     }
 }

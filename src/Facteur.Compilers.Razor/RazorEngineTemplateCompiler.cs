@@ -9,10 +9,6 @@ namespace Facteur
     /// </summary>
     public class RazorEngineTemplateCompiler : ITemplateCompiler
     {
-        public RazorEngineTemplateCompiler()
-        {
-        }
-
         /// <summary>
         /// Gets the body for specified templates and data model
         /// </summary>
@@ -34,7 +30,7 @@ namespace Facteur
         /// <returns>A populated e-mail body</returns>
         public async Task<string> CompileBody(string text, string fileContent)
         {
-            DefaultViewModel model = new DefaultViewModel { Text = text };
+            DefaultViewModel model = new() { Text = text };
             return await CompileBody(model, fileContent).ConfigureAwait(false);
         }
     }

@@ -28,8 +28,8 @@ namespace Facteur.SendGrid
         /// <returns>An instance of <see cref="System.Threading.Tasks.Task"/></returns>
         public override Task SendMailAsync(EmailRequest request)
         {
-            SendGridClient client = new SendGridClient(ApiKey);
-            EmailAddress sendFrom = new EmailAddress(request.From);
+            SendGridClient client = new(ApiKey);
+            EmailAddress sendFrom = new(request.From);
             List<EmailAddress> sendTo = request.To.Select(x => new EmailAddress(x)).ToList();
             SendGridMessage message = MailHelper.CreateSingleEmailToMultipleRecipients(sendFrom, sendTo, request.Subject, request.Body, null);
 
@@ -38,8 +38,8 @@ namespace Facteur.SendGrid
 
         public Task SendMailAsync<T>(EmailRequest<T> request) where T : class
         {
-            SendGridClient client = new SendGridClient(ApiKey);
-            EmailAddress sendFrom = new EmailAddress(request.From);
+            SendGridClient client = new(ApiKey);
+            EmailAddress sendFrom = new(request.From);
             List<EmailAddress> sendTo = request.To.Select(x => new EmailAddress(x)).ToList();
             SendGridMessage message = MailHelper.CreateSingleEmailToMultipleRecipients(sendFrom, sendTo, request.Subject, request.Body, null);
 

@@ -13,7 +13,7 @@ namespace Facteur.Tests
 
         private static string BuildPage(string text)
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new();
             stringBuilder.Append("<html>");
             stringBuilder.Append("<body>");
             stringBuilder.Append("Hello");

@@ -11,42 +11,42 @@ namespace Facteur.Tests
         [TestMethod]
         public void Guard_ThrowIfNullOrEmpty_Collection_IsNotEmpty_ShouldPass()
         {
-            Customer customer = new Customer { Name = "Customer #1", Orders = new List<Order>() { new Order() } };
+            Customer customer = new() { Name = "Customer #1", Orders = new List<Order>() { new() } };
             Guard.ThrowIfNullOrEmpty(customer.Orders, nameof(customer.Orders));
 
         }
         [TestMethod]
         public void Guard_ThrowIfNullOrEmpty_Collection_IsEmpty_ShouldThrowArgumentNullException()
         {
-            Customer customer = new Customer { Name = "Customer #1", Orders = new List<Order>() };
+            Customer customer = new() { Name = "Customer #1", Orders = new List<Order>() };
             Assert.ThrowsException<ArgumentNullException>(() => Guard.ThrowIfNullOrEmpty(customer.Orders, nameof(customer.Orders)));
         }
 
         [TestMethod]
         public void Guard_ThrowIfNullOrEmpty_Collection_IsNull_ShouldThrowArgumentNullException()
         {
-            Customer customer = new Customer { Name = "Customer #1" };
+            Customer customer = new() { Name = "Customer #1" };
             Assert.ThrowsException<ArgumentNullException>(() => Guard.ThrowIfNullOrEmpty(customer.Orders, nameof(customer.Orders)));
         }
 
         [TestMethod]
         public void Guard_ThrowIfNullOrEmpty_Text_IsEmpty_ShouldThrowArgumentNullException()
         {
-            Customer customer = new Customer { Name = "" };
+            Customer customer = new() { Name = "" };
             Assert.ThrowsException<ArgumentNullException>(() => Guard.ThrowIfNullOrEmpty(customer.Name, nameof(customer.Name)));
         }
 
         [TestMethod]
         public void Guard_ThrowIfNullOrEmpty_Text_IsNull_ShouldThrowArgumentNullException()
         {
-            Customer customer = new Customer { };
+            Customer customer = new() { };
             Assert.ThrowsException<ArgumentNullException>(() => Guard.ThrowIfNullOrEmpty(customer.Name, nameof(customer.Name)));
         }
 
         [TestMethod]
         public void Guard_ThrowIfNullOrEmpty_Text_IsNotNullOrEmpty_ShouldPass()
         {
-            Customer customer = new Customer {  Name = "Customer #1" };
+            Customer customer = new() {  Name = "Customer #1" };
             Guard.ThrowIfNullOrEmpty(customer.Name, nameof(customer.Name));
         }
     }

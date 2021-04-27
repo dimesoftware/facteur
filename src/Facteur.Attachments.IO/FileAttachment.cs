@@ -8,13 +8,13 @@ namespace Facteur.Attachments.IO
         public async Task<Attachment> Fetch(string path)
         {
 #if NET461
-            return new()
+            return new Attachment()
             {
                 ContentBytes = File.ReadAllBytes(path),
                 Name = Path.GetFileName(path)
             };
 #else
-            return new()
+            return new Attachment()
             {
                 ContentBytes = await File.ReadAllBytesAsync(path),
                 Name = Path.GetFileName(path)

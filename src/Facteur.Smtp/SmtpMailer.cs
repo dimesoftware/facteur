@@ -29,7 +29,7 @@ namespace Facteur.Smtp
         /// <returns></returns>
         public async Task SendMailAsync(EmailRequest request)
         {
-            using SmtpClient smtpClient = new SmtpClient(Credentials.Host)
+            using SmtpClient smtpClient = new(Credentials.Host)
             {
                 Port = Credentials.Port,
                 Credentials = new NetworkCredential(Credentials.Email, Credentials.Password),
@@ -39,7 +39,7 @@ namespace Facteur.Smtp
             if (Credentials.UseDefaultCredentials)
                 smtpClient.UseDefaultCredentials = Credentials.UseDefaultCredentials;
 
-            using MailMessage msg = new MailMessage();
+            using MailMessage msg = new();
             msg.Subject = request.Subject;
             msg.Body = request.Body;
             msg.IsBodyHtml = true;

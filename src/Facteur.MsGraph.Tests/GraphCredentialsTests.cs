@@ -10,7 +10,7 @@ namespace Facteur.Tests
         [TestMethod]
         public void GraphCredentials_Constructor_CorrectParameters_ShouldSetProperties()
         {
-            GraphCredentials credentials = new GraphCredentials("client", "tenant", "secret", "from");
+            GraphCredentials credentials = new("client", "tenant", "secret", "from");
 
             Assert.IsTrue(credentials.ClientId == "client");
             Assert.IsTrue(credentials.TenantId == "tenant");
