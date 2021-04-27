@@ -5,10 +5,21 @@ namespace Facteur.Attachments.IO
 {
     public class FileAttachment : IAttachmentSource
     {
-        public async Task<Attachment> Fetch(string path) => new()
+        public async Task<Attachment> Fetch(string path)
         {
-            ContentBytes = await File.ReadAllBytesAsync(path),
-            Name = Path.GetFileName(path)
-        };
+#if NET461
+            return new()
+            {
+                ContentBytes = File.ReadAllBytes(path),
+                Name = Path.GetFileName(path)
+            };
+#else
+            return new()
+            {
+                ContentBytes = await File.ReadAllBytesAsync(path),
+                Name = Path.GetFileName(path)
+            };
+#endif
+        }
     }
 }

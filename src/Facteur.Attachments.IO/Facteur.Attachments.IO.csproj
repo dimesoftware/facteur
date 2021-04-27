@@ -1,9 +1,27 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net5.0;netstandard2.1;net461</TargetFrameworks>
+    <RuntimeIdentifiers>win</RuntimeIdentifiers>
+    <AssemblyTitle>Facteur.Attachments.IO</AssemblyTitle>
+    <Company>Dimenics</Company>
+    <Product>Facteur</Product>
+    <LangVersion>latest</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Authors>Dimenics</Authors>
+    <Company>Dimenics</Company>
+    <Product>Facteur</Product>
+    <NeutralLanguage>en</NeutralLanguage>
+    <RepositoryType>git</RepositoryType>
+    <PackageIconUrl>https://raw.githubusercontent.com/dimenics/facteur/master/assets/facteur.png?raw=true</PackageIconUrl>
+    <RepositoryUrl>https://github.com/dimenics/facteur</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/dimenics/facteur</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>Add attachments using simple IO</Description>
+    <PackageTags>Facteur;Email;Mail;RazorEngine;Scriban;SendGrid;Graph;SMTP</PackageTags>
+    <Version>1.1.0</Version>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Facteur\Facteur.csproj" />
   </ItemGroup>
