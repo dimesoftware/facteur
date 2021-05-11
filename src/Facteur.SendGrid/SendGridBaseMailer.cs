@@ -42,15 +42,6 @@ namespace Facteur.SendGrid
                 .CreateSingleEmailToMultipleRecipients(sendFrom, sendTo, request.Subject, null, request.Body)
                 .AddAttachments(request);
 
-            message.Attachments = request
-                .Attachments
-                .Select(x => new global::SendGrid.Helpers.Mail.Attachment()
-                {
-                    Content = Convert.ToBase64String(x.ContentBytes),
-                    Filename = x.Name,
-                    Disposition = "attachment"
-                }).ToList();
-
             return client.SendEmailAsync(message);
         }
     }

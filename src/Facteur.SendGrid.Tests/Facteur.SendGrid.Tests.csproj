@@ -18,12 +18,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Facteur.Compilers.Scriban\Facteur.Compilers.Scriban.csproj" />
     <ProjectReference Include="..\Facteur.Resolvers.ViewModel\Facteur.Resolvers.ViewModel.csproj" />
     <ProjectReference Include="..\Facteur.SendGrid\Facteur.SendGrid.csproj" />
+    <ProjectReference Include="..\Facteur.TemplateProviders.IO\Facteur.TemplateProviders.IO.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Templates\Test.dhtml">
+    <None Update="Templates\Test.sbnhtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
