@@ -15,13 +15,13 @@
     <PackageTags>Facteur;Email;Mail;Scriban</PackageTags>
     <PackageIconUrl>https://raw.githubusercontent.com/dimenics/facteur/master/assets/facteur.png?raw=true</PackageIconUrl>
     <Version>1.1.0</Version>
-    <Authors>Dimenics</Authors>
-    <Company>Dimenics</Company>
+    <Authors>Dime Software</Authors>
+    <Company>Dime Software</Company>
     <Product>Facteur</Product>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scriban" Version="3.0.6" />
+    <PackageReference Include="Scriban" Version="4.0.1" />
   </ItemGroup>
 
   <ItemGroup>

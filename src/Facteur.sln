@@ -54,11 +54,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facteur.Tests", "Facteur.Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facteur.Extensions.DependencyInjection.Tests", "Facteur.Extensions.DependencyInjection.Tests\Facteur.Extensions.DependencyInjection.Tests.csproj", "{D611AA8A-CD1F-4F8C-B65F-A0BC78BF913B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Attachment", "Attachment", "{874D23EE-B936-4ADF-98E4-257E56B44D2D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Attachments", "Attachments", "{874D23EE-B936-4ADF-98E4-257E56B44D2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facteur.Attachments.IO", "Facteur.Attachments.IO\Facteur.Attachments.IO.csproj", "{B61854EE-4C53-40E3-968F-21B132C6C1E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facteur.Attachments.IO", "Facteur.Attachments.IO\Facteur.Attachments.IO.csproj", "{B61854EE-4C53-40E3-968F-21B132C6C1E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facteur.Attachments.IO.Tests", "Facteur.Attachments.IO.Tests\Facteur.Attachments.IO.Tests.csproj", "{98458680-A5BD-4939-9F64-137F666B09E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facteur.Attachments.IO.Tests", "Facteur.Attachments.IO.Tests\Facteur.Attachments.IO.Tests.csproj", "{98458680-A5BD-4939-9F64-137F666B09E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

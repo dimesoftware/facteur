@@ -4,7 +4,7 @@
     <TargetFrameworks>net461;netstandard2.1;net5.0</TargetFrameworks>
     <RuntimeIdentifiers>win</RuntimeIdentifiers>
     <AssemblyTitle>Facteur</AssemblyTitle>
-    <Company>Dimenics</Company>
+    <Company>Dime Software</Company>
     <Product>Facteur</Product>
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -12,8 +12,8 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <NeutralLanguage>en</NeutralLanguage>
     <RepositoryType>git</RepositoryType>
-    <Authors>Dimenics</Authors>
-    <Company>Dimenics</Company>
+    <Authors>Dime Software</Authors>
+    <Company>Dime Software</Company>
     <Product>Facteur</Product>
     <PackageIconUrl>https://raw.githubusercontent.com/dimenics/facteur/master/assets/facteur.png?raw=true</PackageIconUrl>
     <RepositoryUrl>https://github.com/dimenics/facteur</RepositoryUrl>

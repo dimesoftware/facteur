@@ -15,13 +15,13 @@
     <PackageTags>Facteur;Email;Mail;SendGrid</PackageTags>
     <Description>Send e-mails using the SendGrid endpoint</Description>
     <Version>1.1.1</Version>
-    <Authors>Dimenics</Authors>
-    <Company>Dimenics</Company>
+    <Authors>Dime Software</Authors>
+    <Company>Dime Software</Company>
     <Product>Facteur</Product>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Sendgrid" Version="9.22.0" />
+    <PackageReference Include="Sendgrid" Version="9.24.0" />
   </ItemGroup>
 
   <ItemGroup>

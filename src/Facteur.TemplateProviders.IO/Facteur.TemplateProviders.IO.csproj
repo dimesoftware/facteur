@@ -15,8 +15,8 @@
     <PackageTags>Facteur;Email;Mail;IO</PackageTags>
     <Description>Store and retrieve e-mail templates in local Windows directories</Description>
     <Version>1.1.0</Version>
-    <Authors>Dimenics</Authors>
-    <Company>Dimenics</Company>
+    <Authors>Dime Software</Authors>
+    <Company>Dime Software</Company>
     <Product>Facteur</Product>
   </PropertyGroup>
 

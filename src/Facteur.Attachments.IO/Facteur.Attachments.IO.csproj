@@ -3,14 +3,14 @@
     <TargetFrameworks>net5.0;netstandard2.1;net461</TargetFrameworks>
     <RuntimeIdentifiers>win</RuntimeIdentifiers>
     <AssemblyTitle>Facteur.Attachments.IO</AssemblyTitle>
-    <Company>Dimenics</Company>
+    <Company>Dime Software</Company>
     <Product>Facteur</Product>
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <Authors>Dimenics</Authors>
-    <Company>Dimenics</Company>
+    <Authors>Dime Software</Authors>
+    <Company>Dime Software</Company>
     <Product>Facteur</Product>
     <NeutralLanguage>en</NeutralLanguage>
     <RepositoryType>git</RepositoryType>

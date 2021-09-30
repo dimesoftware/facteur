@@ -15,8 +15,8 @@
     <PackageTags>Facteur;Email;Mail;SMTP</PackageTags>
     <Description>Send e-mails using SMTP</Description>
     <Version>1.1.0</Version>
-    <Authors>Dimenics</Authors>
-    <Company>Dimenics</Company>
+    <Authors>Dime Software</Authors>
+    <Company>Dime Software</Company>
     <Product>Facteur</Product>
   </PropertyGroup>
 

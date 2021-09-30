@@ -15,8 +15,8 @@
     <PackageTags>Facteur;Email;Mail;RazorEngine</PackageTags>
     <PackageIconUrl>https://raw.githubusercontent.com/dimenics/facteur/master/assets/facteur.png?raw=true</PackageIconUrl>
     <Version>1.1.0</Version>
-    <Authors>Dimenics</Authors>
-    <Company>Dimenics</Company>
+    <Authors>Dime Software</Authors>
+    <Company>Dime Software</Company>
     <Product>Facteur</Product>
   </PropertyGroup>
 
