@@ -63,7 +63,7 @@ namespace Facteur
         {
             Guard.ThrowIfNullOrEmpty(Request.From, nameof(Request.From));
             Guard.ThrowIfNullOrEmpty(Request.Subject, nameof(Request.Subject));
-            Guard.ThrowIfNullOrEmpty(Request.To, nameof(Request.From));
+            Guard.ThrowIfNullOrEmpty(Request.To, nameof(Request.To));
 
             return Request;
         }
