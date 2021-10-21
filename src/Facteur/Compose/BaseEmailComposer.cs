@@ -23,9 +23,15 @@ namespace Facteur
             return this;
         }
 
-        public BaseEmailComposer<T> SetFrom(string from)
+        public BaseEmailComposer<T> SetFrom(Sender sender)
         {
-            Request.From = from;
+            Request.From = sender;
+            return this;
+        }
+
+        public BaseEmailComposer<T> SetFrom(string email, string name = null)
+        {
+            Request.From = new Sender(email, name);
             return this;
         }
 
@@ -61,7 +67,8 @@ namespace Facteur
 
         public T Build()
         {
-            Guard.ThrowIfNullOrEmpty(Request.From, nameof(Request.From));
+            Guard.ThrowIfNull(Request.From, nameof(Request.From));            
+            Guard.ThrowIfNullOrEmpty(Request.From.Email, nameof(Request.From.Email));
             Guard.ThrowIfNullOrEmpty(Request.Subject, nameof(Request.Subject));
             Guard.ThrowIfNullOrEmpty(Request.To, nameof(Request.To));
 

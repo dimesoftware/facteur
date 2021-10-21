@@ -19,7 +19,7 @@ namespace Facteur.Tests
             EmailRequest<TestMailModel> request = composer
                 .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
                 .SetSubject("Hello world")
-                .SetFrom("info@facteur.com")
+                .SetFrom("info@facteur.com", "Facteur")
                 .SetTo("tibipi@getnada.com")
                 .SetCc("tibipi@getnada.com")
                 .SetBcc("tibipi@getnada.com")

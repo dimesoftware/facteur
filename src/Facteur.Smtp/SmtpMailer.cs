@@ -43,7 +43,7 @@ namespace Facteur.Smtp
             msg.Subject = request.Subject;
             msg.Body = request.Body;
             msg.IsBodyHtml = true;
-            msg.From = new MailAddress(request.From);
+            msg.From = request.From.ToMailAddress();
 
             if (request.To != null && request.To.Any())
                 msg.To.Add(string.Join(",", request.To));

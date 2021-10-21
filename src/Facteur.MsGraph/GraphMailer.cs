@@ -56,7 +56,6 @@ namespace Facteur.MsGraph
         public async t.Task SendMailAsync<T>(EmailRequest<T> request) where T : class
         {
             GraphServiceClient graphClient = await ConnectClient().ConfigureAwait(false);
-
             Message message = new()
             {
                 Subject = request.Subject,
