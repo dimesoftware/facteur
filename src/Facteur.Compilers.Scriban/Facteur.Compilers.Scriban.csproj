@@ -14,7 +14,7 @@
     <Description>Create e-mail bodies using the Scriban template engine.</Description>
     <PackageTags>Facteur;Email;Mail;Scriban</PackageTags>
     <PackageIconUrl>https://raw.githubusercontent.com/dimenics/facteur/master/assets/facteur.png?raw=true</PackageIconUrl>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Authors>Dime Software</Authors>
     <Company>Dime Software</Company>
     <Product>Facteur</Product>
