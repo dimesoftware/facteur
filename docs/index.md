@@ -1,12 +1,12 @@
 <img align="center" src="assets/images/facteur.svg">
 
 <p align="center">
-<img src="https://dev.azure.com/dimenicsbe/Utilities/_apis/build/status/dimenics.facteur?branchName=master" />
+<img src="https://dev.azure.com/dimesoftware/Utilities/_apis/build/status/dimenics.facteur?branchName=master" />
 <img src="https://img.shields.io/nuget/v/facteur" />
-<img src="https://img.shields.io/azure-devops/coverage/dimenicsbe/utilities/177" />
+<img src="https://img.shields.io/azure-devops/coverage/dimesoftware/utilities/177" />
 <img src="https://img.shields.io/badge/License-MIT-blue.svg" />
 <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" />
-<a href="https://github.com/dimenics/facteur/discussions">
+<a href="https://github.com/dimesoftware/facteur/discussions">
   <img src="https://img.shields.io/badge/chat-discussions-green">
 </a>
 <a href="https://gitter.im/facteur-dotnet/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge">

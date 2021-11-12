@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0;netstandard2.1;net461</TargetFrameworks>
+    <TargetFrameworks>net5.0;net6.0;netstandard2.1;net461</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <NeutralLanguage>en</NeutralLanguage>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/dimenics/facteur</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/dimenics/facteur</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/dimenics/facteur/master/assets/facteur.png?raw=true</PackageIconUrl>
+    <RepositoryUrl>https://github.com/dimesoftware/facteur</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/dimesoftware/facteur</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/dimesoftware/facteur/master/assets/facteur.png?raw=true</PackageIconUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>Facteur;Email;Mail;SMTP</PackageTags>
     <Description>Send e-mails using SMTP</Description>

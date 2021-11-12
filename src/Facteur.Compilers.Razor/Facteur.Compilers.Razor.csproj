@@ -8,12 +8,12 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <NeutralLanguage>en</NeutralLanguage>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/dimenics/facteur</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/dimenics/facteur</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/dimesoftware/facteur</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/dimesoftware/facteur</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Create e-mail bodies using the RazorEngine template engine.</Description>
     <PackageTags>Facteur;Email;Mail;RazorEngine</PackageTags>
-    <PackageIconUrl>https://raw.githubusercontent.com/dimenics/facteur/master/assets/facteur.png?raw=true</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/dimesoftware/facteur/master/assets/facteur.png?raw=true</PackageIconUrl>
     <Version>1.1.1</Version>
     <Authors>Dime Software</Authors>
     <Company>Dime Software</Company>
