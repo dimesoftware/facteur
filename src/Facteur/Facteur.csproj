@@ -21,6 +21,11 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>A modular and composable mailing kit for .NET</Description>
     <PackageTags>Facteur;Email;Mail;RazorEngine;Scriban;SendGrid;Graph;SMTP</PackageTags>
-    <Version>1.1.1</Version>
+    <Version>1.1.2</Version>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 </Project>

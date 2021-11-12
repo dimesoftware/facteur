@@ -14,7 +14,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>Facteur;Email;Mail;Graph;Microsoft</PackageTags>
     <Description>Send e-mails using the MS Graph endpoint</Description>
-    <Version>1.1.1</Version>
+    <Version>1.1.2</Version>
     <Authors>Dime Software</Authors>
     <Company>Dime Software</Company>
     <Product>Facteur</Product>
@@ -28,5 +28,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Facteur\Facteur.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
