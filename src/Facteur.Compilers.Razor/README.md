@@ -1,21 +1,6 @@
-﻿<p align="center"><img src="https://raw.githubusercontent.com/dimesoftware/facteur/master/assets/facteur.svg?raw=true" width="350" alt="Logo"></p>
+﻿![](https://raw.githubusercontent.com/dimesoftware/facteur/master/assets/facteur.svg?raw=true =250)
 
-<h1 align="center"> Facteur </h1> 
-
-<p align="center">
-<img src="https://img.shields.io/azure-devops/build/dimesoftware/utilities/177?style=flat-square" />
-<img src='https://img.shields.io/azure-devops/tests/dimesoftware/utilities/177?compact_message&style=flat-square' />
-<img src="https://img.shields.io/nuget/v/facteur?style=flat-square" />
-<img src="https://img.shields.io/azure-devops/coverage/dimesoftware/utilities/177?style=flat-square" />
-<a href="https://codeclimate.com/github/dimesoftware/facteur/maintainability"><img src="https://api.codeclimate.com/v1/badges/7d604cce096ee94210a6/maintainability" /></a>
-<img src="https://img.shields.io/badge/License-MIT-brightgreen.svg?style=flat-square" />
-<img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" />
-<a href="https://github.com/dimesoftware/facteur/discussions">
-  <img src="https://img.shields.io/badge/chat-discussions-brightgreen?style=flat-square">
-</a>
-<a href="https://gitter.im/facteur-dotnet/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge"><img src="https://img.shields.io/badge/chat-on%20gitter-brightgreen.svg?style=flat-square" /></a>
-
-</p>
+# Facteur
 
 Facteur (French for mailman) is a library for sending e-mails in .NET. Its modular approach allows you to assemble a mail system rather than having to use a take-it-or-leave it service.
 
