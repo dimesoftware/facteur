@@ -1,4 +1,4 @@
-﻿<p align="center"><img src="assets/facteur.svg?raw=true" width="350" alt="Logo"></p>
+﻿<p align="center"><img src="https://raw.githubusercontent.com/dimesoftware/facteur/master/assets/facteur.svg?raw=true" width="350" alt="Logo"></p>
 
 <h1 align="center"> Facteur </h1> 
 
@@ -140,7 +140,3 @@ services.AddMailer<SmtpMailer, ScribanCompiler, AppDirectoryTemplateProvider, Vi
   templateProviderFactory: x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml")
 );
 ```
-
-## Contributing
-
-Pull requests are welcome. Please check out the contribution and code of conduct guidelines.
