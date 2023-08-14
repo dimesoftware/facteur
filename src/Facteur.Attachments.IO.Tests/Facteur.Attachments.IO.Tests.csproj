@@ -7,16 +7,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="Attachments\Attachment.txt" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Content Include="Attachments\Attachment.txt">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.0" />
 		<PackageReference Include="MSTest.TestAdapter" Version="3.1.1" />
 		<PackageReference Include="MSTest.TestFramework" Version="3.1.1" />
@@ -28,6 +18,12 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Facteur.Attachments.IO\Facteur.Attachments.IO.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Attachments\Attachment.txt">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>

@@ -11,11 +11,11 @@ namespace Facteur
 
         public Sender From { get; set; }
 
-        public IEnumerable<string> To { get; set; }
+        public IEnumerable<string> To { get; set; } = new List<string>();
 
-        public IEnumerable<string> Cc { get; set; }
+        public IEnumerable<string> Cc { get; set; } = new List<string>();
 
-        public IEnumerable<string> Bcc { get; set; }
+        public IEnumerable<string> Bcc { get; set; } = new List<string>();
 
         public List<Attachment> Attachments { get; set; } = new();
     }

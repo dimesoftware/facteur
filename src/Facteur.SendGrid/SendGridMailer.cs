@@ -25,7 +25,7 @@ namespace Facteur.SendGrid
         /// <param name="request">The request.</param>
         /// <returns></returns>
         public override async Task SendMailAsync(EmailRequest request) 
-            => await base.SendMailAsync(request).ConfigureAwait(false);
+            => await base.SendMailAsync(request);
 
         /// <summary>
         /// Sends the mail.
@@ -47,7 +47,7 @@ namespace Facteur.SendGrid
                 .Attach(request.Attachments)
                 .Build();
 
-            await base.SendMailAsync(mailRequest).ConfigureAwait(false);
+            await base.SendMailAsync(mailRequest);
         }
     }
 }

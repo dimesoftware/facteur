@@ -67,6 +67,6 @@ namespace Facteur.Smtp
         /// <param name="request">The request.</param>
         /// <returns></returns>
         public async Task SendMailAsync<T>(EmailRequest<T> request) where T : class
-            => await SendMailAsync((EmailRequest)request).ConfigureAwait(false);
+            => await SendMailAsync((EmailRequest)request);
     }
 }
