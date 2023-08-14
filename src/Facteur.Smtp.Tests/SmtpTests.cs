@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Facteur.Smtp;
 using Facteur.TemplateProviders.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using netDumbster.smtp;
 
 namespace Facteur.Tests
 {
@@ -14,10 +16,8 @@ namespace Facteur.Tests
         [TestMethod]
         public async Task Smtp_SendTemplateMail_ShouldSend()
         {
-            string testEmail = Environment.GetEnvironmentVariable("TEST_SMTP_EMAIL");
-            string testPw = Environment.GetEnvironmentVariable("TEST_SMTP_PASSWORD");
-
-            SmtpCredentials credentials = new("sandbox.smtp.mailtrap.io", "2525", "false", "true", testEmail, testPw);
+            SimpleSmtpServer server = SimpleSmtpServer.Start(2525);
+            SmtpCredentials credentials = new("localhost", "2525", "false", "false");
 
             EmailComposer<TestMailModel> composer = new();
             EmailRequest<TestMailModel> request = composer
@@ -44,10 +44,8 @@ namespace Facteur.Tests
         [TestMethod]
         public async Task Smtp_SendTemplateMail_SimulateDependencyInjection_ShouldSend()
         {
-            string testEmail = Environment.GetEnvironmentVariable("TEST_SMTP_EMAIL");
-            string testPw = Environment.GetEnvironmentVariable("TEST_SMTP_PASSWORD");
-
-            SmtpCredentials credentials = new("sandbox.smtp.mailtrap.io", "2525", "false", "true", testEmail, testPw);
+            SimpleSmtpServer server = SimpleSmtpServer.Start(2525);
+            SmtpCredentials credentials = new("localhost", "2525", "false", "false");
 
             EmailComposer<TestMailModel> composer = new();
             EmailRequest<TestMailModel> request = composer
@@ -67,16 +65,19 @@ namespace Facteur.Tests
                 new ViewModelTemplateResolver());
 
             EmailRequest populatedRequest = await builder.BuildAsync(request);
-            //await mailer.SendMailAsync(populatedRequest);
+            await mailer.SendMailAsync(populatedRequest);
+
+            Thread.Sleep(1000);
+
+            SmtpMessage smtpMessage = server.ReceivedEmail[0];
+            Assert.IsTrue(smtpMessage.FromAddress.Address == "info@facteur.com");
         }
 
         [TestMethod]
         public async Task Smtp_SendTemplateMail_WithAttachments_ShouldSend()
         {
-            string testEmail = Environment.GetEnvironmentVariable("TEST_SMTP_EMAIL");
-            string testPw = Environment.GetEnvironmentVariable("TEST_SMTP_PASSWORD");
-
-            SmtpCredentials credentials = new("sandbox.smtp.mailtrap.io", "2525", "false", "true", testEmail, testPw);
+            SimpleSmtpServer server = SimpleSmtpServer.Start(2525);
+            SmtpCredentials credentials = new("localhost", "2525", "false", "false");
 
             byte[] txtBytes = File.ReadAllBytes("Attachments\\Attachment.txt");
             byte[] pdfBytes = File.ReadAllBytes("Attachments\\Attachment.pdf");
@@ -107,7 +108,12 @@ namespace Facteur.Tests
                 .UseCompiler(new ScribanCompiler())
                 .BuildAsync(request);
 
-            //await mailer.SendMailAsync(populatedRequest);
+            await mailer.SendMailAsync(populatedRequest);
+
+            Thread.Sleep(1000);
+
+            SmtpMessage smtpMessage = server.ReceivedEmail[0];
+            Assert.IsTrue(smtpMessage.FromAddress.Address == "info@facteur.com");
         }
     }
 }

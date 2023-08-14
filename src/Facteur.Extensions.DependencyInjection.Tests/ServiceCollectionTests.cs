@@ -25,7 +25,6 @@ namespace Facteur.Extensions.DependencyInjection.Tests
                 .Build();
 
             IMailer mailer = GetMailer();
-            //await mailer.SendMailAsync(request);
         }
 
         private static IMailer GetMailer()

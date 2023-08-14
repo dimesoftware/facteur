@@ -140,13 +140,6 @@ services.AddMailer<SmtpMailer, ScribanCompiler, AppDirectoryTemplateProvider, Vi
   templateProviderFactory: x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml")
 );
 ```
-## Test
-
-The SMTP tests are run against a real SMTP server, Mailtrap. Create an account and specify your credentials as environment variables to the test run: 
-
-```
-dotnet test -e TEST_SMTP_EMAIL=YOUREMAIL -e TEST_SMTP_PASSWORD=YOURPW
-```
 
 ## Contributing
 
