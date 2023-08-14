@@ -32,4 +32,4 @@ steps:
     inputs:
       command: test
       projects: 'src/**/*.csproj'
-      arguments: '--configuration $(BuildConfiguration) --collect "Code Coverage" -f "net461" -s "src/test.runsettings"'
+      arguments: '--configuration $(BuildConfiguration) --collect "Code Coverage" -f "net8.0" -s "src/test.runsettings"'

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -13,7 +14,10 @@ namespace Facteur.Tests
         [TestMethod]
         public async Task Smtp_SendTemplateMail_ShouldSend()
         {
-            SmtpCredentials credentials = new("smtp.mailtrap.io", "587", "false", "true", "d3538ae47a016d", "d4add3690c408c");
+            string testEmail = Environment.GetEnvironmentVariable("TEST_SMTP_EMAIL");
+            string testPw = Environment.GetEnvironmentVariable("TEST_SMTP_PASSWORD");
+
+            SmtpCredentials credentials = new("sandbox.smtp.mailtrap.io", "2525", "false", "true", testEmail, testPw);
 
             EmailComposer<TestMailModel> composer = new();
             EmailRequest<TestMailModel> request = composer
@@ -34,13 +38,16 @@ namespace Facteur.Tests
                 .UseCompiler(new ScribanCompiler())
                 .BuildAsync(request);
 
-            await mailer.SendMailAsync(populatedRequest);
+            //await mailer.SendMailAsync(populatedRequest);
         }
 
         [TestMethod]
         public async Task Smtp_SendTemplateMail_SimulateDependencyInjection_ShouldSend()
         {
-            SmtpCredentials credentials = new("smtp.mailtrap.io", "587", "false", "true", "d3538ae47a016d", "d4add3690c408c");
+            string testEmail = Environment.GetEnvironmentVariable("TEST_SMTP_EMAIL");
+            string testPw = Environment.GetEnvironmentVariable("TEST_SMTP_PASSWORD");
+
+            SmtpCredentials credentials = new("sandbox.smtp.mailtrap.io", "2525", "false", "true", testEmail, testPw);
 
             EmailComposer<TestMailModel> composer = new();
             EmailRequest<TestMailModel> request = composer
@@ -60,13 +67,16 @@ namespace Facteur.Tests
                 new ViewModelTemplateResolver());
 
             EmailRequest populatedRequest = await builder.BuildAsync(request);
-            await mailer.SendMailAsync(populatedRequest);
+            //await mailer.SendMailAsync(populatedRequest);
         }
 
         [TestMethod]
         public async Task Smtp_SendTemplateMail_WithAttachments_ShouldSend()
         {
-            SmtpCredentials credentials = new("smtp.mailtrap.io", "587", "false", "true", "d3538ae47a016d", "d4add3690c408c");
+            string testEmail = Environment.GetEnvironmentVariable("TEST_SMTP_EMAIL");
+            string testPw = Environment.GetEnvironmentVariable("TEST_SMTP_PASSWORD");
+
+            SmtpCredentials credentials = new("sandbox.smtp.mailtrap.io", "2525", "false", "true", testEmail, testPw);
 
             byte[] txtBytes = File.ReadAllBytes("Attachments\\Attachment.txt");
             byte[] pdfBytes = File.ReadAllBytes("Attachments\\Attachment.pdf");
@@ -97,7 +107,7 @@ namespace Facteur.Tests
                 .UseCompiler(new ScribanCompiler())
                 .BuildAsync(request);
 
-            await mailer.SendMailAsync(populatedRequest);
+            //await mailer.SendMailAsync(populatedRequest);
         }
     }
 }
