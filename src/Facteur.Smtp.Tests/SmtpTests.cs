@@ -79,8 +79,8 @@ namespace Facteur.Tests
             SimpleSmtpServer server = SimpleSmtpServer.Start(2525);
             SmtpCredentials credentials = new("localhost", "2525", "false", "false");
 
-            byte[] txtBytes = File.ReadAllBytes("Attachments\\Attachment.txt");
-            byte[] pdfBytes = File.ReadAllBytes("Attachments\\Attachment.pdf");
+            byte[] txtBytes = File.ReadAllBytes("Attachments/Attachment.txt");
+            byte[] pdfBytes = File.ReadAllBytes("Attachments/Attachment.pdf");
 
             List<Attachment> attachments = new()
             {
