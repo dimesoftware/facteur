@@ -30,7 +30,7 @@ namespace Facteur
         public async Task<string> CompileBody(string templateName, string text)
         {
             DefaultViewModel model = new() { Text = text };
-            return await CompileBody(model, templateName).ConfigureAwait(false);
+            return await CompileBody(model, templateName);
         }
     }
 }

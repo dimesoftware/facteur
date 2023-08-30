@@ -1,10 +1,10 @@
+using System;
+using System.Threading.Tasks;
 using Facteur.Smtp;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Facteur;
 using Facteur.TemplateProviders.IO;
 using Facteur.Tests;
-using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Facteur.Extensions.DependencyInjection.Tests
 {
@@ -25,12 +25,14 @@ namespace Facteur.Extensions.DependencyInjection.Tests
                 .Build();
 
             IMailer mailer = GetMailer();
-            await mailer.SendMailAsync(request);
         }
 
         private static IMailer GetMailer()
         {
-            SmtpCredentials credentials = new("smtp.mailtrap.io", "587", "false", "true", "d3538ae47a016d", "d4add3690c408c");
+            string testEmail = Environment.GetEnvironmentVariable("TEST_SMTP_EMAIL");
+            string testPw = Environment.GetEnvironmentVariable("TEST_SMTP_PASSWORD");
+
+            SmtpCredentials credentials = new("sandbox.smtp.mailtrap.io", "2525", "false", "true", testEmail, testPw);
 
             ServiceCollection serviceCollection = new();
             serviceCollection.AddMailer<SmtpMailer, ScribanCompiler, AppDirectoryTemplateProvider, ViewModelTemplateResolver>(

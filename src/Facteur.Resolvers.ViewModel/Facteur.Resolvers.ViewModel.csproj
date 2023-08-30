@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netstandard2.1;net6.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
     <RuntimeIdentifiers>win</RuntimeIdentifiers>
     <AssemblyTitle>Facteur</AssemblyTitle>
     <Company>Dime Software</Company>
@@ -21,7 +21,7 @@
     <PackageTags>Facteur;Email;Mail</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Map and resolve e-mail templates using the view model type names</Description>
-    <Version>1.1.2</Version>
+    <Version>1.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

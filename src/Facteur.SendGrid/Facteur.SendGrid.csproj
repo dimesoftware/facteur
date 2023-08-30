@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;netstandard2.1;net461</TargetFrameworks>
+    <TargetFrameworks>net6.0;net7.0;net8.0;</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
@@ -14,21 +14,21 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>Facteur;Email;Mail;SendGrid</PackageTags>
     <Description>Send e-mails using the SendGrid endpoint</Description>
-    <Version>1.1.3</Version>
+    <Version>1.2.0</Version>
     <Authors>Dime Software</Authors>
     <Company>Dime Software</Company>
     <Product>Facteur</Product>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Sendgrid" Version="9.24.0" />
+    <PackageReference Include="Sendgrid" Version="9.28.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Facteur\Facteur.csproj" />
   </ItemGroup>
 
-   <ItemGroup>
+  <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
