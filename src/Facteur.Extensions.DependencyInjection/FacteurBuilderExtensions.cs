@@ -5,13 +5,13 @@ namespace Facteur.Extensions.DependencyInjection
 {
     public static class FacteurBuilderExtensions
     {
-        public static FacteurBuilder AddFacteur(this IServiceCollection services) 
+        public static FacteurServiceCollection AddFacteur(this IServiceCollection services)
             => new(services);
 
-        public static IServiceCollection AddFacteur(this IServiceCollection services, Action<FacteurConfiguration> configurator)
+        public static IServiceCollection AddFacteur(this IServiceCollection services, Action<FacteurBuilder> configure)
         {
-            FacteurBuilder builder = new(services);
-            configurator(builder);
+            FacteurServiceCollection builder = new(services);
+            configure(builder);
             return services;
         }
     }
