@@ -11,7 +11,7 @@ namespace Facteur.TemplateProviders.IO.Tests
         [TestMethod]
         public async Task AppDirectoryTemplateProvider_HasCorrectData_ShouldReturnPath()
         {
-            ITemplateProvider provider = new AppDirectoryTemplateProvider("Templates", ".dhtml");
+            ITemplateProvider provider = new AppDirectoryTemplateProvider("Templates", ".sbnhtml");
             string template = await provider.GetTemplate("Test");
 
             Assert.IsFalse(string.IsNullOrEmpty(template));
