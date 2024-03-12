@@ -42,5 +42,26 @@ namespace Facteur.Extensions.DependencyInjection.Tests
             ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
             return serviceProvider.GetService<IMailer>();
         }
+
+        private static IMailer GetMailerWithBuilder()
+        {
+            string testEmail = Environment.GetEnvironmentVariable("TEST_SMTP_EMAIL");
+            string testPw = Environment.GetEnvironmentVariable("TEST_SMTP_PASSWORD");
+
+            SmtpCredentials credentials = new("sandbox.smtp.mailtrap.io", "2525", "false", "true", testEmail, testPw);
+
+            ServiceCollection serviceCollection = new();
+            serviceCollection
+                .AddFacteur(x =>
+                {
+                    x.WithMailer(x => new SmtpMailer(credentials))
+                    .WithCompiler<ScribanCompiler>()
+                    .WithTemplateProvider(x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
+                    .WithResolver<ViewModelTemplateResolver>();
+                });
+
+            ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
+            return serviceProvider.GetService<IMailer>();
+        }
     }
 }

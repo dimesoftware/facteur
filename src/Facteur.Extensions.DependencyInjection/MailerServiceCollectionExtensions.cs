@@ -7,6 +7,7 @@ namespace Facteur.Extensions.DependencyInjection
     [ExcludeFromCodeCoverage]
     public static class MailerServiceCollectionExtensions
     {
+        [Obsolete("Use AddFacteur instead.")]
         public static IServiceCollection AddMailer<TMailer, TTemplateCompiler, TTemplateProvider, TTemplateResolver>(
             this IServiceCollection services,
             Func<IServiceProvider, TMailer> mailerFactory = null,
