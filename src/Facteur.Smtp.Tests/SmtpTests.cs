@@ -46,7 +46,7 @@ namespace Facteur.Tests
         {
             SimpleSmtpServer server = SimpleSmtpServer.Start(2525);
             SmtpCredentials credentials = new("localhost", "2525", "false", "false");
-
+            
             EmailComposer<TestMailModel> composer = new();
             EmailRequest<TestMailModel> request = composer
                 .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })

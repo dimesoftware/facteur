@@ -4,35 +4,17 @@ using System.Threading.Tasks;
 
 namespace Facteur.SendGrid
 {
-    /// <summary>
-    /// Mail component that uses SendGrid as the transport and RazorEngine as the content builder
-    /// </summary>
     [ExcludeFromCodeCoverage]
     public class SendGridMailer : SendGridBaseMailer, IMailer
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SendGridMailer"/> class
-        /// </summary>
-        /// <param name="key">The SendGrid API key</param>
         public SendGridMailer(string key)
             : base(key)
         {
         }
 
-        /// <summary>
-        /// Sends the mail.
-        /// </summary>
-        /// <param name="request">The request.</param>
-        /// <returns></returns>
         public override async Task SendMailAsync(EmailRequest request) 
             => await base.SendMailAsync(request);
 
-        /// <summary>
-        /// Sends the mail.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="request">The request.</param>
-        /// <returns></returns>
         public async Task SendMailAsync<T>(EmailRequest<T> request)
             where T : class
         {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Facteur
 {
@@ -17,7 +18,7 @@ namespace Facteur
             return this;
         }
 
-        public BaseEmailComposer<T> SetBody(string body)
+        public virtual BaseEmailComposer<T> SetBody(string body)
         {
             Request.Body = body;
             return this;
@@ -65,14 +66,17 @@ namespace Facteur
             return this;
         }
 
-        public T Build()
+        public virtual T Build()
         {
-            Guard.ThrowIfNull(Request.From, nameof(Request.From));            
+            Guard.ThrowIfNull(Request.From, nameof(Request.From));
             Guard.ThrowIfNullOrEmpty(Request.From.Email, nameof(Request.From.Email));
             Guard.ThrowIfNullOrEmpty(Request.Subject, nameof(Request.Subject));
             Guard.ThrowIfNullOrEmpty(Request.To, nameof(Request.To));
 
             return Request;
         }
+
+        public virtual Task<T> BuildAsync()
+            => Task.FromResult(Build());
     }
 }

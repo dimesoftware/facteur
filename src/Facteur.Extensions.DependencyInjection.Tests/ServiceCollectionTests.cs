@@ -12,23 +12,16 @@ namespace Facteur.Extensions.DependencyInjection.Tests
     public class ServiceCollectionTests
     {
         [TestMethod]
-        public async Task ServiceCollection_DI_ShouldConstructAndSendMail()
+        public async Task ServiceCollection_DI_Obsolete_ShouldConstructAndSendMail()
         {
             EmailComposer<TestMailModel> composer = new();
             EmailRequest<TestMailModel> request = composer
                 .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
                 .SetSubject("Hello world")
                 .SetFrom("info@facteur.com")
-                .SetTo("tibipi@getnada.com")
-                .SetCc("tibipi@getnada.com")
-                .SetBcc("tibipi@getnada.com")
+                .SetTo("byziji2958@chapsmail.com")
                 .Build();
 
-            IMailer mailer = GetMailer();
-        }
-
-        private static IMailer GetMailer()
-        {
             string testEmail = Environment.GetEnvironmentVariable("TEST_SMTP_EMAIL");
             string testPw = Environment.GetEnvironmentVariable("TEST_SMTP_PASSWORD");
 
@@ -40,10 +33,12 @@ namespace Facteur.Extensions.DependencyInjection.Tests
                 templateProviderFactory: x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"));
 
             ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
-            return serviceProvider.GetService<IMailer>();
+            IMailer mailer = serviceProvider.GetService<IMailer>();
+            await mailer.SendMailAsync(request);
         }
 
-        private static IMailer GetMailerWithBuilder()
+        [TestMethod]
+        public async Task ServiceCollection_DI_ShouldConstructAndSendMail()
         {
             string testEmail = Environment.GetEnvironmentVariable("TEST_SMTP_EMAIL");
             string testPw = Environment.GetEnvironmentVariable("TEST_SMTP_PASSWORD");
@@ -57,11 +52,21 @@ namespace Facteur.Extensions.DependencyInjection.Tests
                     x.WithMailer(x => new SmtpMailer(credentials))
                     .WithCompiler<ScribanCompiler>()
                     .WithTemplateProvider(x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
-                    .WithResolver<ViewModelTemplateResolver>();
+                    .WithResolver<ViewModelTemplateResolver>()
+                    .WithDefaultComposer();
                 });
 
             ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
-            return serviceProvider.GetService<IMailer>();
+            EmailComposer<TestMailModel> composer = serviceProvider.GetService<EmailComposer<TestMailModel>>();
+            EmailRequest<TestMailModel> request = await composer
+                .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
+                .SetSubject("Hello world")
+                .SetFrom("info@facteur.com")
+                .SetTo("byziji2958@chapsmail.com")
+                .BuildAsync();
+
+            IMailer mailer = serviceProvider.GetService<IMailer>();
+            await mailer.SendMailAsync(request);
         }
     }
 }
