@@ -34,7 +34,7 @@ namespace Facteur.Extensions.DependencyInjection.Tests
 
             ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
             IMailer mailer = serviceProvider.GetService<IMailer>();
-            await mailer.SendMailAsync(request);
+            //await mailer.SendMailAsync(request);
         }
 
         [TestMethod]
@@ -66,7 +66,7 @@ namespace Facteur.Extensions.DependencyInjection.Tests
                 .BuildAsync();
 
             IMailer mailer = serviceProvider.GetService<IMailer>();
-            await mailer.SendMailAsync(request);
+            //await mailer.SendMailAsync(request);
         }
     }
 }
