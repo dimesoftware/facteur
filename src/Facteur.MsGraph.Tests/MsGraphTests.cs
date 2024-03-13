@@ -17,7 +17,6 @@ namespace Facteur.Tests
         public void Graph_SendMail_InvalidParameter_ShouldThrowArgumentNullException(string clientId, string tenantId, string clientSecret, string from)
             => Assert.ThrowsException<ArgumentNullException>(() => new GraphCredentials(clientId, tenantId, clientSecret, @from));
 
-
         [TestMethod]
         public void Graph_SendMail_ShouldSend()
         {

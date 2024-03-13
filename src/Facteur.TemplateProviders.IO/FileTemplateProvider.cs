@@ -11,7 +11,7 @@ namespace Facteur.TemplateProviders.IO
     public abstract class FileTemplateProvider : ITemplateProvider
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="basePath"></param>
         /// <param name="relativePath"></param>
@@ -39,7 +39,7 @@ namespace Facteur.TemplateProviders.IO
         public virtual Task<string> GetTemplate(string fileName)
         {
             // Create full path
-            string fullPath = RelativePath != null 
+            string fullPath = RelativePath != null
                 ? $"{Path.Combine(BasePath, RelativePath)}"
                 : $"{Path.Combine(BasePath)}";
 

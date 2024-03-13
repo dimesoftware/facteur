@@ -21,7 +21,6 @@ namespace Facteur.Tests
             stringBuilder.Append("</body>");
             stringBuilder.Append("</html>");
             return stringBuilder.ToString();
-
         }
     }
 }

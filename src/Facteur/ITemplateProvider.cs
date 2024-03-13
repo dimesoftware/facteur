@@ -3,7 +3,7 @@
 namespace Facteur
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public interface ITemplateProvider
     {

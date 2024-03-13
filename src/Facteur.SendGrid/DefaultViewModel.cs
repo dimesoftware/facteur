@@ -5,7 +5,7 @@ namespace Facteur
     /// <summary>
     /// Represents a view model for default templates
     /// </summary>
-    
+
     [ExcludeFromCodeCoverage]
     internal class DefaultViewModel
     {

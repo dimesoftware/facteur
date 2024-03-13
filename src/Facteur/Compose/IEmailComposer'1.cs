@@ -1,5 +1,4 @@
-﻿
-namespace Facteur
+﻿namespace Facteur
 {
     public interface IEmailComposer<T> : IEmailComposer
     {
