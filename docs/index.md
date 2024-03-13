@@ -54,7 +54,6 @@ Next, you should decide which _compiler_ to use to generate the body of your e-m
 
 | Resolvers   | Command                                        |
 | ----------- | ---------------------------------------------- |
-| RazorEngine | `dotnet add package Facteur.Compilers.Razor`   |
 | Scriban     | `dotnet add package Facteur.Compilers.Scriban` |
 
 You also have a choice in the template providers. Templates can be stored on a regular file drive but it might as well be stored on a blob on Azure.
@@ -93,11 +92,6 @@ public async Task SendConfirmationMail(string customerMail, string customerName)
       .SetCc("jacques.clouseau@facteur.com")
       .SetBcc("charles.dreyfus@facteur.com")
       .Build();
-
-  IMailBodyBuilder builder = new MailBodyBuilder(
-   new ScribanCompiler(),
-   new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
-   new ViewModelTemplateResolver());
 
   EmailRequest populatedRequest = await builder.BuildAsync(request);
 
@@ -154,7 +148,7 @@ await mailer.SendMailAsync(populatedRequest);
 E-mail templates have an important role in Facteur. Composers, resolvers and providers only exist to fetch the templates, map them with the business logic and populate them in the e-mail body. Let's walk through the setup from the example above:
 
 ```csharp
-IMailBodyBuilder builder = new MailBodyBuilder(
+EmailComposer builder = new(
    new ScribanCompiler(),
    new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
    new ViewModelTemplateResolver());
@@ -195,36 +189,53 @@ Finally, to send out this particular e-mail, you just need to use the `NewUserVi
 ```csharp
 public async Task SendWelcomeMail(string newEmployeeName, string newEmployeeMail, string managerName, string intranetUri)
 {
-  EmailComposer<NewUserViewModel> composer = new EmailComposer<NewUserViewModel>();
-  EmailRequest<NewUserViewModel> request = composer
-      .SetModel(new NewUserViewModel { Name = newEmployeeName, Manager = managerName, IntranetUri= intranetUri })
+  EmailComposer composer = new(
+    new ScribanCompiler(),
+    new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
+    new ViewModelTemplateResolver());
+
+  EmailRequest request = await composer      
       .SetSubject("Welcome to the company!")
       .SetFrom("info@facteur.com")
       .SetTo(newEmployeeMail)
-      .Build();
-
-  IMailBodyBuilder builder = new MailBodyBuilder(
-   new ScribanCompiler(),
-   new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
-   new ViewModelTemplateResolver());
-
-  EmailRequest populatedRequest = await builder.BuildAsync(request);
-
+      .BuildAsync(new NewUserViewModel { Name = newEmployeeName, Manager = managerName, IntranetUri= intranetUri });
+ 
   SmtpCredentials credentials = new("smtp.gmail.com", "587", "false", "true", "myuser@gmail.com", "mypassword");
   IMailer mailer = new SmtpMailer(credentials);
-  await mailer.SendMailAsync(populatedRequest);
+  await mailer.SendMailAsync(request);
 }
 ```
 
 The library will pick up the model type, look for the template, populate it and send the mail.
+
+If you use DI, you can just use `IMailer` and use the overload that exposes the composer:
+
+``` csharp
+public async Task SendConfirmationMail(string customerMail, string customerName)
+{
+  await mailer.SendMailAsync(x =>  x      
+      .SetSubject("Hello world")
+      .SetFrom("info@facteur.com")
+      .SetTo("guy.gadbois@facteur.com")
+      .SetCc("jacques.clouseau@facteur.com")
+      .SetBcc("charles.dreyfus@facteur.com")
+      .BuildAsync(new TestMailModel { Email = customerMail, Name = customerMail }));
+}
+```
+
 
 ## Dependency injection
 
 With .NET's dependency injection, hooking up the mailer is as simple as adding one line in the `Startup` class:
 
 ```csharp
-services.AddMailer<SmtpMailer, ScribanCompiler, AppDirectoryTemplateProvider, ViewModelTemplateResolver>(
-  mailerFactory: x => new SmtpMailer(credentials),
-  templateProviderFactory: x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml")
-);
+serviceCollection.AddFacteur(x =>
+{
+    x.WithMailer(y => new SmtpMailer(credentials, y.GetService<IEmailComposer>()))
+    .WithCompiler<ScribanCompiler>()
+    .WithTemplateProvider(x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
+    .WithResolver<ViewModelTemplateResolver>()
+    .WithDefaultComposer();
+});
+```
 ```

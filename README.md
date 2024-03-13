@@ -82,33 +82,59 @@ Finally, there are some ancillary packages:
 | ------------ | ----------------------------------------------------------- |
 | .NET Core DI | `dotnet add package Facteur.Extensions.DependencyInjection` |
 
+## Configuration
+
+With .NET's dependency injection, hooking up the mailer is as simple as adding one line in the Startup class:
+
+```csharp
+serviceCollection.AddFacteur(x =>
+{
+    x.WithMailer(y => new SmtpMailer(credentials, y.GetService<IEmailComposer>()))
+    .WithCompiler<ScribanCompiler>()
+    .WithTemplateProvider(x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
+    .WithResolver<ViewModelTemplateResolver>()
+    .WithDefaultComposer();
+});
+```
+
 ## Usage
 
-The power of this project is to create a dynamic mail body as you can populate any template with any type of data. This is when the compilers, providers and resolvers come in. They can be produced using the `MailBodyBuilder` class, which orchestrates the process of retrieving and populating the template. It is ultimately up to the instance of the `IMailer` to actually send the e-mail.
+The power of this project is to create a dynamic mail body as you can populate any template with any type of data. This is when the compilers, providers and resolvers come in. They can be produced using the implementation of `IEmailCompiler`, which orchestrates the process of retrieving and populating the template. It is ultimately up to the instance of the `IMailer` to actually send the e-mail.
 
 ``` csharp
 public async Task SendConfirmationMail(string customerMail, string customerName)
 {
-  EmailComposer<TestMailModel> composer = new EmailComposer<TestMailModel>();
-  EmailRequest<TestMailModel> request = composer
-      .SetModel(new TestMailModel { Email = customerMail, Name = customerMail })
+  EmailComposer composer = new(
+    new ScribanCompiler(),
+    new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
+    new ViewModelTemplateResolver());
+
+  EmailRequest request = await composer      
       .SetSubject("Hello world")
       .SetFrom("info@facteur.com")
       .SetTo("guy.gadbois@facteur.com")
       .SetCc("jacques.clouseau@facteur.com")
       .SetBcc("charles.dreyfus@facteur.com")
-      .Build();
-
-  IMailBodyBuilder builder = new MailBodyBuilder(
-   new ScribanCompiler(),
-   new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
-   new ViewModelTemplateResolver());
-
-  EmailRequest populatedRequest = await builder.BuildAsync(request);
+      .BuildAsync(new TestMailModel { Email = customerMail, Name = customerMail });
 
   SmtpCredentials credentials = new("smtp.gmail.com", "587", "false", "true", "myuser@gmail.com", "mypassword");
   IMailer mailer = new SmtpMailer(credentials);
-  await mailer.SendMailAsync(populatedRequest);
+  await mailer.SendMailAsync(request);
+}
+```
+
+If you use DI, you can just use `IMailer` and use the overload that exposes the composer:
+
+``` csharp
+public async Task SendConfirmationMail(string customerMail, string customerName)
+{
+  await mailer.SendMailAsync(x =>  x      
+      .SetSubject("Hello world")
+      .SetFrom("info@facteur.com")
+      .SetTo("guy.gadbois@facteur.com")
+      .SetCc("jacques.clouseau@facteur.com")
+      .SetBcc("charles.dreyfus@facteur.com")
+      .BuildAsync(new TestMailModel { Email = customerMail, Name = customerMail }));
 }
 ```
 
@@ -130,15 +156,19 @@ public class TestMailModel
 
 The resolver is responsible for locating the right file name. In this example, the `ViewModelTemplateResolver` is used. This class essentially strips the 'MailModel' or 'ViewModel' of the name of the mail request's model. After that, the provider (`AppDirectoryTemplateProvider`) will make the system to look for file in the application's `Templates` directory with the .sbnhtml file and with the name 'Test' (from Test~~MailModel~~).
 
-The `IMailBodyBuilder` brings everything together and generates a populated mail body. Then it's up to the `ÌMailer` to merely send the mail.
+The `IEmailComposer` brings everything together and generates a populated mail body. Then it's up to the `ÌMailer` to merely send the mail.
 
 With .NET's dependency injection, hooking up the mailer is as simple as adding one line in the Startup class:
 
 ```csharp
-services.AddMailer<SmtpMailer, ScribanCompiler, AppDirectoryTemplateProvider, ViewModelTemplateResolver>(
-  mailerFactory: x => new SmtpMailer(credentials),
-  templateProviderFactory: x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml")
-);
+serviceCollection.AddFacteur(x =>
+{
+    x.WithMailer(y => new SmtpMailer(credentials, y.GetService<IEmailComposer>()))
+    .WithCompiler<ScribanCompiler>()
+    .WithTemplateProvider(x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
+    .WithResolver<ViewModelTemplateResolver>()
+    .WithDefaultComposer();
+});
 ```
 
 ## Contributing

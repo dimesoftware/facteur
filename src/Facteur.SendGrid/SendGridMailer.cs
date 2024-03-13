@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,18 +8,17 @@ namespace Facteur.SendGrid
     [ExcludeFromCodeCoverage]
     public class SendGridMailer : SendGridBaseMailer, IMailer
     {
-        public SendGridMailer(string key)
+        private readonly IEmailComposer _composer;
+
+        public SendGridMailer(string key, IEmailComposer composer = null)
             : base(key)
         {
+            _composer = composer ?? new EmailComposer();
         }
 
         public override async Task SendMailAsync(EmailRequest request)
-            => await base.SendMailAsync(request);
-
-        public async Task SendMailAsync<T>(EmailRequest<T> request)
-            where T : class
         {
-            EmailComposer<T> composer = new();
+            EmailComposer composer = new();
             EmailRequest mailRequest = composer
                 .SetSubject(request.Subject)
                 .SetBody(request.Body)
@@ -31,5 +31,8 @@ namespace Facteur.SendGrid
 
             await base.SendMailAsync(mailRequest);
         }
+
+        public async Task SendMailAsync(Func<IEmailComposer, Task<EmailRequest>> compose)
+            => await SendMailAsync(await compose(_composer));
     }
 }

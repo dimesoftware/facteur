@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,12 +14,15 @@ namespace Facteur.SendGrid
     [ExcludeFromCodeCoverage]
     public class SendGridPlainTextMailer : SendGridBaseMailer, IMailer
     {
+        private readonly IEmailComposer _composer;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SendGridPlainTextMailer"/> class
         /// </summary>
         /// <param name="key">The SendGrid API key</param>
-        public SendGridPlainTextMailer(string key) : base(key)
+        public SendGridPlainTextMailer(string key, IEmailComposer composer = null) : base(key)
         {
+            _composer = composer ?? new EmailComposer();
         }
 
         /// <summary>
@@ -36,14 +40,7 @@ namespace Facteur.SendGrid
             return client.SendEmailAsync(message);
         }
 
-        public Task SendMailAsync<T>(EmailRequest<T> request) where T : class
-        {
-            SendGridClient client = new(ApiKey);
-            EmailAddress sendFrom = request.From.ToEmailAddress();
-            List<EmailAddress> sendTo = request.To.Select(x => new EmailAddress(x)).ToList();
-            SendGridMessage message = MailHelper.CreateSingleEmailToMultipleRecipients(sendFrom, sendTo, request.Subject, request.Body, null);
-
-            return client.SendEmailAsync(message);
-        }
+        public async Task SendMailAsync(Func<IEmailComposer, Task<EmailRequest>> compose)
+            => await SendMailAsync(await compose(_composer));
     }
 }

@@ -34,10 +34,9 @@ namespace Facteur.Extensions.DependencyInjection
             return this;
         }
 
-        public FacteurBuilder WithTemplatedComposer()
+        public FacteurBuilder WithDefaultComposer()
         {
-            Services.AddScoped(typeof(IEmailComposer<>), typeof(EmailComposer<>));
-
+            Services.AddScoped<IEmailComposer, EmailComposer>();
             return this;
         }
 

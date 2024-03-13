@@ -36,7 +36,7 @@ namespace Facteur.Tests
         [TestMethod]
         public void Sendgrid_SendMail_KeyIsNotEmpty_ShouldConstruct()
         {
-            EmailComposer<TestMailModel> composer = new();
+            EmailComposer composer = new();
             EmailRequest request = composer
                 .SetSubject("Hello world")
                 .SetFrom("info@facteur.com")

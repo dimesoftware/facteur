@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Facteur
 {
@@ -20,6 +21,6 @@ namespace Facteur
         /// <typeparam name="T">The model type</typeparam>
         /// <param name="request">The request</param>
         /// <returns>An instance of <see cref="System.Threading.Tasks.Task"/></returns>
-        Task SendMailAsync<T>(EmailRequest<T> request) where T : class;
+        Task SendMailAsync(Func<IEmailComposer, Task<EmailRequest>> compose);
     }
 }

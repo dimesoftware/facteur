@@ -5,9 +5,21 @@ namespace Facteur
 {
     public class EmailComposer : IEmailComposer
     {
+        private readonly ITemplateCompiler _compiler;
+        private readonly ITemplateProvider _provider;
+        private readonly ITemplateResolver _resolver;
+
         public EmailComposer()
         {
             Request = new EmailRequest();
+        }
+
+        public EmailComposer(ITemplateCompiler compiler, ITemplateProvider provider, ITemplateResolver resolver)
+            : this()
+        {
+            _compiler = compiler;
+            _provider = provider;
+            _resolver = resolver;
         }
 
         protected EmailRequest Request { get; }
@@ -78,5 +90,18 @@ namespace Facteur
 
         public virtual Task<EmailRequest> BuildAsync()
             => Task.FromResult(Build());
+
+        public async Task<EmailRequest> BuildAsync<T>(T model)
+        {
+            if (_compiler == null || _resolver == null || _provider == null)
+                return Request;
+
+            string templateName = _resolver?.Resolve(model);
+            string templateContent = await _provider?.GetTemplate(templateName);
+            string compiledBody = await _compiler?.CompileBody(model, templateContent);
+
+            Request.Body = compiledBody;
+            return Request;
+        }
     }
 }

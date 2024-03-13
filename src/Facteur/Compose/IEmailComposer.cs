@@ -26,5 +26,7 @@ namespace Facteur
         EmailRequest Build();
 
         Task<EmailRequest> BuildAsync();
+
+        Task<EmailRequest> BuildAsync<T>(T model);
     }
 }

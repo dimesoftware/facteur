@@ -23,24 +23,20 @@ namespace Facteur.Extensions.DependencyInjection.Tests
             serviceCollection
                 .AddFacteur(x =>
                 {
-                    x.WithMailer(x => new SmtpMailer(credentials))
+                    x.WithMailer(y => new SmtpMailer(credentials, y.GetService<IEmailComposer>()))
                     .WithCompiler<ScribanCompiler>()
                     .WithTemplateProvider(x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
                     .WithResolver<ViewModelTemplateResolver>()
-                    .WithTemplatedComposer();
+                    .WithDefaultComposer();
                 });
 
             ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
-            IEmailComposer<TestMailModel> composer = serviceProvider.GetService<IEmailComposer<TestMailModel>>();
-            EmailRequest request = await composer
-                .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
-                .SetSubject("Hello world")
-                .SetFrom("info@facteur.com")
-                .SetTo("byziji2958@chapsmail.com")
-                .BuildAsync();
-
             IMailer mailer = serviceProvider.GetService<IMailer>();
-            //await mailer.SendMailAsync(request);
+            //await mailer.SendMailAsync(x => x
+            //.SetSubject("Hello world")
+            //.SetFrom("info@facteur.com")
+            //.SetTo("byziji2958@chapsmail.com")
+            //.BuildAsync(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" }));
         }
     }
 }

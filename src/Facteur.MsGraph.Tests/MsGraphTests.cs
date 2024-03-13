@@ -18,17 +18,16 @@ namespace Facteur.Tests
             => Assert.ThrowsException<ArgumentNullException>(() => new GraphCredentials(clientId, tenantId, clientSecret, @from));
 
         [TestMethod]
-        public void Graph_SendMail_ShouldSend()
+        public async Task Graph_SendMail_ShouldSend()
         {
             GraphCredentials credentials = new("clientId", "tenantId", "secret", "from");
 
-            EmailComposer<TestMailModel> composer = new();
-            EmailRequest request = composer
-                .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
+            EmailComposer composer = new();
+            EmailRequest request = await composer
                 .SetSubject("Hello world")
                 .SetFrom("info@facteur.com")
                 .SetTo("tibipi@getnada.com")
-                .Build();
+                .BuildAsync(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" });
 
             Mock<IMailer> mock = new();
             mock.Setup(foo => foo.SendMailAsync(request)).Returns(Task.CompletedTask);

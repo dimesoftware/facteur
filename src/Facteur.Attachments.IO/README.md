@@ -46,7 +46,6 @@ Next, you should decide which *compiler* to use to generate the body of your e-m
 
 | Resolvers   | Command                                        |
 | ----------- | ---------------------------------------------- |
-| RazorEngine | `dotnet add package Facteur.Compilers.Razor`   |
 | Scriban     | `dotnet add package Facteur.Compilers.Scriban` |
 
 You also have a choice in the template providers. Templates can be stored on a regular file drive but it might as well be stored on a blob on Azure.
@@ -79,7 +78,7 @@ public async Task SendConfirmationMail(string customerMail, string customerName)
     new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
     new ViewModelTemplateResolver());
 
-  EmailRequest request = composer
+  EmailRequest request = await composer
       .SetModel(new TestMailModel { Email = customerMail, Name = customerMail })
       .SetSubject("Hello world")
       .SetFrom("info@facteur.com")
@@ -121,7 +120,7 @@ With .NET's dependency injection, hooking up the mailer is as simple as adding o
 ```csharp
 serviceCollection.AddFacteur(x =>
 {
-    x.WithMailer(x => new SmtpMailer(credentials))
+    x.WithMailer(y => new SmtpMailer(credentials, y.GetService<IEmailComposer>()))
     .WithCompiler<ScribanCompiler>()
     .WithTemplateProvider(x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
     .WithResolver<ViewModelTemplateResolver>()

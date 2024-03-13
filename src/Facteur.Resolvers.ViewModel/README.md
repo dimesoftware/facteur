@@ -46,7 +46,6 @@ Next, you should decide which *compiler* to use to generate the body of your e-m
 
 | Resolvers   | Command                                        |
 | ----------- | ---------------------------------------------- |
-| RazorEngine | `dotnet add package Facteur.Compilers.Razor`   |
 | Scriban     | `dotnet add package Facteur.Compilers.Scriban` |
 
 You also have a choice in the template providers. Templates can be stored on a regular file drive but it might as well be stored on a blob on Azure.
@@ -69,30 +68,42 @@ Finally, there are some ancillary packages:
 
 ## Usage
 
-The power of this project is to create a dynamic mail body as you can populate any template with any type of data. This is when the compilers, providers and resolvers come in. They can be produced using the `MailBodyBuilder` class, which orchestrates the process of retrieving and populating the template. It is ultimately up to the instance of the `IMailer` to actually send the e-mail.
+The power of this project is to create a dynamic mail body as you can populate any template with any type of data. This is when the compilers, providers and resolvers come in. They can be produced using the implementation of `IEmailCompiler`, which orchestrates the process of retrieving and populating the template. It is ultimately up to the instance of the `IMailer` to actually send the e-mail.
 
 ``` csharp
 public async Task SendConfirmationMail(string customerMail, string customerName)
 {
-  EmailComposer<TestMailModel> composer = new(
+  EmailComposer composer = new(
     new ScribanCompiler(),
     new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
     new ViewModelTemplateResolver());
 
-  EmailRequest request = composer
-      .SetModel(new TestMailModel { Email = customerMail, Name = customerMail })
+  EmailRequest request = await composer      
       .SetSubject("Hello world")
       .SetFrom("info@facteur.com")
       .SetTo("guy.gadbois@facteur.com")
       .SetCc("jacques.clouseau@facteur.com")
       .SetBcc("charles.dreyfus@facteur.com")
-      .Build();
-
-  EmailRequest populatedRequest = await builder.BuildAsync(request);
+      .BuildAsync(new TestMailModel { Email = customerMail, Name = customerMail });
 
   SmtpCredentials credentials = new("smtp.gmail.com", "587", "false", "true", "myuser@gmail.com", "mypassword");
   IMailer mailer = new SmtpMailer(credentials);
   await mailer.SendMailAsync(request);
+}
+```
+
+If you use DI, you can just use `IMailer` and use the overload that exposes the composer:
+
+``` csharp
+public async Task SendConfirmationMail(string customerMail, string customerName)
+{
+  await mailer.SendMailAsync(x =>  x      
+      .SetSubject("Hello world")
+      .SetFrom("info@facteur.com")
+      .SetTo("guy.gadbois@facteur.com")
+      .SetCc("jacques.clouseau@facteur.com")
+      .SetBcc("charles.dreyfus@facteur.com")
+      .BuildAsync(new TestMailModel { Email = customerMail, Name = customerMail }));
 }
 ```
 
@@ -121,10 +132,10 @@ With .NET's dependency injection, hooking up the mailer is as simple as adding o
 ```csharp
 serviceCollection.AddFacteur(x =>
 {
-    x.WithMailer(x => new SmtpMailer(credentials))
+    x.WithMailer(y => new SmtpMailer(credentials, y.GetService<IEmailComposer>()))
     .WithCompiler<ScribanCompiler>()
     .WithTemplateProvider(x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
     .WithResolver<ViewModelTemplateResolver>()
-    .WithTemplatedComposer();
+    .WithDefaultComposer();
 });
 ```
