@@ -18,24 +18,26 @@ namespace Facteur.Extensions.DependencyInjection
             if (mailerFactory != null)
                 Services.AddScoped<IMailer, TMailer>(mailerFactory);
             else
-            {
                 Services.AddScoped<IMailer, TMailer>();
-            }
 
             return this;
         }
 
-        public FacteurBuilder WithBodyBuilder<TMailBodyBuilder>(Func<IServiceProvider, TMailBodyBuilder> bodyBuilderFactory)
-            where TMailBodyBuilder : class, IMailBodyBuilder
+        public FacteurBuilder WithComposer<TEmailComposer>(Func<IServiceProvider, TEmailComposer> emailComposerFactory = null)
+             where TEmailComposer : class, IEmailComposer
         {
-            Services.AddScoped<IMailBodyBuilder, TMailBodyBuilder>(bodyBuilderFactory);
+            if (emailComposerFactory != null)
+                Services.AddScoped<IEmailComposer, TEmailComposer>(emailComposerFactory);
+            else
+                Services.AddScoped<IEmailComposer, EmailComposer>();
+
             return this;
         }
 
-        public FacteurBuilder WithDefaultComposer()
+        public FacteurBuilder WithTemplatedComposer()
         {
-            Services.AddScoped<IMailBodyBuilder, MailBodyBuilder>();
-            Services.AddScoped(typeof(EmailComposer<>));
+            Services.AddScoped(typeof(IEmailComposer<>), typeof(EmailComposer<>));
+
             return this;
         }
 

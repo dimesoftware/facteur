@@ -1,26 +1,107 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Facteur
 {
-    public class EmailComposer<T> : BaseEmailComposer<EmailRequest<T>> where T : class
+    public class EmailComposer<T> : IEmailComposer<T>
     {
-        private readonly IMailBodyBuilder _bodyBuilder;
+        private readonly ITemplateCompiler _compiler;
+        private readonly ITemplateProvider _provider;
+        private readonly ITemplateResolver _resolver;
 
-        public EmailComposer(IMailBodyBuilder bodyBuilder = null)
+        public EmailComposer()
         {
-            _bodyBuilder = bodyBuilder;
+            Request = new EmailRequest<T>();
         }
 
-        public EmailComposer<T> SetModel(T model)
+        public EmailComposer(ITemplateCompiler compiler, ITemplateProvider provider, ITemplateResolver resolver)
+            : this()
+        {
+            _compiler = compiler;
+            _provider = provider;
+            _resolver = resolver;
+        }
+
+        protected EmailRequest<T> Request { get; }
+
+        public IEmailComposer<T> SetModel(T model)
         {
             Request.Model = model;
             return this;
         }
 
-        public override async Task<EmailRequest<T>> BuildAsync()
+        public IEmailComposer SetSubject(string subject)
         {
-            EmailRequest<T> request = base.Build();
-            return _bodyBuilder == null ? request : (EmailRequest<T>)await _bodyBuilder?.BuildAsync(request);
+            Request.Subject = subject;
+            return this;
+        }
+
+        public virtual IEmailComposer SetBody(string body)
+        {
+            Request.Body = body;
+            return this;
+        }
+
+        public IEmailComposer SetFrom(Sender sender)
+        {
+            Request.From = sender;
+            return this;
+        }
+
+        public IEmailComposer SetFrom(string email, string name = null)
+        {
+            Request.From = new Sender(email, name);
+            return this;
+        }
+
+        public IEmailComposer SetTo(params string[] to)
+        {
+            Request.To = to;
+            return this;
+        }
+
+        public IEmailComposer SetCc(params string[] cc)
+        {
+            Request.Cc = cc;
+            return this;
+        }
+
+        public IEmailComposer SetBcc(params string[] bcc)
+        {
+            Request.Bcc = bcc;
+            return this;
+        }
+
+        public IEmailComposer Attach(Attachment attachment)
+        {
+            Request.Attachments.Add(attachment);
+            return this;
+        }
+
+        public IEmailComposer Attach(IEnumerable<Attachment> attachments)
+        {
+            Request.Attachments.AddRange(attachments);
+            return this;
+        }
+
+        public virtual EmailRequest Build()
+            => BuildAsync().Result;
+
+        public virtual async Task<EmailRequest> BuildAsync()
+        {
+            Guard.ThrowIfNull(Request.From, nameof(Request.From));
+            Guard.ThrowIfNullOrEmpty(Request.From.Email, nameof(Request.From.Email));
+            Guard.ThrowIfNullOrEmpty(Request.Subject, nameof(Request.Subject));
+            Guard.ThrowIfNullOrEmpty(Request.To, nameof(Request.To));
+
+            if (_resolver == null || _provider == null || _compiler == null)
+                return Request;
+
+            string templateName = _resolver?.Resolve(Request.Model);
+            string templateContent = await _provider?.GetTemplate(templateName);
+            string compiledBody = await _compiler?.CompileBody(Request.Model, templateContent);
+
+            return Request.Copy(compiledBody);
         }
     }
 }

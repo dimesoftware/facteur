@@ -12,13 +12,13 @@ namespace Facteur.SendGrid
         {
         }
 
-        public override async Task SendMailAsync(EmailRequest request) 
+        public override async Task SendMailAsync(EmailRequest request)
             => await base.SendMailAsync(request);
 
         public async Task SendMailAsync<T>(EmailRequest<T> request)
             where T : class
         {
-            EmailComposer composer = new();
+            EmailComposer<T> composer = new();
             EmailRequest mailRequest = composer
                 .SetSubject(request.Subject)
                 .SetBody(request.Body)

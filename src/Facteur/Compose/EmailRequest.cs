@@ -2,7 +2,6 @@
 
 namespace Facteur
 {
-
     public class EmailRequest
     {
         public string Subject { get; set; }

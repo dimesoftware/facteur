@@ -19,8 +19,12 @@ namespace Facteur.Tests
             SimpleSmtpServer server = SimpleSmtpServer.Start(2525);
             SmtpCredentials credentials = new("localhost", "2525", "false", "false");
 
-            EmailComposer<TestMailModel> composer = new();
-            EmailRequest<TestMailModel> request = composer
+            EmailComposer<TestMailModel> composer = new(
+               new ScribanCompiler(),
+               new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
+               new ViewModelTemplateResolver());
+
+            EmailRequest request = composer
                 .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
                 .SetSubject("Hello world")
                 .SetFrom("info@facteur.com", "Facteur")
@@ -30,15 +34,7 @@ namespace Facteur.Tests
                 .Build();
 
             IMailer mailer = new SmtpMailer(credentials);
-
-            IMailBodyBuilder builder = new MailBodyBuilder();
-            EmailRequest populatedRequest = await builder
-                .UseProvider(new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
-                .UseResolver(new ViewModelTemplateResolver())
-                .UseCompiler(new ScribanCompiler())
-                .BuildAsync(request);
-
-            //await mailer.SendMailAsync(populatedRequest);
+            await mailer.SendMailAsync(request);
         }
 
         [TestMethod]
@@ -46,9 +42,13 @@ namespace Facteur.Tests
         {
             SimpleSmtpServer server = SimpleSmtpServer.Start(2525);
             SmtpCredentials credentials = new("localhost", "2525", "false", "false");
-            
-            EmailComposer<TestMailModel> composer = new();
-            EmailRequest<TestMailModel> request = composer
+
+            EmailComposer<TestMailModel> composer = new(
+                new ScribanCompiler(),
+                new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
+                new ViewModelTemplateResolver());
+
+            EmailRequest request = composer
                 .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
                 .SetSubject("Hello world")
                 .SetFrom("info@facteur.com")
@@ -59,13 +59,7 @@ namespace Facteur.Tests
 
             IMailer mailer = new SmtpMailer(credentials);
 
-            IMailBodyBuilder builder = new MailBodyBuilder(
-                new ScribanCompiler(),
-                new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
-                new ViewModelTemplateResolver());
-
-            EmailRequest populatedRequest = await builder.BuildAsync(request);
-            await mailer.SendMailAsync(populatedRequest);
+            await mailer.SendMailAsync(request);
 
             //Thread.Sleep(1000);
 
@@ -88,8 +82,12 @@ namespace Facteur.Tests
                 new Attachment() { ContentBytes = pdfBytes, Name = "Attachment.pdf" }
             };
 
-            EmailComposer<TestMailModel> composer = new();
-            EmailRequest<TestMailModel> request = composer
+            EmailComposer<TestMailModel> composer = new(
+                new ScribanCompiler(),
+                new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
+                new ViewModelTemplateResolver());
+
+            EmailRequest request = composer
                 .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
                 .SetSubject("Hello world")
                 .SetFrom("info@facteur.com")
@@ -101,14 +99,7 @@ namespace Facteur.Tests
 
             IMailer mailer = new SmtpMailer(credentials);
 
-            IMailBodyBuilder builder = new MailBodyBuilder();
-            EmailRequest populatedRequest = await builder
-                .UseProvider(new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
-                .UseResolver(new ViewModelTemplateResolver())
-                .UseCompiler(new ScribanCompiler())
-                .BuildAsync(request);
-
-            await mailer.SendMailAsync(populatedRequest);
+            await mailer.SendMailAsync(request);
 
             //Thread.Sleep(1000);
 

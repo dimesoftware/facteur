@@ -75,7 +75,7 @@ The power of this project is to create a dynamic mail body as you can populate a
 public async Task SendConfirmationMail(string customerMail, string customerName)
 {
   EmailComposer<TestMailModel> composer = new EmailComposer<TestMailModel>();
-  EmailRequest<TestMailModel> request = composer
+  EmailRequest request = composer
       .SetModel(new TestMailModel { Email = customerMail, Name = customerMail })
       .SetSubject("Hello world")
       .SetFrom("info@facteur.com")

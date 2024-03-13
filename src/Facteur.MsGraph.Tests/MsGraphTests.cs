@@ -24,7 +24,7 @@ namespace Facteur.Tests
             GraphCredentials credentials = new("clientId", "tenantId", "secret", "from");
 
             EmailComposer<TestMailModel> composer = new();
-            EmailRequest<TestMailModel> request = composer
+            EmailRequest request = composer
                 .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
                 .SetSubject("Hello world")
                 .SetFrom("info@facteur.com")
