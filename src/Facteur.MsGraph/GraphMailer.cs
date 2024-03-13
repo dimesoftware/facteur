@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Identity.Client;
+
 using t = System.Threading.Tasks;
 
 namespace Facteur.MsGraph

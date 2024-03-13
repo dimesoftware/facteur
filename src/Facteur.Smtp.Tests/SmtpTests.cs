@@ -45,7 +45,7 @@ namespace Facteur.Tests
                 new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
                 new ViewModelTemplateResolver());
 
-            EmailRequest request = await composer                
+            EmailRequest request = await composer
                 .SetSubject("Hello world")
                 .SetFrom("info@facteur.com")
                 .SetTo("tibipi@getnada.com")

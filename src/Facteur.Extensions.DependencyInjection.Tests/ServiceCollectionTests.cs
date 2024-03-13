@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using Facteur.Smtp;
 using Facteur.TemplateProviders.IO;
-using Facteur.Tests;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
