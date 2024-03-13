@@ -21,7 +21,7 @@
     <PackageTags>Facteur;Email;Mail</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Map and resolve e-mail templates using the view model type names</Description>
-    <Version>1.2.0</Version>
+    <Version>2.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
