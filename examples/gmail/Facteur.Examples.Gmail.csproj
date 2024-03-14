@@ -7,11 +7,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Facteur" Version="2.0.0-beta.1" />
-		<PackageReference Include="Facteur.Compilers.Scriban" Version="2.0.0-beta.1" />
-		<PackageReference Include="Facteur.Resolvers.ViewModel" Version="2.0.0-beta.1" />
-		<PackageReference Include="Facteur.Smtp" Version="2.0.0-beta.1" />
-		<PackageReference Include="Facteur.TemplateProviders.IO" Version="2.0.0-beta.1" />
+		<PackageReference Include="Facteur" Version="2.0.0-beta.2" />
+		<PackageReference Include="Facteur.Compilers.Scriban" Version="2.0.0-beta.2" />
+		<PackageReference Include="Facteur.Resolvers.ViewModel" Version="2.0.0-beta.2" />
+		<PackageReference Include="Facteur.Smtp" Version="2.0.0-beta.2" />
+		<PackageReference Include="Facteur.TemplateProviders.IO" Version="2.0.0-beta.2" />
 	</ItemGroup>
 
 	<ItemGroup>
