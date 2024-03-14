@@ -154,19 +154,6 @@ The resolver is responsible for locating the right file name. In this example, t
 
 The `IEmailComposer` brings everything together and generates a populated mail body. Then it's up to the `ÌMailer` to merely send the mail.
 
-With .NET's dependency injection, hooking up the mailer can be done by adding a few lines to the Startup class:
-
-```csharp
-serviceCollection.AddFacteur(x =>
-{
-    x.WithMailer(y => new SmtpMailer(credentials, y.GetService<IEmailComposer>()))
-    .WithCompiler<ScribanCompiler>()
-    .WithTemplateProvider(x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
-    .WithResolver<ViewModelTemplateResolver>()
-    .WithDefaultComposer();
-});
-```
-
 ## Contributing
 
 Pull requests are welcome. Please check out the contribution and code of conduct guidelines.
