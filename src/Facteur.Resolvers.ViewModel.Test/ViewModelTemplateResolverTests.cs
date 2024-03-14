@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Facteur.Resolvers.ViewModel.Tests
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class ViewModelTemplateResolverTests
     {
         [TestMethod]

@@ -1,10 +1,12 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Facteur.SendGrid;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Facteur.Tests
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class SendGridTests
     {
         [TestMethod]

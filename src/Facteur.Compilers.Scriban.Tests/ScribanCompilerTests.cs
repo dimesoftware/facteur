@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Facteur.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -5,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Facteur.Compilers.Scriban.Tests
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class ScribanCompilerTests
     {
         [TestMethod]

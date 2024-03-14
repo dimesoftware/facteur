@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Facteur.MsGraph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -7,6 +8,7 @@ using Moq;
 namespace Facteur.Tests
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class MsGraphTests
     {
         [DataTestMethod]
