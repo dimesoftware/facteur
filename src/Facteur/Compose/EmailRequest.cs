@@ -2,6 +2,9 @@
 
 namespace Facteur
 {
+    /// <summary>
+    /// The POCO type that contains all the information of an email.
+    /// </summary>
     public class EmailRequest
     {
         public string Subject { get; set; }

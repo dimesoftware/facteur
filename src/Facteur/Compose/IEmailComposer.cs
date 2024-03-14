@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 
 namespace Facteur
 {
+    /// <summary>
+    /// Represents a type that is capable of constructing an email that is ready to be sent out.
+    /// </summary>
     public interface IEmailComposer
     {
         IEmailComposer SetSubject(string subject);

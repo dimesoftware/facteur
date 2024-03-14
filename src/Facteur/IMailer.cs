@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace Facteur
 {
     /// <summary>
-    /// Represents an email service
+    /// An email service that can send out emails.
     /// </summary>
     public interface IMailer
     {
