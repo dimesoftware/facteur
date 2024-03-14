@@ -4,19 +4,19 @@ using System.Threading.Tasks;
 namespace Facteur
 {
     /// <summary>
-    /// Represents an e-mail service
+    /// Represents an email service
     /// </summary>
     public interface IMailer
     {
         /// <summary>
-        /// Sends out an e-mail
+        /// Sends out an email
         /// </summary>
         /// <param name="request">The request</param>
         /// <returns>An instance of <see cref="System.Threading.Tasks.Task"/></returns>
         Task SendMailAsync(EmailRequest request);
 
         /// <summary>
-        /// Sends out an e-mail
+        /// Sends out an email
         /// </summary>
         /// <typeparam name="T">The model type</typeparam>
         /// <param name="request">The request</param>

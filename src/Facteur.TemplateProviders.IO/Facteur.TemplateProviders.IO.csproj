@@ -13,7 +13,7 @@
     <PackageIconUrl>https://raw.githubusercontent.com/dimesoftware/facteur/master/assets/facteur.png?raw=true</PackageIconUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>Facteur;Email;Mail;IO</PackageTags>
-    <Description>Store and retrieve e-mail templates in local Windows directories</Description>
+    <Description>Store and retrieve email templates in local Windows directories</Description>
     <Version>2.0.0-beta.1</Version>
     <Authors>Dime Software</Authors>
     <Company>Dime Software</Company>

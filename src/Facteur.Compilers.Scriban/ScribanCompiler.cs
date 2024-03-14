@@ -13,8 +13,8 @@ namespace Facteur
         /// </summary>
         /// <typeparam name="T">The mail model</typeparam>
         /// <param name="fileContent">Name of the template.</param>
-        /// <param name="model">The model to compile into the e-mail template</param>
-        /// <returns>A populated e-mail body</returns>
+        /// <param name="model">The model to compile into the email template</param>
+        /// <returns>A populated email body</returns>
         public async Task<string> CompileBody<T>(T model, string fileContent)
         {
             Template template = Template.Parse(fileContent);
@@ -26,7 +26,7 @@ namespace Facteur
         /// </summary>
         /// <param name="templateName">Name of the template.</param>
         /// <param name="text">The text.</param>
-        /// <returns>A populated e-mail body</returns>
+        /// <returns>A populated email body</returns>
         public async Task<string> CompileBody(string templateName, string text)
         {
             DefaultViewModel model = new() { Text = text };

@@ -2,7 +2,7 @@
 
 # Facteur
 
-Facteur (French for mailman) is a library for sending e-mails in .NET. Its modular approach allows you to assemble a mail system rather than having to use a take-it-or-leave it service.
+Facteur (French for mailman) is a library for sending emails in .NET. Its modular approach allows you to assemble a mail system rather than having to use a take-it-or-leave it service.
 
 Check out the **[📚 docs »](https://dimesoftware.github.io/facteur/)** for more info.
 
@@ -20,13 +20,13 @@ There are a few moving parts:
 - Template providers
 - Endpoints
 
-**Composers** enable you to create an e-mail request, which contains the e-mail variables like subject, body and the e-mail addresses to send the mail to.
+**Composers** enable you to create an email request, which contains the email variables like subject, body and the email addresses to send the mail to.
 
-**Compilers** are a part of the e-mail composition in that it allows to fetch a template and populate the e-mail body with data from a custom view model. 
+**Compilers** are a part of the email composition in that it allows to fetch a template and populate the email body with data from a custom view model. 
 
 The templates can be stored anywhere. By default they are stored in the folder where the application is hosted but it can also be retrieved from an Azure blob, FTP drive, etc. Using **template providers** and **resolvers**, you can write your own logic to fetch the right template for the job.
 
-Lastly and obviously, there are the various mail services, also known as **endpoints** in Facteur. E-mails can be sent with good old SMTP, Microsoft Graph API, SendGrid, etc.
+Lastly and obviously, there are the various mail services, also known as **endpoints** in Facteur. emails can be sent with good old SMTP, Microsoft Graph API, SendGrid, etc.
 
 ## Installation
 
@@ -42,7 +42,7 @@ Next it is up to you to decide which *endpoint* you want to use:
 | SMTP                | `dotnet add package Facteur.Smtp`     |
 | SendGrid            | `dotnet add package Facteur.SendGrid` |
 
-Next, you should decide which *compiler* to use to generate the body of your e-mail. The following packages are available:
+Next, you should decide which *compiler* to use to generate the body of your email. The following packages are available:
 
 | Resolvers   | Command                                        |
 | ----------- | ---------------------------------------------- |
@@ -68,7 +68,7 @@ Finally, there are some ancillary packages:
 
 ## Usage
 
-The power of this project is to create a dynamic mail body as you can populate any template with any type of data. This is when the compilers, providers and resolvers come in. They can be produced using the `MailBodyBuilder` class, which orchestrates the process of retrieving and populating the template. It is ultimately up to the instance of the `IMailer` to actually send the e-mail.
+The power of this project is to create a dynamic mail body as you can populate any template with any type of data. This is when the compilers, providers and resolvers come in. They can be produced using the `MailBodyBuilder` class, which orchestrates the process of retrieving and populating the template. It is ultimately up to the instance of the `IMailer` to actually send the email.
 
 ``` csharp
 public async Task SendConfirmationMail(string customerMail, string customerName)
@@ -115,7 +115,7 @@ The resolver is responsible for locating the right file name. In this example, t
 
 The `IEmailComposer` brings everything together and generates a populated mail body. Then it's up to the `ÌMailer` to merely send the mail.
 
-With .NET's dependency injection, hooking up the mailer is as simple as adding one line in the Startup class:
+With .NET's dependency injection, hooking up the mailer can be done by adding a few lines to the Startup class:
 
 ```csharp
 serviceCollection.AddFacteur(x =>

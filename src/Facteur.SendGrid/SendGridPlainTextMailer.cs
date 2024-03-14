@@ -26,7 +26,7 @@ namespace Facteur.SendGrid
         }
 
         /// <summary>
-        /// Sends out an e-mail
+        /// Sends out an email
         /// </summary>
         /// <param name="request">The subject</param>
         /// <returns>An instance of <see cref="System.Threading.Tasks.Task"/></returns>

@@ -20,7 +20,7 @@
     <PackageProjectUrl>https://github.com/dimesoftware/facteur</PackageProjectUrl>
     <PackageTags>Facteur;Email;Mail</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>Map and resolve e-mail templates using the view model type names</Description>
+    <Description>Map and resolve email templates using the view model type names</Description>
     <Version>2.0.0-beta.1</Version>
   </PropertyGroup>
 

@@ -11,7 +11,7 @@ namespace Facteur.Examples
         {
             Console.WriteLine("Sending welcome mail using a GMAIL account");
 
-            // Edit these parameters to send an e-mail
+            // Edit these parameters to send an email
             const string from = "mygmail@gmail.com";
             const string fromPassword = "mygmailpassword";
             const string to = "newemployee@mycompany.com";

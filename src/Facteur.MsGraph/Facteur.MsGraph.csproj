@@ -13,7 +13,7 @@
     <PackageIconUrl>https://raw.githubusercontent.com/dimesoftware/facteur/master/assets/facteur.png?raw=true</PackageIconUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>Facteur;Email;Mail;Graph;Microsoft</PackageTags>
-    <Description>Send e-mails using the MS Graph endpoint</Description>
+    <Description>Send emails using the MS Graph endpoint</Description>
     <Version>2.0.0-beta.1</Version>
     <Authors>Dime Software</Authors>
     <Company>Dime Software</Company>
