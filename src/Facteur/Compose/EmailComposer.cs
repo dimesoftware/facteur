@@ -110,7 +110,8 @@ namespace Facteur
             string compiledBody = await _compiler?.CompileBody(model, templateContent);
 
             Request.Body = compiledBody;
-            return Request;
+
+            return Build();
         }
     }
 }

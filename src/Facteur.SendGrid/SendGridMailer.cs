@@ -16,23 +16,7 @@ namespace Facteur.SendGrid
             _composer = composer ?? new EmailComposer();
         }
 
-        public override async Task SendMailAsync(EmailRequest request)
-        {
-            EmailComposer composer = new();
-            EmailRequest mailRequest = composer
-                .SetSubject(request.Subject)
-                .SetBody(request.Body)
-                .SetFrom(request.From)
-                .SetTo(request.To?.ToArray())
-                .SetCc(request.Cc?.ToArray())
-                .SetBcc(request.Bcc?.ToArray())
-                .Attach(request.Attachments)
-                .Build();
-
-            await base.SendMailAsync(mailRequest);
-        }
-
         public async Task SendMailAsync(Func<IEmailComposer, Task<EmailRequest>> compose)
-            => await SendMailAsync(await compose(_composer));
+            => await base.SendMailAsync(await compose(_composer));
     }
 }
