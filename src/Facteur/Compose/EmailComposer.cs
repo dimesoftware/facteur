@@ -72,7 +72,16 @@ namespace Facteur
             return this;
         }
 
+        public IEmailComposer Attach(string name, byte[] contents)
+            => Attach(new Attachment(name, contents));
+
         public IEmailComposer Attach(IEnumerable<Attachment> attachments)
+        {
+            Request.Attachments.AddRange(attachments);
+            return this;
+        }
+
+        public IEmailComposer Attach(params Attachment[] attachments)
         {
             Request.Attachments.AddRange(attachments);
             return this;

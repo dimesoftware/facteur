@@ -23,8 +23,11 @@ namespace Facteur
         IEmailComposer SetBcc(params string[] bcc);
 
         IEmailComposer Attach(IEnumerable<Attachment> attachments);
+        IEmailComposer Attach(params Attachment[] attachments);
 
         IEmailComposer Attach(Attachment attachment);
+
+        IEmailComposer Attach(string name, byte[] contents);
 
         EmailRequest Build();
 
