@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -11,13 +12,16 @@ namespace Facteur.Smtp
     /// </summary>
     public class SmtpMailer : IMailer
     {
+        private readonly IEmailComposer _composer;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SmtpMailer"/> class
         /// </summary>
         /// <param name="smtpCredentials">The SMTP credentials</param>
-        public SmtpMailer(SmtpCredentials smtpCredentials)
+        public SmtpMailer(SmtpCredentials smtpCredentials, IEmailComposer composer = null)
         {
             Credentials = smtpCredentials;
+            _composer = composer ?? new EmailComposer();
         }
 
         protected SmtpCredentials Credentials { get; }
@@ -66,7 +70,7 @@ namespace Facteur.Smtp
         /// <typeparam name="T"></typeparam>
         /// <param name="request">The request.</param>
         /// <returns></returns>
-        public async Task SendMailAsync<T>(EmailRequest<T> request) where T : class
-            => await SendMailAsync((EmailRequest)request);
+        public async Task SendMailAsync(Func<IEmailComposer, Task<EmailRequest>> compose)
+            => await SendMailAsync(await compose(_composer));
     }
 }

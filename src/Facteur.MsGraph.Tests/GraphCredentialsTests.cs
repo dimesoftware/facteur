@@ -1,10 +1,12 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Facteur.MsGraph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Facteur.Tests
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class GraphCredentialsTests
     {
         [TestMethod]

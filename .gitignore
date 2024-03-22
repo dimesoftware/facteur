@@ -4,3 +4,5 @@
 TestResults
 **/**.DotSettings.user
 src/packages
+**.trx
+*.cobertura*.xml

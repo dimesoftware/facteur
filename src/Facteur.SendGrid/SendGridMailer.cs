@@ -1,53 +1,22 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Facteur.SendGrid
 {
-    /// <summary>
-    /// Mail component that uses SendGrid as the transport and RazorEngine as the content builder
-    /// </summary>
     [ExcludeFromCodeCoverage]
     public class SendGridMailer : SendGridBaseMailer, IMailer
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SendGridMailer"/> class
-        /// </summary>
-        /// <param name="key">The SendGrid API key</param>
-        public SendGridMailer(string key)
+        private readonly IEmailComposer _composer;
+
+        public SendGridMailer(string key, IEmailComposer composer = null)
             : base(key)
         {
+            _composer = composer ?? new EmailComposer();
         }
 
-        /// <summary>
-        /// Sends the mail.
-        /// </summary>
-        /// <param name="request">The request.</param>
-        /// <returns></returns>
-        public override async Task SendMailAsync(EmailRequest request) 
-            => await base.SendMailAsync(request);
-
-        /// <summary>
-        /// Sends the mail.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="request">The request.</param>
-        /// <returns></returns>
-        public async Task SendMailAsync<T>(EmailRequest<T> request)
-            where T : class
-        {
-            EmailComposer composer = new();
-            EmailRequest mailRequest = composer
-                .SetSubject(request.Subject)
-                .SetBody(request.Body)
-                .SetFrom(request.From)
-                .SetTo(request.To?.ToArray())
-                .SetCc(request.Cc?.ToArray())
-                .SetBcc(request.Bcc?.ToArray())
-                .Attach(request.Attachments)
-                .Build();
-
-            await base.SendMailAsync(mailRequest);
-        }
+        public async Task SendMailAsync(Func<IEmailComposer, Task<EmailRequest>> compose)
+            => await base.SendMailAsync(await compose(_composer));
     }
 }

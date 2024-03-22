@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Facteur.Tests
 {
+    [ExcludeFromCodeCoverage]
     public class SimpleHtmlTemplateCompiler : ITemplateCompiler
     {
         public Task<string> CompileBody<T>(T model, string templateName)
@@ -21,7 +23,6 @@ namespace Facteur.Tests
             stringBuilder.Append("</body>");
             stringBuilder.Append("</html>");
             return stringBuilder.ToString();
-
         }
     }
 }

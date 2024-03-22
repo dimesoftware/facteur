@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -13,8 +12,8 @@ namespace Facteur.Tests
         {
             Customer customer = new() { Name = "Customer #1", Orders = new List<Order>() { new() } };
             Guard.ThrowIfNullOrEmpty(customer.Orders, nameof(customer.Orders));
-
         }
+
         [TestMethod]
         public void Guard_ThrowIfNullOrEmpty_Collection_IsEmpty_ShouldThrowArgumentNullException()
         {
@@ -46,7 +45,7 @@ namespace Facteur.Tests
         [TestMethod]
         public void Guard_ThrowIfNullOrEmpty_Text_IsNotNullOrEmpty_ShouldPass()
         {
-            Customer customer = new() {  Name = "Customer #1" };
+            Customer customer = new() { Name = "Customer #1" };
             Guard.ThrowIfNullOrEmpty(customer.Name, nameof(customer.Name));
         }
     }

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Facteur.MsGraph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -7,6 +8,7 @@ using Moq;
 namespace Facteur.Tests
 {
     [TestClass]
+    [ExcludeFromCodeCoverage]
     public class MsGraphTests
     {
         [DataTestMethod]
@@ -17,19 +19,17 @@ namespace Facteur.Tests
         public void Graph_SendMail_InvalidParameter_ShouldThrowArgumentNullException(string clientId, string tenantId, string clientSecret, string from)
             => Assert.ThrowsException<ArgumentNullException>(() => new GraphCredentials(clientId, tenantId, clientSecret, @from));
 
-
         [TestMethod]
-        public void Graph_SendMail_ShouldSend()
+        public async Task Graph_SendMail_ShouldSend()
         {
             GraphCredentials credentials = new("clientId", "tenantId", "secret", "from");
 
-            EmailComposer<TestMailModel> composer = new();
-            EmailRequest<TestMailModel> request = composer
-                .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
+            EmailComposer composer = new();
+            EmailRequest request = await composer
                 .SetSubject("Hello world")
                 .SetFrom("info@facteur.com")
                 .SetTo("tibipi@getnada.com")
-                .Build();
+                .BuildAsync(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" });
 
             Mock<IMailer> mock = new();
             mock.Setup(foo => foo.SendMailAsync(request)).Returns(Task.CompletedTask);

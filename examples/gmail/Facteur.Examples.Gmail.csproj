@@ -1,23 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net8.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Facteur" Version="1.0.1" />
-    <PackageReference Include="Facteur.Compilers.Scriban" Version="1.0.1" />
-    <PackageReference Include="Facteur.Resolvers.ViewModel" Version="1.0.1" />
-    <PackageReference Include="Facteur.Smtp" Version="1.0.1" />
-    <PackageReference Include="Facteur.TemplateProviders.IO" Version="1.0.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Facteur" Version="2.0.0-beta.2" />
+		<PackageReference Include="Facteur.Compilers.Scriban" Version="2.0.0-beta.2" />
+		<PackageReference Include="Facteur.Resolvers.ViewModel" Version="2.0.0-beta.2" />
+		<PackageReference Include="Facteur.Smtp" Version="2.0.0-beta.2" />
+		<PackageReference Include="Facteur.TemplateProviders.IO" Version="2.0.0-beta.2" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="Templates\Welcome.sbnhtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="Templates\Welcome.sbnhtml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>

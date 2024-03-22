@@ -1,18 +1,12 @@
-﻿namespace Facteur.Tests
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Facteur.Tests
 {
-    /// <summary>
-    ///
-    /// </summary>
+    [ExcludeFromCodeCoverage]
     public class TestMailModel
     {
-        /// <summary>
-        ///
-        /// </summary>
         public string Name { get; set; }
 
-        /// <summary>
-        ///
-        /// </summary>
         public string Email { get; set; }
     }
 }

@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using Facteur.Smtp;
 using Facteur.TemplateProviders.IO;
@@ -19,26 +17,21 @@ namespace Facteur.Tests
             SimpleSmtpServer server = SimpleSmtpServer.Start(2525);
             SmtpCredentials credentials = new("localhost", "2525", "false", "false");
 
-            EmailComposer<TestMailModel> composer = new();
-            EmailRequest<TestMailModel> request = composer
-                .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
+            IEmailComposer composer = new EmailComposer(
+               new ScribanCompiler(),
+               new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
+               new ViewModelTemplateResolver());
+
+            EmailRequest request = await composer
                 .SetSubject("Hello world")
                 .SetFrom("info@facteur.com", "Facteur")
                 .SetTo("tibipi@getnada.com")
                 .SetCc("tibipi@getnada.com")
                 .SetBcc("tibipi@getnada.com")
-                .Build();
+                .BuildAsync(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" });
 
             IMailer mailer = new SmtpMailer(credentials);
-
-            IMailBodyBuilder builder = new MailBodyBuilder();
-            EmailRequest populatedRequest = await builder
-                .UseProvider(new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
-                .UseResolver(new ViewModelTemplateResolver())
-                .UseCompiler(new ScribanCompiler())
-                .BuildAsync(request);
-
-            //await mailer.SendMailAsync(populatedRequest);
+            await mailer.SendMailAsync(request);
         }
 
         [TestMethod]
@@ -47,25 +40,22 @@ namespace Facteur.Tests
             SimpleSmtpServer server = SimpleSmtpServer.Start(2525);
             SmtpCredentials credentials = new("localhost", "2525", "false", "false");
 
-            EmailComposer<TestMailModel> composer = new();
-            EmailRequest<TestMailModel> request = composer
-                .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
+            EmailComposer composer = new(
+                new ScribanCompiler(),
+                new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
+                new ViewModelTemplateResolver());
+
+            EmailRequest request = await composer
                 .SetSubject("Hello world")
                 .SetFrom("info@facteur.com")
                 .SetTo("tibipi@getnada.com")
                 .SetCc("tibipi@getnada.com")
                 .SetBcc("tibipi@getnada.com")
-                .Build();
+                .BuildAsync(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" });
 
             IMailer mailer = new SmtpMailer(credentials);
 
-            IMailBodyBuilder builder = new MailBodyBuilder(
-                new ScribanCompiler(),
-                new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
-                new ViewModelTemplateResolver());
-
-            EmailRequest populatedRequest = await builder.BuildAsync(request);
-            await mailer.SendMailAsync(populatedRequest);
+            await mailer.SendMailAsync(request);
 
             //Thread.Sleep(1000);
 
@@ -88,27 +78,23 @@ namespace Facteur.Tests
                 new Attachment() { ContentBytes = pdfBytes, Name = "Attachment.pdf" }
             };
 
-            EmailComposer<TestMailModel> composer = new();
-            EmailRequest<TestMailModel> request = composer
-                .SetModel(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" })
+            EmailComposer composer = new(
+                new ScribanCompiler(),
+                new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
+                new ViewModelTemplateResolver());
+
+            EmailRequest request = await composer
                 .SetSubject("Hello world")
                 .SetFrom("info@facteur.com")
                 .SetTo("tibipi@getnada.com")
                 .SetCc("tibipi@getnada.com")
                 .SetBcc("tibipi@getnada.com")
                 .Attach(attachments)
-                .Build();
+                .BuildAsync(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" });
 
             IMailer mailer = new SmtpMailer(credentials);
 
-            IMailBodyBuilder builder = new MailBodyBuilder();
-            EmailRequest populatedRequest = await builder
-                .UseProvider(new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
-                .UseResolver(new ViewModelTemplateResolver())
-                .UseCompiler(new ScribanCompiler())
-                .BuildAsync(request);
-
-            await mailer.SendMailAsync(populatedRequest);
+            await mailer.SendMailAsync(request);
 
             //Thread.Sleep(1000);
 
