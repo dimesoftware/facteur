@@ -13,7 +13,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>Facteur;Email;Mail;RazorEngine;Scriban;SendGrid;Graph;SMTP</PackageTags>
     <Description>ASP.NET Core extensions for facteur.</Description>
-    <Version>2.0.0-beta.3</Version>
+    <Version>2.0.0</Version>
     <Authors>Dime Software</Authors>
     <Company>Dime Software</Company>
     <Product>Facteur</Product>
