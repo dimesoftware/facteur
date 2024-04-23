@@ -24,6 +24,7 @@ jobs:
             6.x.x
             7.x.x
             8.x.x
+            9.x.x
 
       - name: Install dependencies
         run: dotnet restore
