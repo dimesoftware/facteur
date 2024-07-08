@@ -80,11 +80,11 @@ public async Task SendConfirmationMail(string customerMail, string customerName)
     new ViewModelTemplateResolver());
 
   EmailRequest request = await composer      
-      .SetSubject("Hello world")
-      .SetFrom("info@facteur.com")
-      .SetTo("guy.gadbois@facteur.com")
-      .SetCc("jacques.clouseau@facteur.com")
-      .SetBcc("charles.dreyfus@facteur.com")
+      .Subject("Hello world")
+      .From("info@facteur.com")
+      .To("guy.gadbois@facteur.com")
+      .Cc("jacques.clouseau@facteur.com")
+      .Bcc("charles.dreyfus@facteur.com")
       .BuildAsync(new TestMailModel { Email = customerMail, Name = customerMail });
 
   SmtpCredentials credentials = new("smtp.gmail.com", "587", "false", "true", "myuser@gmail.com", "mypassword");
@@ -99,11 +99,11 @@ If you use DI, you can just use `IMailer` and use the overload that exposes the 
 public async Task SendConfirmationMail(string customerMail, string customerName)
 {
   await mailer.SendMailAsync(x =>  x      
-      .SetSubject("Hello world")
-      .SetFrom("info@facteur.com")
-      .SetTo("guy.gadbois@facteur.com")
-      .SetCc("jacques.clouseau@facteur.com")
-      .SetBcc("charles.dreyfus@facteur.com")
+      .Subject("Hello world")
+      .From("info@facteur.com")
+      .To("guy.gadbois@facteur.com")
+      .Cc("jacques.clouseau@facteur.com")
+      .Bcc("charles.dreyfus@facteur.com")
       .BuildAsync(new TestMailModel { Email = customerMail, Name = customerMail }));
 }
 ```

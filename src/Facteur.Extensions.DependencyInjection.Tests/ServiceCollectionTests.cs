@@ -34,9 +34,9 @@ namespace Facteur.Extensions.DependencyInjection.Tests
             ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
             IMailer mailer = serviceProvider.GetService<IMailer>();
             //await mailer.SendMailAsync(x => x
-            //.SetSubject("Hello world")
-            //.SetFrom("info@facteur.com")
-            //.SetTo("byziji2958@chapsmail.com")
+            //.Subject("Hello world")
+            //.From("info@facteur.com")
+            //.To("byziji2958@chapsmail.com")
             //.BuildAsync(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" }));
         }
 
