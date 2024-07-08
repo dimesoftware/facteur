@@ -78,14 +78,13 @@ public async Task SendConfirmationMail(string customerMail, string customerName)
     new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
     new ViewModelTemplateResolver());
 
-  EmailRequest request = await composer
-      .Model(new TestMailModel { Email = customerMail, Name = customerMail })
+  EmailRequest request = await composer      
       .Subject("Hello world")
       .From("info@facteur.com")
       .To("guy.gadbois@facteur.com")
       .Cc("jacques.clouseau@facteur.com")
       .Bcc("charles.dreyfus@facteur.com")
-      .Build();
+      .Build(new TestMailModel { Email = customerMail, Name = customerMail });
 
   EmailRequest populatedRequest = await builder.BuildAsync(request);
 
