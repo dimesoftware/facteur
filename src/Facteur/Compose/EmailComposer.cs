@@ -24,47 +24,68 @@ namespace Facteur
 
         protected EmailRequest Request { get; }
 
-        public IEmailComposer SetSubject(string subject)
+        public IEmailComposer Subject(string subject)
         {
             Request.Subject = subject;
             return this;
         }
 
-        public virtual IEmailComposer SetBody(string body)
+        public IEmailComposer SetSubject(string subject)
+            => Subject(subject);
+
+        public virtual IEmailComposer Body(string body)
         {
             Request.Body = body;
             return this;
         }
 
-        public IEmailComposer SetFrom(Sender sender)
+        public virtual IEmailComposer SetBody(string body)
+            => Body(body);
+
+        public IEmailComposer From(Sender sender)
         {
             Request.From = sender;
             return this;
         }
 
-        public IEmailComposer SetFrom(string email, string name = null)
+        public IEmailComposer SetFrom(Sender sender)
+            => From(sender);
+
+        public IEmailComposer From(string email, string name = null)
         {
             Request.From = new Sender(email, name);
             return this;
         }
 
-        public IEmailComposer SetTo(params string[] to)
+        public IEmailComposer SetFrom(string email, string name = null)
+            => From(email, name);
+
+        public IEmailComposer To(params string[] to)
         {
             Request.To = to;
             return this;
         }
 
-        public IEmailComposer SetCc(params string[] cc)
+        public IEmailComposer SetTo(params string[] to)
+            => To(to);
+
+        public IEmailComposer Cc(params string[] cc)
         {
             Request.Cc = cc;
             return this;
         }
 
-        public IEmailComposer SetBcc(params string[] bcc)
+        public IEmailComposer SetCc(params string[] cc)
+            => Cc(cc);
+
+        public IEmailComposer Bcc(params string[] bcc)
         {
             Request.Bcc = bcc;
             return this;
         }
+
+        public IEmailComposer SetBcc(params string[] bcc)
+            => Bcc(bcc);
 
         public IEmailComposer Attach(Attachment attachment)
         {

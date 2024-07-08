@@ -23,11 +23,11 @@ namespace Facteur.Tests
                new ViewModelTemplateResolver());
 
             EmailRequest request = await composer
-                .SetSubject("Hello world")
-                .SetFrom("info@facteur.com", "Facteur")
-                .SetTo("tibipi@getnada.com")
-                .SetCc("tibipi@getnada.com")
-                .SetBcc("tibipi@getnada.com")
+                .Subject("Hello world")
+                .From("info@facteur.com", "Facteur")
+                .To("tibipi@getnada.com")
+                .Cc("tibipi@getnada.com")
+                .Bcc("tibipi@getnada.com")
                 .BuildAsync(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" });
 
             IMailer mailer = new SmtpMailer(credentials);
@@ -46,11 +46,11 @@ namespace Facteur.Tests
                 new ViewModelTemplateResolver());
 
             EmailRequest request = await composer
-                .SetSubject("Hello world")
-                .SetFrom("info@facteur.com")
-                .SetTo("tibipi@getnada.com")
-                .SetCc("tibipi@getnada.com")
-                .SetBcc("tibipi@getnada.com")
+                .Subject("Hello world")
+                .From("info@facteur.com")
+                .To("tibipi@getnada.com")
+                .Cc("tibipi@getnada.com")
+                .Bcc("tibipi@getnada.com")
                 .BuildAsync(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" });
 
             IMailer mailer = new SmtpMailer(credentials);
@@ -84,11 +84,11 @@ namespace Facteur.Tests
                 new ViewModelTemplateResolver());
 
             EmailRequest request = await composer
-                .SetSubject("Hello world")
-                .SetFrom("info@facteur.com")
-                .SetTo("tibipi@getnada.com")
-                .SetCc("tibipi@getnada.com")
-                .SetBcc("tibipi@getnada.com")
+                .Subject("Hello world")
+                .From("info@facteur.com")
+                .To("tibipi@getnada.com")
+                .Cc("tibipi@getnada.com")
+                .Bcc("tibipi@getnada.com")
                 .Attach(attachments)
                 .BuildAsync(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" });
 

@@ -14,9 +14,9 @@ namespace Facteur.Tests
         {
             EmailComposer composer = new();
             EmailRequest request = composer
-                .SetSubject("Hello world")
-                .SetFrom("info@facteur.com")
-                .SetTo("majev@getnada.com")
+                .Subject("Hello world")
+                .From("info@facteur.com")
+                .To("majev@getnada.com")
                 .Build();
 
             Assert.ThrowsException<ArgumentNullException>(() => new SendGridMailer(null));
@@ -27,9 +27,9 @@ namespace Facteur.Tests
         {
             EmailComposer composer = new();
             EmailRequest request = composer
-                .SetSubject("Hello world")
-                .SetFrom("info@facteur.com")
-                .SetTo("majev@getnada.com")
+                .Subject("Hello world")
+                .From("info@facteur.com")
+                .To("majev@getnada.com")
                 .Build();
 
             Assert.ThrowsException<ArgumentNullException>(() => new SendGridMailer(""));
@@ -40,9 +40,9 @@ namespace Facteur.Tests
         {
             EmailComposer composer = new();
             EmailRequest request = composer
-                .SetSubject("Hello world")
-                .SetFrom("info@facteur.com")
-                .SetTo("majev@getnada.com")
+                .Subject("Hello world")
+                .From("info@facteur.com")
+                .To("majev@getnada.com")
                 .Build();
 
             IMailer mailer = new SendGridMailer("MySGKey");
