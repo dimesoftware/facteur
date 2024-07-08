@@ -19,7 +19,7 @@ namespace Facteur.Tests
         {
             EmailComposer composer = new();
             Assert.ThrowsException<ArgumentNullException>(
-                () => composer.SetFrom("info@facteur.com").Build());
+                () => composer.From("info@facteur.com").Build());
         }
 
         [TestMethod]
@@ -27,7 +27,7 @@ namespace Facteur.Tests
         {
             EmailComposer composer = new();
             Assert.ThrowsException<ArgumentNullException>(
-                () => composer.SetFrom("info@facteur.com").SetSubject("Hello world").SetBody("Test").Build());
+                () => composer.From("info@facteur.com").Subject("Hello world").Body("Test").Build());
         }
     }
 }

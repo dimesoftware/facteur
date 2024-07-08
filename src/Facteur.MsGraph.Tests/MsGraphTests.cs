@@ -26,9 +26,9 @@ namespace Facteur.Tests
 
             EmailComposer composer = new();
             EmailRequest request = await composer
-                .SetSubject("Hello world")
-                .SetFrom("info@facteur.com")
-                .SetTo("tibipi@getnada.com")
+                .Subject("Hello world")
+                .From("info@facteur.com")
+                .To("tibipi@getnada.com")
                 .BuildAsync(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" });
 
             Mock<IMailer> mock = new();
