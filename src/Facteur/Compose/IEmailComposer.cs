@@ -34,7 +34,7 @@ namespace Facteur
 
         IEmailComposer To(params string[] to);
 
-        [Obsolete("Use Css method instead")]
+        [Obsolete("Use Cc method instead")]
         IEmailComposer SetCc(params string[] cc);
 
         IEmailComposer Cc(params string[] cc);
