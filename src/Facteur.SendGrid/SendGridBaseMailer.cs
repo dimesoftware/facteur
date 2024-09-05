@@ -33,7 +33,7 @@ namespace Facteur.SendGrid
         /// </summary>
         /// <param name="request">The subject.</param>
         /// <returns></returns>
-        public virtual Task SendMailAsync(EmailRequest request)
+        public virtual async Task SendMailAsync(EmailRequest request)
         {
             SendGridClient client = new(ApiKey);
             EmailAddress sendFrom = request.From.ToEmailAddress();
@@ -42,7 +42,15 @@ namespace Facteur.SendGrid
                 .CreateSingleEmailToMultipleRecipients(sendFrom, sendTo, request.Subject, null, request.Body)
                 .AddAttachments(request);
 
-            return client.SendEmailAsync(message);
+            IEnumerable<string> sendCc = request.Cc.Where(x => !request.To.Contains(x));
+            foreach (string cc in sendCc)
+                message.AddCc(cc);
+
+            IEnumerable<string> sendBcc = request.Bcc.Where(x => !request.To.Contains(x) && !request.Cc.Contains(x));
+            foreach (string bcc in sendBcc)
+                message.AddBcc(bcc);
+
+            Response res = await client.SendEmailAsync(message);
         }
     }
 }
