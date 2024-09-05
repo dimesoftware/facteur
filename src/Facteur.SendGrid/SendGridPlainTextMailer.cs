@@ -30,14 +30,22 @@ namespace Facteur.SendGrid
         /// </summary>
         /// <param name="request">The subject</param>
         /// <returns>An instance of <see cref="System.Threading.Tasks.Task"/></returns>
-        public override Task SendMailAsync(EmailRequest request)
+        public override async Task SendMailAsync(EmailRequest request)
         {
             SendGridClient client = new(ApiKey);
             EmailAddress sendFrom = request.From.ToEmailAddress();
             List<EmailAddress> sendTo = request.To.Select(x => new EmailAddress(x)).ToList();
             SendGridMessage message = MailHelper.CreateSingleEmailToMultipleRecipients(sendFrom, sendTo, request.Subject, request.Body, null);
 
-            return client.SendEmailAsync(message);
+            IEnumerable<string> sendCc = request.Cc.Where(x => !request.To.Contains(x));
+            foreach (string cc in sendCc)
+                message.AddCc(cc);
+
+            IEnumerable<string> sendBcc = request.Bcc.Where(x => !request.To.Contains(x) && !request.Cc.Contains(x));
+            foreach (string bcc in sendBcc)
+                message.AddBcc(bcc);
+
+            Response res = await client.SendEmailAsync(message);
         }
 
         public async Task SendMailAsync(Func<IEmailComposer, Task<EmailRequest>> compose)
