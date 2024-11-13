@@ -1,19 +1,116 @@
 <img align="center" src="assets/images/facteur.svg">
 
-<p align="center">
-<img src="https://dev.azure.com/dimesoftware/Utilities/_apis/build/status/dimenics.facteur?branchName=master" />
-<img src="https://img.shields.io/nuget/v/facteur?style=flat-square" />
-<img src="https://img.shields.io/azure-devops/coverage/dimesoftware/utilities/177" />
-<img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" />
-<img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" />
-<a href="https://github.com/dimesoftware/facteur/discussions">
-  <img src="https://img.shields.io/badge/chat-discussions-brightgreen?style=flat-square">
-</a>
-</p>
+Facteur (French for mailman) is a library for sending emails in .NET. Its modular approach allows you to assemble a mail system rather than having to use a take-it-or-leave it service.
+
+Check out the **[📚 docs »](https://dimesoftware.github.io/facteur/)** for more info.
+
+## Quick start
+
+### 1. Install packages
+
+In this quick start, we choose to go for the following packages:
+
+```cmd
+dotnet add package Facteur
+dotnet add package Facteur.Extensions.DependencyInjection
+dotnet add package Facteur.Smtp
+dotnet add package Facteur.Compilers.Scriban
+dotnet add package Facteur.TemplateProviders.IO
+dotnet add package Facteur.Resolvers.ViewModel
+```
+
+### 2. Create mailing composition
+
+In the Startup class, add the following:
+
+```csharp
+
+// We're using good ol' Gmail for this one
+SmtpCredentials credentials = new("smtp.gmail.com", "587", "false", "true", "myuser@gmail.com", "mypassword");
+
+serviceCollection.AddFacteur(x =>
+{
+    x.WithMailer(y => new SmtpMailer(credentials, y.GetService<IEmailComposer>()))
+    .WithCompiler<ScribanCompiler>()
+    .WithTemplateProvider(x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
+    .WithResolver<ViewModelTemplateResolver>()
+    .WithDefaultComposer();
+});
+```
+
+### 3. Mail template
+
+In the project, add a `Templates` directory and add a file named `Welcome.sbnhtml`:
+
+```sbhtml
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample SBNHTML</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        .content {
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome, {{Name}}</h1>
+    <div class="content">
+
+        <p>Hello {{Name}},</p>
+        <p>Thank you for joining us! Here are your account details:</p>
+        <ul>
+            <li>Email: {{Email}}</li>
+            <li>Join Date: {{JoinDate}}</li>
+        </ul>
+        <p>We hope you enjoy your experience!</p>
+    </div>
+
+</body>
+</html>
+```
+
+Set the `Build Action` to 'None' and set `Copy to Output Directory` to 'Copy Always'.
+
+Next, add a class named `WelcomeMailModel` and add the properties that are used in the scriban file:
+
+```csharp
+public class WelcomeMailModel
+{
+    public string Name { get; set; }
+    public string Email { get; set; }
+    public DateTime JoinDate { get; set; }
+}
+```
+
+### 4. Send mail
+
+Add to your code a constructor parameter of type `IMailer`, and invoke the mailer:
+
+```csharp
+await mailer.SendMailAsync(x => x      
+    .Subject("Welcome to the company!")
+    .From("info@yourdomain.com")
+    .To("john.doe@yourdomain.com")  
+    .BuildAsync(new WelcomeMailModel { Name = "John Doe", Email = "john.doe@yourdomain.com", JoinDate = DateTime.Now }));
+```
+
+And an email should be underway!
 
 ## About the project
 
-The entire premise of this project is to provide a **flexible** and **modular** **mailing** and **templating** kit. Applications should not be bound by one specific mailing service; like when you get blacklisted by a mailing service or when the performance is unacceptable, you should be able to swap providers without having to modify a single line of code. 
+The entire premise of this project is to provide a flexible and modular mailing and templating kit. Applications should not be bound by one specific mailing service; like when you get blacklisted by a mailing service or when the performance is unacceptable, you should be able to swap providers without having to modify a single line of code. 
 
 This is why we created Facteur. The desire to create a flexible and vendor-independent framework is clearly reflected in the library's architecture.
 
@@ -27,19 +124,23 @@ There are a few moving parts:
 
 **Composers** enable you to create an email request, which contains the email variables like subject, body and the email addresses to send the mail to.
 
-**Compilers** are a part of the email composition in that it allows to fetch a template and populate the email body with data from a custom view model.
+**Compilers** are a part of the email composition in that it allows to fetch a template and populate the email body with data from a custom view model. 
 
 The templates can be stored anywhere. By default they are stored in the folder where the application is hosted but it can also be retrieved from an Azure blob, FTP drive, etc. Using **template providers** and **resolvers**, you can write your own logic to fetch the right template for the job.
 
 Lastly and obviously, there are the various mail services, also known as **endpoints** in Facteur. emails can be sent with good old SMTP, Microsoft Graph API, SendGrid, etc.
 
-## Installation
+## Packages
 
-Use the package manager NuGet to install the base library of Facteur:
+### Base library
+
+Use the package manager NuGet to install the **base library** of Facteur:
 
 `dotnet add package Facteur`
 
-Next it is up to you to decide which _endpoint_ you want to use:
+### Endpoints
+
+Next it is up to you to decide which **endpoint** you want to use:
 
 | Service             | Command                               |
 | ------------------- | ------------------------------------- |
@@ -47,23 +148,31 @@ Next it is up to you to decide which _endpoint_ you want to use:
 | SMTP                | `dotnet add package Facteur.Smtp`     |
 | SendGrid            | `dotnet add package Facteur.SendGrid` |
 
-Next, you should decide which _compiler_ to use to generate the body of your email. The following packages are available:
+### Compilers
+
+Next, you should decide which **compiler** to use to generate the body of your email. The following packages are available:
 
 | Resolvers | Command                                        |
 | --------- | ---------------------------------------------- |
 | Scriban   | `dotnet add package Facteur.Compilers.Scriban` |
 
-You also have a choice in the template providers. Templates can be stored on a regular file drive but it might as well be stored on a blob on Azure.
+### Template providers
+
+You also have a choice in the **template providers**. Templates can be stored on a regular file drive but it might as well be stored on a blob on Azure.
 
 | Providers | Command                                           |
 | --------- | ------------------------------------------------- |
 | IO        | `dotnet add package Facteur.TemplateProviders.IO` |
 
-The resolvers are the glue between the storage of templates and the runtime. Resolvers enable you to map templates to models.
+### Resolvers
+
+The **resolvers** are the glue between the storage of templates and the runtime. Resolvers enable you to map templates to models.
 
 | Resolvers | Command                                          |
 | --------- | ------------------------------------------------ |
 | View      | `dotnet add package Facteur.Resolvers.ViewModel` |
+
+### Ancillary packages
 
 Finally, there are some ancillary packages:
 
@@ -71,9 +180,22 @@ Finally, there are some ancillary packages:
 | ------------ | ----------------------------------------------------------- |
 | .NET Core DI | `dotnet add package Facteur.Extensions.DependencyInjection` |
 
-## Usage
+## Initialization
 
-### Typical example
+With .NET's dependency injection, hooking up the mailer can be done by adding a few lines to the Startup class:
+
+```csharp
+serviceCollection.AddFacteur(x =>
+{
+    x.WithMailer(y => new SmtpMailer(credentials, y.GetService<IEmailComposer>()))
+    .WithCompiler<ScribanCompiler>()
+    .WithTemplateProvider(x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
+    .WithResolver<ViewModelTemplateResolver>()
+    .WithDefaultComposer();
+});
+```
+
+## Usage
 
 The power of this project is to create a dynamic mail body as you can populate any template with any type of data. This is when the compilers, providers and resolvers come in. They can be produced using the implementation of `IEmailCompiler`, which orchestrates the process of retrieving and populating the template. It is ultimately up to the instance of the `IMailer` to actually send the email.
 
@@ -86,11 +208,11 @@ public async Task SendConfirmationMail(string customerMail, string customerName)
     new ViewModelTemplateResolver());
 
   EmailRequest request = await composer      
-      .SetSubject("Hello world")
-      .SetFrom("info@facteur.com")
-      .SetTo("guy.gadbois@facteur.com")
-      .SetCc("jacques.clouseau@facteur.com")
-      .SetBcc("charles.dreyfus@facteur.com")
+      .Subject("Hello world")
+      .From("info@facteur.com")
+      .To("guy.gadbois@facteur.com")
+      .Cc("jacques.clouseau@facteur.com")
+      .Bcc("charles.dreyfus@facteur.com")
       .BuildAsync(new TestMailModel { Email = customerMail, Name = customerMail });
 
   SmtpCredentials credentials = new("smtp.gmail.com", "587", "false", "true", "myuser@gmail.com", "mypassword");
@@ -99,13 +221,26 @@ public async Task SendConfirmationMail(string customerMail, string customerName)
 }
 ```
 
+If you use DI, you can just use `IMailer` and use the overload that exposes the composer:
+
+``` csharp
+public async Task SendConfirmationMail(string customerMail, string customerName)
+{
+  await mailer.SendMailAsync(x =>  x      
+      .Subject("Hello world")
+      .From("info@facteur.com")
+      .To("guy.gadbois@facteur.com")
+      .Cc("jacques.clouseau@facteur.com")
+      .Bcc("charles.dreyfus@facteur.com")
+      .BuildAsync(new TestMailModel { Email = customerMail, Name = customerMail }));
+}
+```
+
 This particular example uses scriban templates that are stored inside the application's directory. Inside the HTML template, you will find scriban syntax:
 
-{% raw %}
 ```html
 <p>Hi {{name}},</p>
 ```
-{% endraw %}
 
 This text template is resolved using the model that is passed to the `EmailRequest` instance, which in this sample is of the `TestMailModel` type:
 
@@ -121,117 +256,10 @@ The resolver is responsible for locating the right file name. In this example, t
 
 The `IEmailComposer` brings everything together and generates a populated mail body. Then it's up to the `ÌMailer` to merely send the mail.
 
-### Basic usage
+## Contributing
 
-Of course, simple use case scenarios are supported as well. You can simply drop the mail body building workflow:
+Pull requests are welcome. Please check out the contribution and code of conduct guidelines.
 
-```csharp
-EmailComposer composer = new EmailComposer());
-EmailRequest request = composer
-    .SetSubject("Hello world")
-    .SetBody("This is the body of the mail. No template was used int the making of this email")
-    .SetFrom("info@facteur.com")
-    .SetTo("guy.gadbois@facteur.com")
-    .SetCc("jacques.clouseau@facteur.com")
-    .SetBcc("charles.dreyfus@facteur.com")
-    .Build();
+## License 
 
-SmtpCredentials credentials = new("smtp.gmail.com", "587", "false", "true", "myuser@gmail.com", "mypassword");
-IMailer mailer = new SmtpMailer(credentials);
-await mailer.SendMailAsync(populatedRequest);
-```
-
-## Composing the email body
-
-Email templates have an important role in Facteur. Composers, resolvers and providers only exist to fetch the templates, map them with the business logic and populate them in the email body. Let's walk through the setup from the example above:
-
-```csharp
-EmailComposer builder = new(
-   new ScribanCompiler(),
-   new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
-   new ViewModelTemplateResolver());
-```
-
-First up the list is the **compiler**. There are many templating languages available, and Scriban is one of the more popular ones. The syntax is interspersed with static content and markup in the email template. The email templates themselves have to be stored somewhere and loaded into memory to populate and send the template. The **providers** take on this burden and are responsible for fetching the templates from any storage medium like blobs, FTP servers, local directories, etc. Finally, we need to instruct the library which template to retrieve. **Resolvers** provide a dynamic and generic way to find the right template for the email, and the possibilities are endless. In this example, the ViewModelTemplateResolver type is used, which is a very simple mechanism that maps the name of the type to the name of the file. 
-
-Let's say we want to send an email to new users. We create a `NewUserViewModel` class with public properties that need to be passed into the template.
-
-```csharp
-public class NewUserViewModel
-{
-  public string Name {get; set; }
-  public string Manager { get; set; }
-  public string IntranetUri {get;set;}
-}
-```
-
-With this particular setup, there should be a file named **NewUser.sbnthml** in the `Templates` directory inside the application's app directory (in Visual Studio, make sure to mark the file to be copied to the output directory). In this file, you can use simple HTML with Scriban placeholders:
-
-{% raw %}
-
-```html
-<html>
-<body>
-  <h1>Welcome, {{name}}!</h1>
-  <p>Static text</p>
-  <p>You will be reporting to {{manager}}.</p>
-
-  For more information, check out the <a href="{{ intraneturi }}">company's intranet</a>.
-</body>
-</html>
-```
-{%endraw%}
-
-Finally, to send out this particular email, you just need to use the `NewUserViewModel` class in the email request:
-
-```csharp
-public async Task SendWelcomeMail(string newEmployeeName, string newEmployeeMail, string managerName, string intranetUri)
-{
-  EmailComposer composer = new(
-    new ScribanCompiler(),
-    new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
-    new ViewModelTemplateResolver());
-
-  EmailRequest request = await composer      
-      .SetSubject("Welcome to the company!")
-      .SetFrom("info@facteur.com")
-      .SetTo(newEmployeeMail)
-      .BuildAsync(new NewUserViewModel { Name = newEmployeeName, Manager = managerName, IntranetUri= intranetUri });
- 
-  SmtpCredentials credentials = new("smtp.gmail.com", "587", "false", "true", "myuser@gmail.com", "mypassword");
-  IMailer mailer = new SmtpMailer(credentials);
-  await mailer.SendMailAsync(request);
-}
-```
-
-The library will pick up the model type, look for the template, populate it and send the mail.
-
-If you use DI, you can just use `IMailer` and use the overload that exposes the composer:
-
-``` csharp
-public async Task SendConfirmationMail(string customerMail, string customerName)
-{
-  await mailer.SendMailAsync(x =>  x      
-      .SetSubject("Hello world")
-      .SetFrom("info@facteur.com")
-      .SetTo("guy.gadbois@facteur.com")
-      .SetCc("jacques.clouseau@facteur.com")
-      .SetBcc("charles.dreyfus@facteur.com")
-      .BuildAsync(new TestMailModel { Email = customerMail, Name = customerMail }));
-}
-```
-
-## Dependency injection
-
-With .NET's dependency injection, hooking up the mailer can be done by adding a few lines to the `Startup` class:
-
-```csharp
-serviceCollection.AddFacteur(x =>
-{
-    x.WithMailer(y => new SmtpMailer(credentials, y.GetService<IEmailComposer>()))
-    .WithCompiler<ScribanCompiler>()
-    .WithTemplateProvider(x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
-    .WithResolver<ViewModelTemplateResolver>()
-    .WithDefaultComposer();
-});
-```
+<img src="https://img.shields.io/badge/License-MIT-brightgreen.svg?style=flat-square" />
