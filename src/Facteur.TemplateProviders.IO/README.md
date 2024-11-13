@@ -1,10 +1,114 @@
-﻿![](https://raw.githubusercontent.com/dimesoftware/facteur/master/assets/facteur.svg?raw=true =250)
+﻿![Facteur Logo](https://raw.githubusercontent.com/dimesoftware/facteur/master/assets/facteur.svg?raw=true)
 
 # Facteur
 
 Facteur (French for mailman) is a library for sending emails in .NET. Its modular approach allows you to assemble a mail system rather than having to use a take-it-or-leave it service.
 
 Check out the **[📚 docs »](https://dimesoftware.github.io/facteur/)** for more info.
+
+## Quick start
+
+### 1. Install packages
+
+In this quick start, we choose to go for the following packages:
+
+```cmd
+dotnet add package Facteur
+dotnet add package Facteur.Extensions.DependencyInjection
+dotnet add package Facteur.Smtp
+dotnet add package Facteur.Compilers.Scriban
+dotnet add package Facteur.TemplateProviders.IO
+dotnet add package Facteur.Resolvers.ViewModel
+```
+
+### 2. Create mailing composition
+
+In the Startup class, add the following:
+
+```csharp
+
+// We're using good ol' Gmail for this one
+SmtpCredentials credentials = new("smtp.gmail.com", "587", "false", "true", "myuser@gmail.com", "mypassword");
+
+serviceCollection.AddFacteur(x =>
+{
+    x.WithMailer(y => new SmtpMailer(credentials, y.GetService<IEmailComposer>()))
+    .WithCompiler<ScribanCompiler>()
+    .WithTemplateProvider(x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
+    .WithResolver<ViewModelTemplateResolver>()
+    .WithDefaultComposer();
+});
+```
+
+### 3. Mail template
+
+In the project, add a `Templates` directory and add a file named `Welcome.sbnhtml`:
+
+```sbhtml
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample SBNHTML</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        .content {
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome, {{Name}}</h1>
+    <div class="content">
+
+        <p>Hello {{Name}},</p>
+        <p>Thank you for joining us! Here are your account details:</p>
+        <ul>
+            <li>Email: {{Email}}</li>
+            <li>Join Date: {{JoinDate}}</li>
+        </ul>
+        <p>We hope you enjoy your experience!</p>
+    </div>
+
+</body>
+</html>
+```
+
+Set the `Build Action` to 'None' and set `Copy to Output Directory` to 'Copy Always'.
+
+Next, add a class named `WelcomeMailModel` and add the properties that are used in the scriban file:
+
+```csharp
+public class WelcomeMailModel
+{
+    public string Name { get; set; }
+    public string Email { get; set; }
+    public DateTime JoinDate { get; set; }
+}
+```
+
+### 4. Send mail
+
+Add to your code a constructor parameter of type `IMailer`, and invoke the mailer:
+
+```csharp
+await mailer.SendMailAsync(x => x      
+    .Subject("Welcome to the company!")
+    .From("info@yourdomain.com")
+    .To("john.doe@yourdomain.com")  
+    .BuildAsync(new WelcomeMailModel { Name = "John Doe", Email = "john.doe@yourdomain.com", JoinDate = DateTime.Now }));
+```
+
+And an email should be underway!
 
 ## About the project
 
@@ -28,13 +132,17 @@ The templates can be stored anywhere. By default they are stored in the folder w
 
 Lastly and obviously, there are the various mail services, also known as **endpoints** in Facteur. emails can be sent with good old SMTP, Microsoft Graph API, SendGrid, etc.
 
-## Installation
+## Packages
 
-Use the package manager NuGet to install the base library of Facteur:
+### Base library
+
+Use the package manager NuGet to install the **base library** of Facteur:
 
 `dotnet add package Facteur`
 
-Next it is up to you to decide which *endpoint* you want to use:
+### Endpoints
+
+Next it is up to you to decide which **endpoint** you want to use:
 
 | Service             | Command                               |
 | ------------------- | ------------------------------------- |
@@ -42,29 +150,52 @@ Next it is up to you to decide which *endpoint* you want to use:
 | SMTP                | `dotnet add package Facteur.Smtp`     |
 | SendGrid            | `dotnet add package Facteur.SendGrid` |
 
-Next, you should decide which *compiler* to use to generate the body of your email. The following packages are available:
+### Compilers
 
-| Resolvers   | Command                                        |
-| ----------- | ---------------------------------------------- |
-| Scriban     | `dotnet add package Facteur.Compilers.Scriban` |
+Next, you should decide which **compiler** to use to generate the body of your email. The following packages are available:
 
-You also have a choice in the template providers. Templates can be stored on a regular file drive but it might as well be stored on a blob on Azure.
+| Resolvers | Command                                        |
+| --------- | ---------------------------------------------- |
+| Scriban   | `dotnet add package Facteur.Compilers.Scriban` |
+
+### Template providers
+
+You also have a choice in the **template providers**. Templates can be stored on a regular file drive but it might as well be stored on a blob on Azure.
 
 | Providers | Command                                           |
 | --------- | ------------------------------------------------- |
 | IO        | `dotnet add package Facteur.TemplateProviders.IO` |
 
-The resolvers are the glue between the storage of templates and the runtime. Resolvers enable you to map templates to models.
+### Resolvers
+
+The **resolvers** are the glue between the storage of templates and the runtime. Resolvers enable you to map templates to models.
 
 | Resolvers | Command                                          |
 | --------- | ------------------------------------------------ |
 | View      | `dotnet add package Facteur.Resolvers.ViewModel` |
+
+### Ancillary packages
 
 Finally, there are some ancillary packages:
 
 | Purpose      | Command                                                     |
 | ------------ | ----------------------------------------------------------- |
 | .NET Core DI | `dotnet add package Facteur.Extensions.DependencyInjection` |
+
+## Initialization
+
+With .NET's dependency injection, hooking up the mailer can be done by adding a few lines to the Startup class:
+
+```csharp
+serviceCollection.AddFacteur(x =>
+{
+    x.WithMailer(y => new SmtpMailer(credentials, y.GetService<IEmailComposer>()))
+    .WithCompiler<ScribanCompiler>()
+    .WithTemplateProvider(x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
+    .WithResolver<ViewModelTemplateResolver>()
+    .WithDefaultComposer();
+});
+```
 
 ## Usage
 
@@ -126,16 +257,3 @@ public class TestMailModel
 The resolver is responsible for locating the right file name. In this example, the `ViewModelTemplateResolver` is used. This class essentially strips the 'MailModel' or 'ViewModel' of the name of the mail request's model. After that, the provider (`AppDirectoryTemplateProvider`) will make the system to look for file in the application's `Templates` directory with the .sbnhtml file and with the name 'Test' (from Test~~MailModel~~).
 
 The `IEmailComposer` brings everything together and generates a populated mail body. Then it's up to the `ÌMailer` to merely send the mail.
-
-With .NET's dependency injection, hooking up the mailer can be done by adding a few lines to the Startup class:
-
-```csharp
-serviceCollection.AddFacteur(x =>
-{
-    x.WithMailer(y => new SmtpMailer(credentials, y.GetService<IEmailComposer>()))
-    .WithCompiler<ScribanCompiler>()
-    .WithTemplateProvider(x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
-    .WithResolver<ViewModelTemplateResolver>()
-    .WithDefaultComposer();
-});
-```

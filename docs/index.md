@@ -256,7 +256,7 @@ The resolver is responsible for locating the right file name. In this example, t
 
 The `IEmailComposer` brings everything together and generates a populated mail body. Then it's up to the `ÌMailer` to merely send the mail.
 
-## Contributing
+## Contributing 
 
 Pull requests are welcome. Please check out the contribution and code of conduct guidelines.
 
