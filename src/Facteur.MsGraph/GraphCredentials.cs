@@ -7,13 +7,16 @@ namespace Facteur.MsGraph
         public GraphCredentials(string clientId, string tenantId, string clientSecret, string from)
         {
             if (string.IsNullOrEmpty(clientId))
-                throw new ArgumentNullException(nameof(clientSecret));
+                throw new ArgumentNullException(nameof(clientId));
+
             if (string.IsNullOrEmpty(tenantId))
-                throw new ArgumentNullException(nameof(clientSecret));
+                throw new ArgumentNullException(nameof(tenantId));
+
             if (string.IsNullOrEmpty(clientSecret))
                 throw new ArgumentNullException(nameof(clientSecret));
+            
             if (string.IsNullOrEmpty(from))
-                throw new ArgumentNullException(nameof(clientSecret));
+                throw new ArgumentNullException(nameof(from));
 
             ClientId = clientId;
             TenantId = tenantId;
@@ -22,8 +25,11 @@ namespace Facteur.MsGraph
         }
 
         public string ClientId { get; }
+
         public string TenantId { get; }
+
         public string ClientSecret { get; }
+
         public string From { get; }
     }
 }

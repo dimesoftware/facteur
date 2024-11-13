@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProjectGuid>{F18C39F6-E4A6-4290-B08E-481B04A6855E}</ProjectGuid>
-    <TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <RuntimeIdentifiers>win</RuntimeIdentifiers>
     <AssemblyTitle>Facteur</AssemblyTitle>
     <Company>Dime Software</Company>
@@ -21,7 +21,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>A modular and composable mailing kit for .NET</Description>
     <PackageTags>Facteur;Email;Mail;RazorEngine;Scriban;SendGrid;Graph;SMTP</PackageTags>
-    <Version>2.1.0</Version>
+    <Version>3.0.0-alpha.1</Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 

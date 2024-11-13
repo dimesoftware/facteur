@@ -1,16 +1,17 @@
-﻿using Microsoft.Graph;
+﻿using System.Collections.Generic;
+using Microsoft.Graph.Models;
 
 namespace Facteur.MsGraph
 {
     internal static class AttachmentConverter
     {
-        internal static IMessageAttachmentsCollectionPage AddAttachments(this EmailRequest request)
+        internal static IEnumerable<Microsoft.Graph.Models.Attachment> AddAttachments(this EmailRequest request)
         {
-            MessageAttachmentsCollectionPage attachments = new();
+            List<FileAttachment> attachments = [];
             foreach (Attachment attachment in request.Attachments)
                 attachments.Add(new FileAttachment
                 {
-                    ODataType = "#microsoft.graph.fileAttachment",
+                    OdataType = "#microsoft.graph.fileAttachment",
                     Name = attachment.Name,
                     ContentBytes = attachment.ContentBytes
                 });

@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Text;
 using System.Threading.Tasks;
 using Facteur.MsGraph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -27,7 +28,7 @@ namespace Facteur.Tests
             EmailComposer composer = new();
             EmailRequest request = await composer
                 .Subject("Hello world")
-                .From("info@facteur.com")
+                .From("info@dimescheduler.com")
                 .To("tibipi@getnada.com")
                 .BuildAsync(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" });
 
