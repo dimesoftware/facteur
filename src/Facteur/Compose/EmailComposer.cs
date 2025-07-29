@@ -22,7 +22,16 @@ namespace Facteur
             _resolver = resolver;
         }
 
-        protected EmailRequest Request { get; }
+        protected EmailRequest Request { get; private set; }
+
+        /// <summary>
+        /// Resets the EmailRequest to a fresh instance to prevent state lingering between email sends
+        /// </summary>
+        public IEmailComposer Reset()
+        {
+            Request = new EmailRequest();
+            return this;
+        }
 
         public IEmailComposer Subject(string subject)
         {
@@ -115,7 +124,9 @@ namespace Facteur
             Guard.ThrowIfNullOrEmpty(Request.Subject, nameof(Request.Subject));
             Guard.ThrowIfNullOrEmpty(Request.To, nameof(Request.To));
 
-            return Request;
+            EmailRequest result = Request;
+            Reset();
+            return result;
         }
 
         public virtual Task<EmailRequest> BuildAsync()
@@ -124,7 +135,11 @@ namespace Facteur
         public async Task<EmailRequest> BuildAsync<T>(T model)
         {
             if (_compiler == null || _resolver == null || _provider == null)
-                return Request;
+            {
+                EmailRequest result = Request;
+                Reset(); // Reset for next use
+                return result;
+            }
 
             string templateName = _resolver?.Resolve(model);
             string templateContent = await _provider?.GetTemplate(templateName);

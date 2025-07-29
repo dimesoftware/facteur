@@ -52,6 +52,11 @@ namespace Facteur
 
         IEmailComposer Attach(string name, byte[] contents);
 
+        /// <summary>
+        /// Resets the EmailRequest to a fresh instance to prevent state lingering between email sends
+        /// </summary>
+        IEmailComposer Reset();
+
         EmailRequest Build();
 
         Task<EmailRequest> BuildAsync();
