@@ -71,6 +71,6 @@ namespace Facteur.Smtp
         /// <param name="request">The request.</param>
         /// <returns></returns>
         public async Task SendMailAsync(Func<IEmailComposer, Task<EmailRequest>> compose)
-            => await SendMailAsync(await compose(_composer));
+            => await SendMailAsync(await compose(_composer.Reset()));
     }
 }

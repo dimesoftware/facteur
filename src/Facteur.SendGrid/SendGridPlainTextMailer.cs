@@ -49,6 +49,6 @@ namespace Facteur.SendGrid
         }
 
         public async Task SendMailAsync(Func<IEmailComposer, Task<EmailRequest>> compose)
-            => await SendMailAsync(await compose(_composer));
+            => await SendMailAsync(await compose(_composer.Reset()));
     }
 }
