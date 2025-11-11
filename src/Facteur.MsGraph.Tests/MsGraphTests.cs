@@ -11,13 +11,13 @@ namespace Facteur.Tests
     [ExcludeFromCodeCoverage]
     public class MsGraphTests
     {
-        [DataTestMethod]
+        [TestMethod]
         [DataRow("", "tenantId", "clientSecret", "from")]
         [DataRow("clientId", "", "clientSecret", "from")]
         [DataRow("clientId", "tenantId", "", "from")]
         [DataRow("clientId", "tenantId", "clientSecret", "")]
         public void Graph_SendMail_InvalidParameter_ShouldThrowArgumentNullException(string clientId, string tenantId, string clientSecret, string from)
-            => Assert.ThrowsException<ArgumentNullException>(() => new GraphCredentials(clientId, tenantId, clientSecret, @from));
+            => Assert.Throws<ArgumentNullException>(() => new GraphCredentials(clientId, tenantId, clientSecret, @from));
 
         [TestMethod]
         public async Task Graph_SendMail_ShouldSend()

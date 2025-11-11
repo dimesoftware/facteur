@@ -18,28 +18,28 @@ namespace Facteur.Tests
         public void Guard_ThrowIfNullOrEmpty_Collection_IsEmpty_ShouldThrowArgumentNullException()
         {
             Customer customer = new() { Name = "Customer #1", Orders = new List<Order>() };
-            Assert.ThrowsException<ArgumentNullException>(() => Guard.ThrowIfNullOrEmpty(customer.Orders, nameof(customer.Orders)));
+            Assert.Throws<ArgumentNullException>(() => Guard.ThrowIfNullOrEmpty(customer.Orders, nameof(customer.Orders)));
         }
 
         [TestMethod]
         public void Guard_ThrowIfNullOrEmpty_Collection_IsNull_ShouldThrowArgumentNullException()
         {
             Customer customer = new() { Name = "Customer #1" };
-            Assert.ThrowsException<ArgumentNullException>(() => Guard.ThrowIfNullOrEmpty(customer.Orders, nameof(customer.Orders)));
+            Assert.Throws<ArgumentNullException>(() => Guard.ThrowIfNullOrEmpty(customer.Orders, nameof(customer.Orders)));
         }
 
         [TestMethod]
         public void Guard_ThrowIfNullOrEmpty_Text_IsEmpty_ShouldThrowArgumentNullException()
         {
             Customer customer = new() { Name = "" };
-            Assert.ThrowsException<ArgumentNullException>(() => Guard.ThrowIfNullOrEmpty(customer.Name, nameof(customer.Name)));
+            Assert.Throws<ArgumentNullException>(() => Guard.ThrowIfNullOrEmpty(customer.Name, nameof(customer.Name)));
         }
 
         [TestMethod]
         public void Guard_ThrowIfNullOrEmpty_Text_IsNull_ShouldThrowArgumentNullException()
         {
             Customer customer = new() { };
-            Assert.ThrowsException<ArgumentNullException>(() => Guard.ThrowIfNullOrEmpty(customer.Name, nameof(customer.Name)));
+            Assert.Throws<ArgumentNullException>(() => Guard.ThrowIfNullOrEmpty(customer.Name, nameof(customer.Name)));
         }
 
         [TestMethod]

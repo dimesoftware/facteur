@@ -1,31 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <ProjectGuid>{F18C39F6-E4A6-4290-B08E-481B04A6855E}</ProjectGuid>
-    <TargetFrameworks>net6.0;net7.0;net8.0;</TargetFrameworks>
-    <RuntimeIdentifiers>win</RuntimeIdentifiers>
-    <AssemblyTitle>Facteur</AssemblyTitle>
-    <Company>Dime Software</Company>
-    <Product>Facteur</Product>
-    <LangVersion>latest</LangVersion>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <Authors>Dime Software</Authors>
-    <Company>Dime Software</Company>
-    <Product>Facteur</Product>
-    <NeutralLanguage>en</NeutralLanguage>
-    <RepositoryType>git</RepositoryType>
-    <PackageIconUrl>https://raw.githubusercontent.com/dimesoftware/facteur/master/assets/facteur.png?raw=true</PackageIconUrl>
-    <RepositoryUrl>https://github.com/dimesoftware/facteur</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/dimesoftware/facteur</PackageProjectUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Description>A modular and composable mailing kit for .NET</Description>
-    <PackageTags>Facteur;Email;Mail;RazorEngine;Scriban;SendGrid;Graph;SMTP</PackageTags>
-    <Version>2.1.0</Version>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-  </PropertyGroup>
+	<PropertyGroup>
+		<ProjectGuid>{F18C39F6-E4A6-4290-B08E-481B04A6855E}</ProjectGuid>
+		<TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+		<RuntimeIdentifiers>win</RuntimeIdentifiers>
+		<AssemblyTitle>Facteur</AssemblyTitle>
+		<Company>Dime Software</Company>
+		<Product>Facteur</Product>
+		<LangVersion>latest</LangVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<Authors>Dime Software</Authors>
+		<Company>Dime Software</Company>
+		<Product>Facteur</Product>
+		<NeutralLanguage>en</NeutralLanguage>
+		<RepositoryType>git</RepositoryType>
+		<PackageIconUrl>https://raw.githubusercontent.com/dimesoftware/facteur/master/assets/facteur.png?raw=true</PackageIconUrl>
+		<RepositoryUrl>https://github.com/dimesoftware/facteur</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/dimesoftware/facteur</PackageProjectUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Description>A modular and composable mailing kit for .NET</Description>
+		<PackageTags>Facteur;Email;Mail;RazorEngine;Scriban;SendGrid;Graph;SMTP</PackageTags>
+		<Version>3.0.0-alpha.1</Version>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\"/>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="\"/>
+	</ItemGroup>
 </Project>

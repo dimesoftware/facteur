@@ -14,34 +14,34 @@ namespace Facteur.Tests
         {
             GraphCredentials credentials = new("client", "tenant", "secret", "from");
 
-            Assert.IsTrue(credentials.ClientId == "client");
-            Assert.IsTrue(credentials.TenantId == "tenant");
-            Assert.IsTrue(credentials.ClientSecret == "secret");
-            Assert.IsTrue(credentials.From == "from");
+            Assert.AreEqual("client", credentials.ClientId);
+            Assert.AreEqual("tenant", credentials.TenantId);
+            Assert.AreEqual("secret", credentials.ClientSecret);
+            Assert.AreEqual("from", credentials.From);
         }
 
         [TestMethod]
         public void GraphCredentials_Constructor_HasMissingClientId_ShouldThrowException()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => new GraphCredentials("", "tenant", "secret", "from"));
+            Assert.Throws<ArgumentNullException>(() => new GraphCredentials("", "tenant", "secret", "from"));
         }
 
         [TestMethod]
         public void GraphCredentials_Constructor_HasMissingTenantId_ShouldThrowException()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => new GraphCredentials("client", "", "secret", "from"));
+            Assert.Throws<ArgumentNullException>(() => new GraphCredentials("client", "", "secret", "from"));
         }
 
         [TestMethod]
         public void GraphCredentials_Constructor_HasMissingSecret_ShouldThrowException()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => new GraphCredentials("client", "tenant", "", "from"));
+            Assert.Throws<ArgumentNullException>(() => new GraphCredentials("client", "tenant", "", "from"));
         }
 
         [TestMethod]
         public void GraphCredentials_Constructor_HasMissingFrom_ShouldThrowException()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => new GraphCredentials("client", "tenant", "secret", ""));
+            Assert.Throws<ArgumentNullException>(() => new GraphCredentials("client", "tenant", "secret", ""));
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Facteur.TemplateProviders.IO.Tests
         [TestMethod]
         public void AppDirectoryTemplateProvider_HasIncorrectData_ShouldRaiseException()
         {
-            Assert.ThrowsException<DirectoryNotFoundException>(() => new FaultyTemplateProvider());
+            Assert.Throws<DirectoryNotFoundException>(() => new FaultyTemplateProvider());
         }
     }
 }
