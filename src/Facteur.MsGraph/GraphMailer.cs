@@ -40,7 +40,7 @@ namespace Facteur.MsGraph
         /// <returns></returns>
         public async t.Task SendMailAsync(EmailRequest request)
         {
-            GraphServiceClient graphClient = await ConnectClient().ConfigureAwait(false);
+            GraphServiceClient graphClient = await ConnectClient();
             Message message = new()
             {
                 Subject = request.Subject,
@@ -58,7 +58,7 @@ namespace Facteur.MsGraph
                     Message = message,
                     SaveToSentItems = false
                 })
-                .ConfigureAwait(false);
+                ;
         }
 
         public async Task SendMailAsync(Func<IEmailComposer, Task<EmailRequest>> compose)
@@ -76,7 +76,7 @@ namespace Facteur.MsGraph
                 .WithAuthority(authority)
                 .Build();
 
-            AuthenticationResult authenticationResult = await confidentialClientApplication.AcquireTokenForClient(scopes).ExecuteAsync().ConfigureAwait(false);
+            AuthenticationResult authenticationResult = await confidentialClientApplication.AcquireTokenForClient(scopes).ExecuteAsync();
 
             return new GraphServiceClient(new BaseBearerTokenAuthenticationProvider(new TokenProvider(authenticationResult.AccessToken)));
         }
