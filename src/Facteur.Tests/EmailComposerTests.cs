@@ -10,7 +10,7 @@ namespace Facteur.Tests
         public void EmailComposer_Build_HasEmptyFrom_ShouldThrowException()
         {
             EmailComposer composer = new();
-            Assert.ThrowsException<ArgumentNullException>(
+            Assert.Throws<ArgumentNullException>(
                 () => composer.Build());
         }
 
@@ -18,7 +18,7 @@ namespace Facteur.Tests
         public void EmailComposer_Build_HasEmptySubject_ShouldThrowException()
         {
             EmailComposer composer = new();
-            Assert.ThrowsException<ArgumentNullException>(
+            Assert.Throws<ArgumentNullException>(
                 () => composer.From("info@facteur.com").Build());
         }
 
@@ -26,7 +26,7 @@ namespace Facteur.Tests
         public void EmailComposer_Build_HasEmptyTo_ShouldThrowException()
         {
             EmailComposer composer = new();
-            Assert.ThrowsException<ArgumentNullException>(
+            Assert.Throws<ArgumentNullException>(
                 () => composer.From("info@facteur.com").Subject("Hello world").Body("Test").Build());
         }
     }

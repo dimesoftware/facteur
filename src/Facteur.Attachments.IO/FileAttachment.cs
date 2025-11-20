@@ -6,7 +6,7 @@ namespace Facteur.Attachments.IO
     public class FileAttachment : IAttachmentSource
     {
         public async Task<Attachment> Fetch(string path)
-            => new Attachment()
+            => new()
             {
                 ContentBytes = await File.ReadAllBytesAsync(path),
                 Name = Path.GetFileName(path)

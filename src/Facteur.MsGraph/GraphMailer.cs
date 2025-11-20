@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Net.Http.Headers;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
+using Microsoft.Graph.Models;
 using Microsoft.Identity.Client;
+using Microsoft.Kiota.Abstractions.Authentication;
 
 using t = System.Threading.Tasks;
 
@@ -37,22 +40,25 @@ namespace Facteur.MsGraph
         /// <returns></returns>
         public async t.Task SendMailAsync(EmailRequest request)
         {
-            GraphServiceClient graphClient = await ConnectClient().ConfigureAwait(false);
+            GraphServiceClient graphClient = await ConnectClient();
             Message message = new()
             {
                 Subject = request.Subject,
                 Body = new ItemBody { ContentType = BodyType.Html, Content = request.Body },
-                ToRecipients = request.To.Select(x => new Recipient { EmailAddress = new EmailAddress { Address = x } }),
-                CcRecipients = request.Cc.Select(x => new Recipient { EmailAddress = new EmailAddress { Address = x } }),
-                BccRecipients = request.Bcc.Select(x => new Recipient { EmailAddress = new EmailAddress { Address = x } }),
+                ToRecipients = [.. request.To.Select(x => new Recipient { EmailAddress = new EmailAddress { Address = x } })],
+                CcRecipients = [.. request.Cc.Select(x => new Recipient { EmailAddress = new EmailAddress { Address = x } })],
+                BccRecipients = [.. request.Bcc.Select(x => new Recipient { EmailAddress = new EmailAddress { Address = x } })],
                 Attachments = request.AddAttachments()
             };
 
             await graphClient.Users[Credentials.From]
-                .SendMail(message, false)
-                .Request()
-                .PostAsync()
-                .ConfigureAwait(false);
+                .SendMail
+                .PostAsync(new Microsoft.Graph.Users.Item.SendMail.SendMailPostRequestBody
+                {
+                    Message = message,
+                    SaveToSentItems = false
+                })
+                ;
         }
 
         public async Task SendMailAsync(Func<IEmailComposer, Task<EmailRequest>> compose)
@@ -70,13 +76,26 @@ namespace Facteur.MsGraph
                 .WithAuthority(authority)
                 .Build();
 
-            AuthenticationResult authenticationResult = await confidentialClientApplication.AcquireTokenForClient(scopes).ExecuteAsync().ConfigureAwait(false);
+            AuthenticationResult authenticationResult = await confidentialClientApplication.AcquireTokenForClient(scopes).ExecuteAsync();
 
-            return new GraphServiceClient(new DelegateAuthenticationProvider(x =>
+            return new GraphServiceClient(new BaseBearerTokenAuthenticationProvider(new TokenProvider(authenticationResult.AccessToken)));
+        }
+
+        private class TokenProvider : IAccessTokenProvider
+        {
+            private readonly string _accessToken;
+
+            public TokenProvider(string accessToken)
             {
-                x.Headers.Authorization = new AuthenticationHeaderValue("Bearer", authenticationResult.AccessToken);
-                return t.Task.FromResult(0);
-            }));
+                _accessToken = accessToken;
+            }
+
+            public Task<string> GetAuthorizationTokenAsync(Uri uri, Dictionary<string, object> additionalAuthenticationContext = null, CancellationToken cancellationToken = default)
+            {
+                return Task.FromResult(_accessToken);
+            }
+
+            public AllowedHostsValidator AllowedHostsValidator => new();
         }
     }
 }

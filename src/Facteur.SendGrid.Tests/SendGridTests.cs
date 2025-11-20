@@ -19,7 +19,7 @@ namespace Facteur.Tests
                 .To("majev@getnada.com")
                 .Build();
 
-            Assert.ThrowsException<ArgumentNullException>(() => new SendGridMailer(null));
+            Assert.Throws<ArgumentNullException>(() => new SendGridMailer(null));
         }
 
         [TestMethod]
@@ -32,7 +32,7 @@ namespace Facteur.Tests
                 .To("majev@getnada.com")
                 .Build();
 
-            Assert.ThrowsException<ArgumentNullException>(() => new SendGridMailer(""));
+            Assert.Throws<ArgumentNullException>(() => new SendGridMailer(""));
         }
 
         [TestMethod]

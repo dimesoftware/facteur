@@ -37,7 +37,7 @@ namespace Facteur.SendGrid
         {
             SendGridClient client = new(ApiKey);
             EmailAddress sendFrom = request.From.ToEmailAddress();
-            List<EmailAddress> sendTo = request.To.Select(x => new EmailAddress(x)).ToList();
+            List<EmailAddress> sendTo = [.. request.To.Select(x => new EmailAddress(x))];
             SendGridMessage message = MailHelper
                 .CreateSingleEmailToMultipleRecipients(sendFrom, sendTo, request.Subject, null, request.Body)
                 .AddAttachments(request);

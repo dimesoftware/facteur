@@ -15,7 +15,7 @@ namespace Facteur.Compilers.Scriban.Tests
             ITemplateCompiler scribanCompiler = new ScribanCompiler();
             string body = await scribanCompiler.CompileBody(new TestMailModel { Name = "Handsome B. Wonderful" }, "Hello {{name}}!");
 
-            Assert.IsTrue(body.Contains("Handsome B. Wonderful"));
+            Assert.Contains("Handsome B. Wonderful", body);
         }
 
         [TestMethod]
@@ -25,7 +25,7 @@ namespace Facteur.Compilers.Scriban.Tests
             ITemplateCompiler compiler = new ScribanCompiler();
             string body = await compiler.CompileBody("Handsome B. Wonderful", cshtml);
 
-            Assert.IsTrue(body.Contains("Handsome B. Wonderful"));
+            Assert.Contains("Handsome B. Wonderful", body);
         }
     }
 }

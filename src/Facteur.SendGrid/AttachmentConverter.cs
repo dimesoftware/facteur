@@ -11,12 +11,12 @@ namespace Facteur.SendGrid
             if (request.Attachments.Count == 0)
                 return message;
 
-            message.Attachments = request.Attachments.Select(x => new global::SendGrid.Helpers.Mail.Attachment
+            message.Attachments = [.. request.Attachments.Select(x => new global::SendGrid.Helpers.Mail.Attachment
             {
                 Content = Convert.ToBase64String(x.ContentBytes),
                 Filename = x.Name,
                 Disposition = "attachment"
-            }).ToList();
+            })];
 
             return message;
         }
