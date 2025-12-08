@@ -11,44 +11,52 @@ namespace Facteur.Extensions.DependencyInjection
     /// </summary>
     public class FailoverMailerConfiguration
     {
-        private readonly List<MailerConfiguration> _mailerConfigurations = [];
+        private readonly List<MailerFactoryEntry> _mailerEntries = [];
 
         internal FailoverMailerConfiguration()
         {
         }
 
         /// <summary>
-        /// Adds a mailer to the failover chain. You can optionally configure a retry policy for this mailer.
-        /// If no retry policy is configured (using <see cref="MailerConfigurationBuilder.WithoutRetryPolicy"/>), the mailer will be tried once before moving to the next.
+        /// Adds a mailer to the failover chain with an optional retry policy configuration.
         /// </summary>
         /// <typeparam name="TMailer">The mailer implementation type.</typeparam>
         /// <param name="factory">The factory function to create the mailer instance.</param>
-        /// <returns>A builder to optionally configure the retry policy for this mailer.</returns>
-        public MailerConfigurationBuilder WithMailer<TMailer>(Func<IServiceProvider, TMailer> factory) where TMailer : class, IMailer
+        /// <param name="configurePolicy">Optional action to configure the retry policy. If null, the mailer will be tried once without retries.</param>
+        /// <returns>The failover mailer configuration builder for fluent chaining.</returns>
+        public FailoverMailerConfiguration WithMailer<TMailer>(Func<IServiceProvider, TMailer> factory, Action<ResiliencePipelineBuilder>? configurePolicy = null) where TMailer : class, IMailer
         {
             ArgumentNullException.ThrowIfNull(factory);
-            return new MailerConfigurationBuilder(this, sp => factory(sp));
+
+            ResiliencePipeline? policy = null;
+            if (configurePolicy != null)
+            {
+                ResiliencePipelineBuilder builder = new ResiliencePipelineBuilder();
+                configurePolicy(builder);
+                policy = builder.Build();
+            }
+
+            _mailerEntries.Add(new MailerFactoryEntry(factory, policy));
+
+            return this;
         }
 
         internal FailoverMailer Build(IServiceProvider serviceProvider)
         {
-            List<RetryableMailerEntry> mailersWithRetries = [.. _mailerConfigurations
-                .Select(config =>
+            List<MailerEntry> mailersWithRetries = [.. _mailerEntries
+                .Select(entry =>
                 {
-                    IMailer mailer = config.Factory(serviceProvider);
+                    IMailer mailer = entry.Factory(serviceProvider);
 
                     // If policy is null, use a pass-through retry function (no retries)
-                    Func<Func<Task>, Task> retryFunction = config.Policy == null
+                    Func<Func<Task>, Task> retryFunction = entry.Policy == null
                         ? async (func) => await func()
-                        : async (func) => await config.Policy.ExecuteAsync(async _ => await func());
+                        : async (func) => await entry.Policy.ExecuteAsync(async _ => await func());
 
-                    return new RetryableMailerEntry(mailer, retryFunction);
+                    return new MailerEntry(mailer, retryFunction);
                 })];
 
             return new FailoverMailer(mailersWithRetries);
         }
-
-        internal void AddMailerWithPolicy(Func<IServiceProvider, IMailer> factory, ResiliencePipeline? policy)
-            => _mailerConfigurations.Add(new MailerConfiguration(factory, policy));
     }
 }

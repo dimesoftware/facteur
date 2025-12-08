@@ -137,8 +137,8 @@ namespace Facteur.Extensions.DependencyInjection.Tests
                 .Build();
 
             // Create mailer entries with retry policies
-            RetryableMailerEntry entry1 = new(failingMailer, async (func) => await retryPolicy.ExecuteAsync(async _ => await func()));
-            RetryableMailerEntry entry2 = new(successfulMailer, async (func) => await Task.Run(func));
+            MailerEntry entry1 = new(failingMailer, async (func) => await retryPolicy.ExecuteAsync(async _ => await func()));
+            MailerEntry entry2 = new(successfulMailer, async (func) => await Task.Run(func));
 
             FailoverMailer failoverMailer = new([entry1, entry2]);
 
@@ -174,8 +174,8 @@ namespace Facteur.Extensions.DependencyInjection.Tests
                 })
                 .Build();
 
-            RetryableMailerEntry entry1 = new(retryingMailer, async (func) => await retryPolicy.ExecuteAsync(async _ => await func()));
-            RetryableMailerEntry entry2 = new(fallbackMailer, async (func) => await Task.Run(func));
+            MailerEntry entry1 = new(retryingMailer, async (func) => await retryPolicy.ExecuteAsync(async _ => await func()));
+            MailerEntry entry2 = new(fallbackMailer, async (func) => await Task.Run(func));
 
             FailoverMailer failoverMailer = new([entry1, entry2]);
 
@@ -211,8 +211,8 @@ namespace Facteur.Extensions.DependencyInjection.Tests
                 })
                 .Build();
 
-            RetryableMailerEntry entry1 = new(failingMailer1, async (func) => await retryPolicy.ExecuteAsync(async _ => await func()));
-            RetryableMailerEntry entry2 = new(failingMailer2, async (func) => await retryPolicy.ExecuteAsync(async _ => await func()));
+            MailerEntry entry1 = new(failingMailer1, async (func) => await retryPolicy.ExecuteAsync(async _ => await func()));
+            MailerEntry entry2 = new(failingMailer2, async (func) => await retryPolicy.ExecuteAsync(async _ => await func()));
 
             FailoverMailer failoverMailer = new([entry1, entry2]);
 
@@ -243,25 +243,23 @@ namespace Facteur.Extensions.DependencyInjection.Tests
             FacteurBuilder builder = new(services);
             builder.WithMailers(config =>
             {
-                config.WithMailer(_ => failingMailer)
-                    .WithRetryPolicy(policy =>
+                config.WithMailer(_ => failingMailer, policy =>
+                {
+                    policy.AddRetry(new RetryStrategyOptions
                     {
-                        policy.AddRetry(new RetryStrategyOptions
-                        {
-                            MaxRetryAttempts = 2,
-                            ShouldHandle = new PredicateBuilder().Handle<Exception>()
-                        });
+                        MaxRetryAttempts = 2,
+                        ShouldHandle = new PredicateBuilder().Handle<Exception>()
                     });
+                });
 
-                config.WithMailer(_ => successfulMailer)
-                    .WithRetryPolicy(policy =>
+                config.WithMailer(_ => successfulMailer, policy =>
+                {
+                    policy.AddRetry(new RetryStrategyOptions
                     {
-                        policy.AddRetry(new RetryStrategyOptions
-                        {
-                            MaxRetryAttempts = 1,
-                            ShouldHandle = new PredicateBuilder().Handle<Exception>()
-                        });
+                        MaxRetryAttempts = 1,
+                        ShouldHandle = new PredicateBuilder().Handle<Exception>()
                     });
+                });
             });
 
             ServiceProvider serviceProvider = services.BuildServiceProvider();
@@ -301,9 +299,9 @@ namespace Facteur.Extensions.DependencyInjection.Tests
                 .Build();
 
             // Mix entries: one without retry, one with retry, one without retry
-            RetryableMailerEntry entry1 = new(mailerWithoutRetry, async (func) => await func()); // No retry
-            RetryableMailerEntry entry2 = new(mailerWithRetry, async (func) => await retryPolicy.ExecuteAsync(async _ => await func())); // With retry
-            RetryableMailerEntry entry3 = new(successfulMailer, async (func) => await func()); // No retry
+            MailerEntry entry1 = new(mailerWithoutRetry, async (func) => await func()); // No retry
+            MailerEntry entry2 = new(mailerWithRetry, async (func) => await retryPolicy.ExecuteAsync(async _ => await func())); // With retry
+            MailerEntry entry3 = new(successfulMailer, async (func) => await func()); // No retry
 
             FailoverMailer failoverMailer = new([entry1, entry2, entry3]);
 
@@ -327,6 +325,56 @@ namespace Facteur.Extensions.DependencyInjection.Tests
 
             // Third mailer: succeeds, called once
             Assert.AreEqual(1, successfulMailer.CallCount, "Successful mailer should be called once");
+        }
+
+        [TestMethod]
+        public async Task FailoverMailer_WithMailersAPI_WithInlineRetryPolicy_ShouldWork()
+        {
+            // Arrange
+            ServiceCollection services = new();
+            TestMailer failingMailer = new(shouldSucceed: false, id: 1);
+            TestMailer successfulMailer = new(shouldSucceed: true, id: 2);
+
+            FacteurBuilder builder = new(services);
+            builder.WithMailers(config =>
+            {
+                // Test inline retry policy configuration
+                config.WithMailer(_ => failingMailer, policy =>
+                {
+                    policy.AddRetry(new RetryStrategyOptions
+                    {
+                        MaxRetryAttempts = 2,
+                        ShouldHandle = new PredicateBuilder().Handle<Exception>()
+                    });
+                });
+
+                config.WithMailer(_ => successfulMailer, policy =>
+                {
+                    policy.AddRetry(new RetryStrategyOptions
+                    {
+                        MaxRetryAttempts = 1,
+                        ShouldHandle = new PredicateBuilder().Handle<Exception>()
+                    });
+                });
+            });
+
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
+            IMailer mailer = serviceProvider.GetRequiredService<IMailer>();
+
+            EmailRequest request = new()
+            {
+                Subject = "Test",
+                From = new Sender("test@example.com", "Test"),
+                To = ["recipient@example.com"]
+            };
+
+            // Act
+            await mailer.SendMailAsync(request);
+
+            // Assert
+            // First mailer should retry 2 times (3 total calls) before failing and moving to second mailer
+            Assert.AreEqual(3, failingMailer.CallCount, "First mailer should have been called 3 times (1 initial + 2 retries)");
+            Assert.AreEqual(1, successfulMailer.CallCount, "Second mailer should have been called once after first mailer exhausted retries");
         }
     }
 }

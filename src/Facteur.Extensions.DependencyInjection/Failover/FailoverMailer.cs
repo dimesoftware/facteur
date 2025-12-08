@@ -12,7 +12,7 @@ namespace Facteur.Extensions.DependencyInjection
     /// </summary>
     internal class FailoverMailer : IMailer
     {
-        private readonly IReadOnlyList<RetryableMailerEntry> _entries;
+        private readonly IReadOnlyList<MailerEntry> _entries;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FailoverMailer"/> class.
@@ -32,7 +32,7 @@ namespace Facteur.Extensions.DependencyInjection
 
             // Convert to entries with pass-through retry functions (no retries)
             _entries = mailersList
-                .Select(mailer => new RetryableMailerEntry(mailer, async (func) => await func()))
+                .Select(mailer => new MailerEntry(mailer, async (func) => await func()))
                 .ToList()
                 .AsReadOnly();
         }
@@ -45,7 +45,7 @@ namespace Facteur.Extensions.DependencyInjection
         /// <param name="mailersWithRetries">The mailer entries with their individual retry functions. The retry function takes a task and returns a task that may retry on failure.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="mailersWithRetries"/> is null.</exception>
         /// <exception cref="ArgumentException">Thrown when <paramref name="mailersWithRetries"/> is empty.</exception>
-        public FailoverMailer(IEnumerable<RetryableMailerEntry> mailersWithRetries)
+        public FailoverMailer(IEnumerable<MailerEntry> mailersWithRetries)
         {
             ArgumentNullException.ThrowIfNull(mailersWithRetries);
 
@@ -65,7 +65,7 @@ namespace Facteur.Extensions.DependencyInjection
         {
             List<Exception> exceptions = [];
 
-            foreach (RetryableMailerEntry entry in _entries)
+            foreach (MailerEntry entry in _entries)
             {
                 try
                 {
@@ -91,7 +91,7 @@ namespace Facteur.Extensions.DependencyInjection
         {
             List<Exception> exceptions = [];
 
-            foreach (RetryableMailerEntry entry in _entries)
+            foreach (MailerEntry entry in _entries)
             {
                 try
                 {

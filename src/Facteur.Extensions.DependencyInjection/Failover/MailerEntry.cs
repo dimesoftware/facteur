@@ -8,7 +8,7 @@ namespace Facteur.Extensions.DependencyInjection
     /// </summary>
     /// <param name="Mailer"> Gets the mailer instance. </param>
     /// <param name="RetryFunction"> Gets the retry function that wraps the mailer call. </param>
-    internal record RetryableMailerEntry(IMailer Mailer, Func<Func<Task>, Task> RetryFunction)
+    internal record MailerEntry(IMailer Mailer, Func<Func<Task>, Task> RetryFunction)
     {
     }
 }
