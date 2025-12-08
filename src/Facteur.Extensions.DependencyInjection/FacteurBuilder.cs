@@ -34,7 +34,7 @@ namespace Facteur.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// Adds multiple mailers with individual retry policies for failover support. Each mailer requires a retry policy to be configured.
+        /// Adds multiple mailers with individual retry policies for failover support.
         /// Mailers will be tried in sequence with their configured retry policies before moving to the next.
         /// </summary>
         /// <param name="configure">The configuration action to add mailers and configure their retry policies.</param>
