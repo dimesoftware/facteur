@@ -1,0 +1,37 @@
+<Solution>
+  <Folder Name="/Attachments/">
+    <Project Path="Facteur.Attachments.IO/Facteur.Attachments.IO.csproj" />
+  </Folder>
+  <Folder Name="/Compilers/">
+    <Project Path="Facteur.Compilers.Scriban/Facteur.Compilers.Scriban.csproj" />
+  </Folder>
+  <Folder Name="/Endpoints/">
+    <Project Path="Facteur.MsGraph/Facteur.MsGraph.csproj" />
+    <Project Path="Facteur.Resend/Facteur.Resend.csproj" Id="4320ee2d-3ba2-45b3-b79c-bb5426f86685" />
+    <Project Path="Facteur.SendGrid/Facteur.SendGrid.csproj" />
+    <Project Path="Facteur.Smtp/Facteur.Smtp.csproj" />
+  </Folder>
+  <Folder Name="/Providers/">
+    <Project Path="Facteur.TemplateProviders.IO/Facteur.TemplateProviders.IO.csproj" />
+  </Folder>
+  <Folder Name="/Resolvers/">
+    <Project Path="Facteur.Resolvers.ViewModel/Facteur.Resolvers.ViewModel.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="test.runsettings" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Facteur.Attachments.IO.Tests/Facteur.Attachments.IO.Tests.csproj" />
+    <Project Path="Facteur.Compilers.Scriban.Tests/Facteur.Compilers.Scriban.Tests.csproj" />
+    <Project Path="Facteur.Extensions.DependencyInjection.Tests/Facteur.Extensions.DependencyInjection.Tests.csproj" />
+    <Project Path="Facteur.MsGraph.Tests/Facteur.MsGraph.Tests.csproj" />
+    <Project Path="Facteur.Resend.Tests/Facteur.Resend.Tests.csproj" Id="b8c9cc0f-0f7b-4be5-9562-a6e8466fabc2" />
+    <Project Path="Facteur.Resolvers.ViewModel.Test/Facteur.Resolvers.ViewModel.Tests.csproj" />
+    <Project Path="Facteur.SendGrid.Tests/Facteur.SendGrid.Tests.csproj" />
+    <Project Path="Facteur.Smtp.Tests/Facteur.Smtp.Tests.csproj" />
+    <Project Path="Facteur.TemplateProviders.IO.Tests/Facteur.TemplateProviders.IO.Tests.csproj" />
+    <Project Path="Facteur.Tests/Facteur.Tests.csproj" />
+  </Folder>
+  <Project Path="Facteur.Extensions.DependencyInjection/Facteur.Extensions.DependencyInjection.csproj" />
+  <Project Path="Facteur/Facteur.csproj" />
+</Solution>
