@@ -51,6 +51,7 @@ Next it is up to you to decide which *endpoint* you want to use:
 | Service             | Command                               |
 | ------------------- | ------------------------------------- |
 | Microsoft Graph API | `dotnet add package Facteur.MsGraph`  |
+| Resend              | `dotnet add package Facteur.Resend`   |
 | SMTP                | `dotnet add package Facteur.Smtp`     |
 | SendGrid            | `dotnet add package Facteur.SendGrid` |
 
