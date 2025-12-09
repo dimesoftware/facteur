@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net10.0</TargetFrameworks>
+		<TargetFrameworks>net8.0;net10.0</TargetFrameworks>
 		<LangVersion>latest</LangVersion>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<IncludeSymbols>true</IncludeSymbols>
@@ -12,17 +12,13 @@
 		<PackageProjectUrl>https://github.com/dimesoftware/facteur</PackageProjectUrl>
 		<PackageIconUrl>https://raw.githubusercontent.com/dimesoftware/facteur/master/assets/facteur.png?raw=true</PackageIconUrl>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageTags>Facteur;Email;Mail;Resend</PackageTags>
-		<Description>Send emails using the Resend endpoint</Description>
+		<PackageTags>Facteur;Email;Mail;Plunk</PackageTags>
+		<Description>Send emails using the Plunk endpoint</Description>
 		<Version>0.1.0-alpha.1</Version>
 		<Authors>Dime Software</Authors>
 		<Company>Dime Software</Company>
 		<Product>Facteur</Product>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Resend" Version="0.2.1" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Facteur\Facteur.csproj" />
@@ -35,3 +31,4 @@
 	</ItemGroup>
 
 </Project>
+

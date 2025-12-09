@@ -7,6 +7,7 @@
   </Folder>
   <Folder Name="/Endpoints/">
     <Project Path="Facteur.MsGraph/Facteur.MsGraph.csproj" />
+    <Project Path="Facteur.Plunk/Facteur.Plunk.csproj" />
     <Project Path="Facteur.Resend/Facteur.Resend.csproj" Id="4320ee2d-3ba2-45b3-b79c-bb5426f86685" />
     <Project Path="Facteur.SendGrid/Facteur.SendGrid.csproj" />
     <Project Path="Facteur.Smtp/Facteur.Smtp.csproj" />
@@ -26,6 +27,7 @@
     <Project Path="Facteur.Extensions.DependencyInjection.Resiliency.Tests/Facteur.Extensions.DependencyInjection.Resiliency.Tests.csproj" />
     <Project Path="Facteur.Extensions.DependencyInjection.Tests/Facteur.Extensions.DependencyInjection.Tests.csproj" />
     <Project Path="Facteur.MsGraph.Tests/Facteur.MsGraph.Tests.csproj" />
+    <Project Path="Facteur.Plunk.Tests/Facteur.Plunk.Tests.csproj" />
     <Project Path="Facteur.Resend.Tests/Facteur.Resend.Tests.csproj" Id="b8c9cc0f-0f7b-4be5-9562-a6e8466fabc2" />
     <Project Path="Facteur.Resolvers.ViewModel.Test/Facteur.Resolvers.ViewModel.Tests.csproj" />
     <Project Path="Facteur.SendGrid.Tests/Facteur.SendGrid.Tests.csproj" />

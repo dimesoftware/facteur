@@ -13,8 +13,8 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageTags>Facteur;Email;Mail;RazorEngine;Scriban;SendGrid;Graph;SMTP</PackageTags>
 		<Description>Resiliency extensions for Facteur.</Description>
-	<RootNamespace>Facteur.Extensions.DependencyInjection.Resiliency</RootNamespace>
-	<AssemblyName>Facteur.Extensions.DependencyInjection.Resiliency</AssemblyName>
+		<RootNamespace>Facteur.Extensions.DependencyInjection.Resiliency</RootNamespace>
+		<AssemblyName>Facteur.Extensions.DependencyInjection.Resiliency</AssemblyName>
 		<Version>0.1.0-alpha.1</Version>
 		<Authors>Dime Software</Authors>
 		<Company>Dime Software</Company>

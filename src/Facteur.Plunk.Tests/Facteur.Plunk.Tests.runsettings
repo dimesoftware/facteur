@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RunSettings>
+	<RunConfiguration>
+		<EnvironmentVariables>
+			<TEST_PLUNK_API_KEY>sk_1a5f5ac65716c3f9393c0fa9d46d44ff8fd97ee4d00e1bad</TEST_PLUNK_API_KEY>
+		</EnvironmentVariables>
+	</RunConfiguration>
+	<TestRunParameters>
+		<Parameter name="TEST_PLUNK_API_KEY" value="sk_1a5f5ac65716c3f9393c0fa9d46d44ff8fd97ee4d00e1bad" />
+	</TestRunParameters>
+</RunSettings>
+
