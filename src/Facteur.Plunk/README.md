@@ -80,6 +80,20 @@ await mailer.SendMailAsync(request);
 
 To use Plunk, you need to obtain an API key from the [Plunk dashboard](https://useplunk.com). The API key should be passed to the `PlunkMailer` constructor.
 
+## Self-Hosted Plunk
+
+If you're using a self-hosted Plunk instance, you can specify the base URL when creating the mailer:
+
+```csharp
+// For self-hosted Plunk (e.g., https://plunk.example.com)
+IMailer mailer = new PlunkMailer("your-plunk-api-key", baseUrl: "https://plunk.example.com/api");
+
+// For hosted Plunk (default)
+IMailer mailer = new PlunkMailer("your-plunk-api-key");
+```
+
+According to the [Plunk API documentation](https://docs.useplunk.com/api-reference/base-url), self-hosted instances use the `/api` endpoint of your domain.
+
 ## Features
 
 - Send transactional emails via Plunk API
