@@ -20,7 +20,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Description>Add attachments using simple IO</Description>
     <PackageTags>Facteur;Email;Mail;RazorEngine;Scriban;SendGrid;Graph;SMTP</PackageTags>
-    <Version>3.1.0-alpha.1</Version>
+    <Version>3.1.0-alpha.2</Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup>

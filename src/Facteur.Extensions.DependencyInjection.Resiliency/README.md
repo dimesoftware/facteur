@@ -26,7 +26,7 @@ There are a few moving parts:
 
 The templates can be stored anywhere. By default they are stored in the folder where the application is hosted but it can also be retrieved from an Azure blob, FTP drive, etc. Using **template providers** and **resolvers**, you can write your own logic to fetch the right template for the job.
 
-Lastly and obviously, there are the various mail services, also known as **endpoints** in Facteur. emails can be sent with good old SMTP, Microsoft Graph API, SendGrid, etc.
+Lastly and obviously, there are the various mail services, also known as **endpoints** in Facteur. emails can be sent with good old SMTP, Microsoft Graph API, Plunk, Resend, SendGrid, etc.
 
 ## Installation
 
@@ -39,6 +39,8 @@ Next it is up to you to decide which *endpoint* you want to use:
 | Service             | Command                               |
 | ------------------- | ------------------------------------- |
 | Microsoft Graph API | `dotnet add package Facteur.MsGraph`  |
+| Plunk               | `dotnet add package Facteur.Plunk`    |
+| Resend              | `dotnet add package Facteur.Resend`   |
 | SMTP                | `dotnet add package Facteur.Smtp`     |
 | SendGrid            | `dotnet add package Facteur.SendGrid` |
 
@@ -63,9 +65,10 @@ The resolvers are the glue between the storage of templates and the runtime. Res
 
 Finally, there are some ancillary packages:
 
-| Purpose      | Command                                                     |
-| ------------ | ----------------------------------------------------------- |
-| .NET Core DI | `dotnet add package Facteur.Extensions.DependencyInjection` |
+| Purpose      | Command                                                              |
+| ------------ | -------------------------------------------------------------------- |
+| .NET Core DI | `dotnet add package Facteur.Extensions.DependencyInjection`          |
+| Failover     | `dotnet add package Facteur.Extensions.DependencyInjection.Resiliency` |
 
 ## Usage
 
@@ -140,3 +143,64 @@ serviceCollection.AddFacteur(x =>
     .WithDefaultComposer();
 });
 ```
+
+### Failover support
+
+This package provides failover support for Facteur mailers. The failover mechanism allows you to configure multiple mailers that will be tried in sequence. If one mailer fails, the next mailer in the chain will be attempted. This is useful for high-availability scenarios where you want to ensure email delivery even if your primary mail service is unavailable.
+
+You can configure failover mailers using the `WithMailers` method, which allows you to specify multiple mailers with optional retry policies for each:
+
+```csharp
+using Facteur.Extensions.DependencyInjection.Resiliency;
+using Polly;
+using Polly.Retry;
+
+serviceCollection.AddFacteur(x =>
+{
+    x.WithMailers(config =>
+    {
+        // Primary mailer with retry policy (2 retries = 3 total attempts)
+        config.WithMailer(sp => new SendGridMailer(sendGridCredentials), policy =>
+        {
+            policy.AddRetry(new RetryStrategyOptions
+            {
+                MaxRetryAttempts = 2,
+                ShouldHandle = new PredicateBuilder().Handle<Exception>()
+            });
+        });
+
+        // Fallback mailer (tried once if primary fails)
+        config.WithMailer(sp => new SmtpMailer(smtpCredentials));
+    })
+    .WithCompiler<ScribanCompiler>()
+    .WithTemplateProvider(x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
+    .WithResolver<ViewModelTemplateResolver>()
+    .WithDefaultComposer();
+});
+```
+
+In this example:
+- The SendGrid mailer will be tried first with up to 2 retries (3 total attempts)
+- If all SendGrid attempts fail, the SMTP mailer will be tried once
+- If all mailers fail, an `AggregateException` containing all exceptions will be thrown
+
+You can also configure failover without retry policies for simpler scenarios:
+
+```csharp
+serviceCollection.AddFacteur(x =>
+{
+    x.WithMailers(config =>
+    {
+        config.WithMailer(sp => new SendGridMailer(sendGridCredentials));
+        config.WithMailer(sp => new ResendMailer(resendApiKey));
+        config.WithMailer(sp => new PlunkMailer(plunkApiKey));
+        config.WithMailer(sp => new SmtpMailer(smtpCredentials));
+    })
+    .WithCompiler<ScribanCompiler>()
+    .WithTemplateProvider(x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
+    .WithResolver<ViewModelTemplateResolver>()
+    .WithDefaultComposer();
+});
+```
+
+In this case, each mailer will be tried once in sequence until one succeeds. The failover mechanism uses Polly's resilience pipeline for retry policies, giving you full control over retry behavior including delays, backoff strategies, and exception handling.

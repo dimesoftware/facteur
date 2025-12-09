@@ -26,7 +26,7 @@ There are a few moving parts:
 
 The templates can be stored anywhere. By default they are stored in the folder where the application is hosted but it can also be retrieved from an Azure blob, FTP drive, etc. Using **template providers** and **resolvers**, you can write your own logic to fetch the right template for the job.
 
-Lastly and obviously, there are the various mail services, also known as **endpoints** in Facteur. emails can be sent with good old SMTP, Microsoft Graph API, SendGrid, etc.
+Lastly and obviously, there are the various mail services, also known as **endpoints** in Facteur. emails can be sent with good old SMTP, Microsoft Graph API, Plunk, Resend, SendGrid, etc.
 
 ## Installation
 
@@ -39,6 +39,7 @@ Next it is up to you to decide which *endpoint* you want to use:
 | Service             | Command                               |
 | ------------------- | ------------------------------------- |
 | Microsoft Graph API | `dotnet add package Facteur.MsGraph`  |
+| Plunk               | `dotnet add package Facteur.Plunk`    |
 | Resend              | `dotnet add package Facteur.Resend`   |
 | SMTP                | `dotnet add package Facteur.Smtp`     |
 | SendGrid            | `dotnet add package Facteur.SendGrid` |
