@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
@@ -13,7 +13,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>Facteur;Email;Mail;RazorEngine;Scriban;SendGrid;Graph;SMTP</PackageTags>
     <Description>ASP.NET Core extensions for facteur.</Description>
-    <Version>3.0.0</Version>
+    <Version>3.1.0-alpha.1</Version>
     <Authors>Dime Software</Authors>
     <Company>Dime Software</Company>
     <Product>Facteur</Product>
@@ -30,5 +30,13 @@
     <None Include="README.md" Pack="true" PackagePath="">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Facteur.Extensions.DependencyInjection.Tests</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Facteur.Extensions.DependencyInjection.Resiliency</_Parameter1>
+    </AssemblyAttribute>
   </ItemGroup>
 </Project>

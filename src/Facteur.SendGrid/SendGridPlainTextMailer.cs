@@ -29,7 +29,7 @@ namespace Facteur.SendGrid
         /// Sends out an email
         /// </summary>
         /// <param name="request">The subject</param>
-        /// <returns>An instance of <see cref="System.Threading.Tasks.Task"/></returns>
+        /// <returns>An instance of <see cref="Task"/></returns>
         public override async Task SendMailAsync(EmailRequest request)
         {
             SendGridClient client = new(ApiKey);

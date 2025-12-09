@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.6.33927.249
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11222.15 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facteur", "Facteur\Facteur.csproj", "{F18C39F6-E4A6-4290-B08E-481B04A6855E}"
 EndProject
@@ -55,6 +55,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facteur.Attachments.IO", "Facteur.Attachments.IO\Facteur.Attachments.IO.csproj", "{B61854EE-4C53-40E3-968F-21B132C6C1E0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Facteur.Attachments.IO.Tests", "Facteur.Attachments.IO.Tests\Facteur.Attachments.IO.Tests.csproj", "{98458680-A5BD-4939-9F64-137F666B09E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facteur.Extensions.DependencyInjection.Resiliency", "Facteur.Extensions.DependencyInjection.Resiliency\Facteur.Extensions.DependencyInjection.Resiliency.csproj", "{7702842D-1490-0225-7AF3-E6BC7B897F15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facteur.Extensions.DependencyInjection.Resiliency.Tests", "Facteur.Extensions.DependencyInjection.Resiliency.Tests\Facteur.Extensions.DependencyInjection.Resiliency.Tests.csproj", "{F781067D-AE2B-48A7-B2EE-141D30951719}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -134,6 +138,14 @@ Global
 		{98458680-A5BD-4939-9F64-137F666B09E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98458680-A5BD-4939-9F64-137F666B09E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98458680-A5BD-4939-9F64-137F666B09E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7702842D-1490-0225-7AF3-E6BC7B897F15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7702842D-1490-0225-7AF3-E6BC7B897F15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7702842D-1490-0225-7AF3-E6BC7B897F15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7702842D-1490-0225-7AF3-E6BC7B897F15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F781067D-AE2B-48A7-B2EE-141D30951719}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F781067D-AE2B-48A7-B2EE-141D30951719}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F781067D-AE2B-48A7-B2EE-141D30951719}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F781067D-AE2B-48A7-B2EE-141D30951719}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -155,6 +167,7 @@ Global
 		{D611AA8A-CD1F-4F8C-B65F-A0BC78BF913B} = {2122E2F7-F19A-4728-B04F-57E68490E32A}
 		{B61854EE-4C53-40E3-968F-21B132C6C1E0} = {874D23EE-B936-4ADF-98E4-257E56B44D2D}
 		{98458680-A5BD-4939-9F64-137F666B09E8} = {2122E2F7-F19A-4728-B04F-57E68490E32A}
+		{F781067D-AE2B-48A7-B2EE-141D30951719} = {2122E2F7-F19A-4728-B04F-57E68490E32A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FCF5E92E-021C-423A-B60E-800E20DC32B4}

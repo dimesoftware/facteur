@@ -72,11 +72,11 @@ namespace Facteur.Tests
             byte[] txtBytes = File.ReadAllBytes("Attachments/Attachment.txt");
             byte[] pdfBytes = File.ReadAllBytes("Attachments/Attachment.pdf");
 
-            List<Attachment> attachments = new()
-            {
+            List<Attachment> attachments =
+            [
                 new Attachment() { ContentBytes = txtBytes, Name = "Attachment.txt" },
                 new Attachment() { ContentBytes = pdfBytes, Name = "Attachment.pdf" }
-            };
+            ];
 
             EmailComposer composer = new(
                 new ScribanCompiler(),

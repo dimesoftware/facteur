@@ -15,7 +15,7 @@ namespace Facteur.Attachments.IO.Tests
             Attachment attachment = await fileAttachment.Fetch("Attachments/Attachment.txt");
 
             Assert.AreEqual("Attachment.txt", attachment.Name);
-            Assert.AreEqual(14, attachment.ContentBytes.Length);
+            Assert.HasCount(14, attachment.ContentBytes);
         }
     }
 }

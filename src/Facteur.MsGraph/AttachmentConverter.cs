@@ -7,7 +7,7 @@ namespace Facteur.MsGraph
     {
         internal static List<Microsoft.Graph.Models.Attachment> AddAttachments(this EmailRequest request)
         {
-            List<Microsoft.Graph.Models.Attachment> attachments = new();
+            List<Microsoft.Graph.Models.Attachment> attachments = [];
             foreach (Attachment attachment in request.Attachments)
                 attachments.Add(new FileAttachment
                 {

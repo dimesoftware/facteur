@@ -12,7 +12,7 @@ namespace Facteur
         /// Sends out an email
         /// </summary>
         /// <param name="request">The request</param>
-        /// <returns>An instance of <see cref="System.Threading.Tasks.Task"/></returns>
+        /// <returns>An instance of <see cref="Task"/></returns>
         Task SendMailAsync(EmailRequest request);
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace Facteur
         /// </summary>
         /// <typeparam name="T">The model type</typeparam>
         /// <param name="request">The request</param>
-        /// <returns>An instance of <see cref="System.Threading.Tasks.Task"/></returns>
+        /// <returns>An instance of <see cref="Task"/></returns>
         Task SendMailAsync(Func<IEmailComposer, Task<EmailRequest>> compose);
     }
 }

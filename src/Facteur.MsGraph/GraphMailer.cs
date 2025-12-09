@@ -38,7 +38,7 @@ namespace Facteur.MsGraph
         /// </summary>
         /// <param name="request">The request</param>
         /// <returns></returns>
-        public async t.Task SendMailAsync(EmailRequest request)
+        public async Task SendMailAsync(EmailRequest request)
         {
             GraphServiceClient graphClient = await ConnectClient();
             Message message = new()
@@ -64,9 +64,9 @@ namespace Facteur.MsGraph
         public async Task SendMailAsync(Func<IEmailComposer, Task<EmailRequest>> compose)
             => await SendMailAsync(await compose(_composer));
 
-        protected async t.Task<GraphServiceClient> ConnectClient()
+        protected async Task<GraphServiceClient> ConnectClient()
         {
-            string[] scopes = { "https://graph.microsoft.com/.default" };
+            string[] scopes = ["https://graph.microsoft.com/.default"];
             string authority = $"https://login.microsoftonline.com/{Credentials.TenantId}";
 
             IConfidentialClientApplication confidentialClientApplication = ConfidentialClientApplicationBuilder

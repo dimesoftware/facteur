@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Facteur.Extensions.DependencyInjection
@@ -13,7 +13,7 @@ namespace Facteur.Extensions.DependencyInjection
             Services = services;
         }
 
-        protected IServiceCollection Services { get; }
+        internal IServiceCollection Services { get; }
 
         /// <summary>
         /// Adds the mailer to the runtime.
