@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Facteur.Extensions.DependencyInjection
+namespace Facteur.Extensions.DependencyInjection.Resiliency
 {
     /// <summary>
     /// A mailer that provides failover support by trying multiple mailers in sequence.

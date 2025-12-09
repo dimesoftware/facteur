@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using Facteur.Extensions.DependencyInjection.Resiliency;
 using Facteur.Smtp;
 using Facteur.TemplateProviders.IO;
 using Facteur.Tests;

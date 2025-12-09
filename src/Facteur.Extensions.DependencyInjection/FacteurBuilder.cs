@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Facteur.Extensions.DependencyInjection
@@ -14,7 +13,7 @@ namespace Facteur.Extensions.DependencyInjection
             Services = services;
         }
 
-        protected IServiceCollection Services { get; }
+        internal IServiceCollection Services { get; }
 
         /// <summary>
         /// Adds the mailer to the runtime.
@@ -30,28 +29,6 @@ namespace Facteur.Extensions.DependencyInjection
             else
                 Services.AddScoped<IMailer, TMailer>();
 
-            return this;
-        }
-
-        /// <summary>
-        /// Adds multiple mailers with individual retry policies for failover support.
-        /// Mailers will be tried in sequence with their configured retry policies before moving to the next.
-        /// </summary>
-        /// <param name="configure">The configuration action to add mailers and configure their retry policies.</param>
-        /// <returns>A reference to this instance after the operation has completed.</returns>
-        public FacteurBuilder WithMailers(Action<FailoverMailerConfiguration> configure)
-        {
-            ArgumentNullException.ThrowIfNull(configure);
-
-            // Remove any existing IMailer registration
-            ServiceDescriptor existingDescriptor = Services.FirstOrDefault(s => s.ServiceType == typeof(IMailer));
-            if (existingDescriptor != null)
-                Services.Remove(existingDescriptor);
-
-            FailoverMailerConfiguration config = new();
-            configure(config);
-
-            Services.AddScoped<IMailer>(config.Build);
             return this;
         }
 

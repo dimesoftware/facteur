@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Polly;
 
-namespace Facteur.Extensions.DependencyInjection
+namespace Facteur.Extensions.DependencyInjection.Resiliency
 {
     /// <summary>
     /// Configuration builder for failover mailers with individual retry policies.
@@ -49,10 +49,7 @@ namespace Facteur.Extensions.DependencyInjection
                     IMailer mailer = entry.Factory(serviceProvider);
 
                     // If policy is null, use a pass-through retry function (no retries)
-                    Func<Func<Task>, Task> retryFunction = entry.Policy == null
-                        ? async (func) => await func()
-                        : async (func) => await entry.Policy.ExecuteAsync(async _ => await func());
-
+                    Func<Func<Task>, Task> retryFunction = entry.Policy == null ? async (func) => await func() : async (func) => await entry.Policy.ExecuteAsync(async _ => await func());
                     return new MailerEntry(mailer, retryFunction);
                 })];
 
