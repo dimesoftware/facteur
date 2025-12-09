@@ -18,7 +18,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Facteur.Compilers.Scriban\Facteur.Compilers.Scriban.csproj" />
 		<ProjectReference Include="..\Facteur.Plunk\Facteur.Plunk.csproj" />
+		<ProjectReference Include="..\Facteur.Resolvers.ViewModel\Facteur.Resolvers.ViewModel.csproj" />
+		<ProjectReference Include="..\Facteur.TemplateProviders.IO\Facteur.TemplateProviders.IO.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Templates\Test.sbnhtml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 </Project>
