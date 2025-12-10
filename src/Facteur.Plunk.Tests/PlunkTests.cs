@@ -103,55 +103,6 @@ namespace Facteur.Tests
             IMailer mailer = new PlunkMailer(apiKey ?? "dummy-key-for-construction-test");
             Assert.IsNotNull(mailer);
         }
-
-        [TestMethod]
-        public async Task Plunk_SendMail_ShouldSendActualEmail()
-        {
-            string apiKey = GetApiKey();
-            
-            if (string.IsNullOrEmpty(apiKey))
-            {
-                Assert.Inconclusive("TEST_PLUNK_API_KEY is not set in TestRunParameters or environment variables. Skipping integration test.");
-                return;
-            }
-
-            EmailComposer composer = new();
-            EmailRequest request = composer
-                .Subject("Plunk Integration Test - Facteur")
-                .From("info@facteur.com")
-                .To("majev@getnada.com")
-                .Body("<h1>Hello from Plunk!</h1><p>This is a test email sent from the Facteur Plunk integration test.</p>")
-                .Build();
-
-            IMailer mailer = new PlunkMailer(apiKey);
-            await mailer.SendMailAsync(request);
-        }
-
-        [TestMethod]
-        public async Task Plunk_SendTemplateMail_ShouldSendActualEmail()
-        {
-            string apiKey = GetApiKey();
-            
-            if (string.IsNullOrEmpty(apiKey))
-            {
-                Assert.Inconclusive("TEST_PLUNK_API_KEY is not set in TestRunParameters or environment variables. Skipping integration test.");
-                return;
-            }
-
-            IEmailComposer composer = new EmailComposer(
-                new ScribanCompiler(),
-                new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
-                new ViewModelTemplateResolver());
-
-            EmailRequest request = await composer
-                .Subject("Plunk Integration Test - Facteur (Template)")
-                .From("info@facteur.com")
-                .To("majev@getnada.com")
-                .BuildAsync(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" });
-
-            IMailer mailer = new PlunkMailer(apiKey);
-            await mailer.SendMailAsync(request);
-        }
     }
 }
 

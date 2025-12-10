@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Facteur.Extensions.DependencyInjection.Resiliency
+namespace Facteur.Extensions.DependencyInjection
 {
     /// <summary>
     /// Represents a mailer entry in a failover chain with its associated retry function.

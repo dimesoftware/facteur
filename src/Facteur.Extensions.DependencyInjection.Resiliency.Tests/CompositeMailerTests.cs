@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Retry;
@@ -5,27 +6,27 @@ using Polly.Retry;
 namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
 {
     [TestClass]
-    public class FailoverMailerTests
+    public class CompositeMailerTests
     {
         [TestMethod]
-        public void FailoverMailer_Constructor_NullMailers_ShouldThrowException()
+        public void CompositeMailer_Constructor_NullMailers_ShouldThrowException()
         {
-            Assert.Throws<ArgumentNullException>(() => new FailoverMailer((IEnumerable<IMailer>)null!));
+            Assert.Throws<ArgumentNullException>(() => new CompositeMailer((IEnumerable<IMailer>)null!));
         }
 
         [TestMethod]
-        public void FailoverMailer_Constructor_EmptyMailers_ShouldThrowException()
+        public void CompositeMailer_Constructor_EmptyMailers_ShouldThrowException()
         {
-            Assert.Throws<ArgumentException>(() => new FailoverMailer(Array.Empty<IMailer>()));
+            Assert.Throws<ArgumentException>(() => new CompositeMailer(Array.Empty<IMailer>()));
         }
 
         [TestMethod]
-        public async Task FailoverMailer_SendMail_FirstMailerSucceeds_ShouldNotTryOthers()
+        public async Task CompositeMailer_SendMail_FirstMailerSucceeds_ShouldNotTryOthers()
         {
             // Arrange
             TestMailer successfulMailer = new(shouldSucceed: true, id: 1);
             TestMailer fallbackMailer = new(shouldSucceed: true, id: 2);
-            FailoverMailer failoverMailer = new([successfulMailer, fallbackMailer]);
+            CompositeMailer compositeMailer = new([successfulMailer, fallbackMailer]);
 
             EmailRequest request = new()
             {
@@ -35,7 +36,7 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
             };
 
             // Act
-            await failoverMailer.SendMailAsync(request);
+            await compositeMailer.SendMailAsync(request);
 
             // Assert
             Assert.AreEqual(1, successfulMailer.CallCount, "First mailer should have been called");
@@ -43,12 +44,12 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
         }
 
         [TestMethod]
-        public async Task FailoverMailer_SendMail_FirstFailsSecondSucceeds_ShouldUseSecond()
+        public async Task CompositeMailer_SendMail_FirstFailsSecondSucceeds_ShouldUseSecond()
         {
             // Arrange
             TestMailer failingMailer = new(shouldSucceed: false, id: 1);
             TestMailer successfulMailer = new(shouldSucceed: true, id: 2);
-            FailoverMailer failoverMailer = new([failingMailer, successfulMailer]);
+            CompositeMailer compositeMailer = new([failingMailer, successfulMailer]);
 
             EmailRequest request = new()
             {
@@ -58,7 +59,7 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
             };
 
             // Act
-            await failoverMailer.SendMailAsync(request);
+            await compositeMailer.SendMailAsync(request);
 
             // Assert
             // Without retries, failing mailer will be called once, then we move to the next
@@ -67,12 +68,12 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
         }
 
         [TestMethod]
-        public async Task FailoverMailer_SendMail_AllFail_ShouldThrowAggregateException()
+        public async Task CompositeMailer_SendMail_AllFail_ShouldThrowAggregateException()
         {
             // Arrange
             TestMailer failingMailer1 = new(shouldSucceed: false, id: 1);
             TestMailer failingMailer2 = new(shouldSucceed: false, id: 2);
-            FailoverMailer failoverMailer = new([failingMailer1, failingMailer2]);
+            CompositeMailer compositeMailer = new([failingMailer1, failingMailer2]);
 
             EmailRequest request = new()
             {
@@ -82,7 +83,7 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
             };
 
             // Act & Assert
-            AggregateException exception = await Assert.ThrowsAsync<AggregateException>(() => failoverMailer.SendMailAsync(request));
+            AggregateException exception = await Assert.ThrowsAsync<AggregateException>(() => compositeMailer.SendMailAsync(request));
 
             // Without retries, each mailer is tried once
             Assert.HasCount(2, exception.InnerExceptions, "Should have exactly one exception from each mailer");
@@ -91,15 +92,15 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
         }
 
         [TestMethod]
-        public async Task FailoverMailer_SendMail_WithCompose_FirstFailsSecondSucceeds_ShouldUseSecond()
+        public async Task CompositeMailer_SendMail_WithCompose_FirstFailsSecondSucceeds_ShouldUseSecond()
         {
             // Arrange
             TestMailer failingMailer = new(shouldSucceed: false, id: 1);
             TestMailer successfulMailer = new(shouldSucceed: true, id: 2);
-            FailoverMailer failoverMailer = new([failingMailer, successfulMailer]);
+            CompositeMailer compositeMailer = new([failingMailer, successfulMailer]);
 
             // Act
-            await failoverMailer.SendMailAsync(async composer =>
+            await compositeMailer.SendMailAsync(async composer =>
             {
                 return await Task.FromResult(new EmailRequest
                 {
@@ -116,7 +117,7 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
         }
 
         [TestMethod]
-        public async Task FailoverMailer_WithRetryPolicy_MailerRetriesBeforeFailing()
+        public async Task CompositeMailer_WithRetryPolicy_MailerRetriesBeforeFailing()
         {
             // Arrange
             TestMailer failingMailer = new(shouldSucceed: false, id: 1);
@@ -127,6 +128,7 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
                 .AddRetry(new RetryStrategyOptions
                 {
                     MaxRetryAttempts = 2,
+                    Delay = TimeSpan.Zero,
                     ShouldHandle = new PredicateBuilder().Handle<Exception>()
                 })
                 .Build();
@@ -135,7 +137,7 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
             MailerEntry entry1 = new(failingMailer, async (func) => await retryPolicy.ExecuteAsync(async _ => await func()));
             MailerEntry entry2 = new(successfulMailer, async (func) => await Task.Run(func));
 
-            FailoverMailer failoverMailer = new([entry1, entry2]);
+            CompositeMailer compositeMailer = new([entry1, entry2]);
 
             EmailRequest request = new()
             {
@@ -145,7 +147,7 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
             };
 
             // Act
-            await failoverMailer.SendMailAsync(request);
+            await compositeMailer.SendMailAsync(request);
 
             // Assert
             // With 2 retries, the failing mailer should be called 3 times (initial + 2 retries)
@@ -154,7 +156,7 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
         }
 
         [TestMethod]
-        public async Task FailoverMailer_WithRetryPolicy_FirstMailerSucceedsOnRetry_ShouldNotTrySecond()
+        public async Task CompositeMailer_WithRetryPolicy_FirstMailerSucceedsOnRetry_ShouldNotTrySecond()
         {
             // Arrange
             TestMailer retryingMailer = new(shouldSucceed: false, id: 1, succeedOnAttempt: 2); // Succeeds on 2nd attempt
@@ -165,6 +167,7 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
                 .AddRetry(new RetryStrategyOptions
                 {
                     MaxRetryAttempts = 2,
+                    Delay = TimeSpan.Zero,
                     ShouldHandle = new PredicateBuilder().Handle<Exception>()
                 })
                 .Build();
@@ -172,7 +175,7 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
             MailerEntry entry1 = new(retryingMailer, async (func) => await retryPolicy.ExecuteAsync(async _ => await func()));
             MailerEntry entry2 = new(fallbackMailer, async (func) => await Task.Run(func));
 
-            FailoverMailer failoverMailer = new([entry1, entry2]);
+            CompositeMailer compositeMailer = new([entry1, entry2]);
 
             EmailRequest request = new()
             {
@@ -182,7 +185,7 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
             };
 
             // Act
-            await failoverMailer.SendMailAsync(request);
+            await compositeMailer.SendMailAsync(request);
 
             // Assert
             // Should succeed on 2nd attempt, so 2 calls total (1 initial + 1 retry)
@@ -191,7 +194,7 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
         }
 
         [TestMethod]
-        public async Task FailoverMailer_WithRetryPolicy_AllMailersFail_ShouldThrowAggregateException()
+        public async Task CompositeMailer_WithRetryPolicy_AllMailersFail_ShouldThrowAggregateException()
         {
             // Arrange
             TestMailer failingMailer1 = new(shouldSucceed: false, id: 1);
@@ -209,7 +212,7 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
             MailerEntry entry1 = new(failingMailer1, async (func) => await retryPolicy.ExecuteAsync(async _ => await func()));
             MailerEntry entry2 = new(failingMailer2, async (func) => await retryPolicy.ExecuteAsync(async _ => await func()));
 
-            FailoverMailer failoverMailer = new([entry1, entry2]);
+            CompositeMailer compositeMailer = new([entry1, entry2]);
 
             EmailRequest request = new()
             {
@@ -219,7 +222,7 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
             };
 
             // Act & Assert
-            AggregateException exception = await Assert.ThrowsAsync<AggregateException>(() => failoverMailer.SendMailAsync(request));
+            AggregateException exception = await Assert.ThrowsAsync<AggregateException>(() => compositeMailer.SendMailAsync(request));
 
             // Each mailer should have been called twice (1 initial + 1 retry)
             Assert.HasCount(2, exception.InnerExceptions, "Should have exceptions from both mailers");
@@ -228,7 +231,7 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
         }
 
         [TestMethod]
-        public async Task FailoverMailer_WithMailersAPI_RetryPolicyIntegration_ShouldRetryBeforeFailover()
+        public async Task CompositeMailer_WithMailersAPI_RetryPolicyIntegration_ShouldRetryBeforeFailover()
         {
             // Arrange
             ServiceCollection services = new();
@@ -236,24 +239,23 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
             TestMailer successfulMailer = new(shouldSucceed: true, id: 2);
 
             FacteurBuilder builder = new(services);
-            builder.WithMailers(x => x
-                .WithMailer(
+            builder.WithMailer(
                     _ => failingMailer,
                     policy => policy.AddRetry(new RetryStrategyOptions
                     {
                         MaxRetryAttempts = 2,
+                        Delay = TimeSpan.Zero,
                         ShouldHandle = new PredicateBuilder().Handle<Exception>()
-                    })
-                )
+                    }))
                 .WithMailer(
                     _ => successfulMailer,
                     policy => policy.AddRetry(new RetryStrategyOptions
                     {
                         MaxRetryAttempts = 1,
+                        Delay = TimeSpan.Zero,
                         ShouldHandle = new PredicateBuilder().Handle<Exception>()
                     })
-                )
-            );
+                );
 
             ServiceProvider serviceProvider = services.BuildServiceProvider();
             IMailer mailer = serviceProvider.GetRequiredService<IMailer>();
@@ -275,7 +277,7 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
         }
 
         [TestMethod]
-        public async Task FailoverMailer_WithMailersAPI_WithInlineRetryPolicy_ShouldWork()
+        public async Task CompositeMailer_WithMailersAPI_WithInlineRetryPolicy_ShouldWork()
         {
             // Arrange
             ServiceCollection services = new();
@@ -283,31 +285,28 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
             TestMailer successfulMailer = new(shouldSucceed: true, id: 2);
 
             FacteurBuilder builder = new(services);
-            builder.WithMailers(x =>
-            {
-                // Test inline retry policy configuration
-                x.WithMailer(
+            builder.WithMailer(
                     _ => failingMailer,
                     policy =>
                     {
                         policy.AddRetry(new RetryStrategyOptions
                         {
                             MaxRetryAttempts = 2,
+                            Delay = TimeSpan.Zero,
                             ShouldHandle = new PredicateBuilder().Handle<Exception>()
                         });
-                    });
-
-                x.WithMailer(
+                    })
+                .WithMailer(
                     _ => successfulMailer,
                     policy =>
                     {
                         policy.AddRetry(new RetryStrategyOptions
                         {
                             MaxRetryAttempts = 1,
+                            Delay = TimeSpan.Zero,
                             ShouldHandle = new PredicateBuilder().Handle<Exception>()
                         });
                     });
-            });
 
             ServiceProvider serviceProvider = services.BuildServiceProvider();
             IMailer mailer = serviceProvider.GetRequiredService<IMailer>();
@@ -329,7 +328,7 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
         }
 
         [TestMethod]
-        public async Task FailoverMailer_MixedRetryPolicies_SomeWithRetrySomeWithout_ShouldWork()
+        public async Task CompositeMailer_MixedRetryPolicies_SomeWithRetrySomeWithout_ShouldWork()
         {
             // Arrange
             TestMailer mailerWithoutRetry = new(shouldSucceed: false, id: 1);
@@ -341,6 +340,7 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
                 .AddRetry(new RetryStrategyOptions
                 {
                     MaxRetryAttempts = 1,
+                    Delay = TimeSpan.Zero,
                     ShouldHandle = new PredicateBuilder().Handle<Exception>()
                 })
                 .Build();
@@ -350,7 +350,7 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
             MailerEntry entry2 = new(mailerWithRetry, async (func) => await retryPolicy.ExecuteAsync(async _ => await func())); // With retry
             MailerEntry entry3 = new(successfulMailer, async (func) => await func()); // No retry
 
-            FailoverMailer failoverMailer = new([entry1, entry2, entry3]);
+            CompositeMailer compositeMailer = new([entry1, entry2, entry3]);
 
             EmailRequest request = new()
             {
@@ -360,7 +360,7 @@ namespace Facteur.Extensions.DependencyInjection.Resiliency.Tests
             };
 
             // Act
-            await failoverMailer.SendMailAsync(request);
+            await compositeMailer.SendMailAsync(request);
 
             // Assert
 

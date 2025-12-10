@@ -1,4 +1,7 @@
-﻿using System;
+﻿#nullable enable
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Facteur.Extensions.DependencyInjection
@@ -24,5 +27,6 @@ namespace Facteur.Extensions.DependencyInjection
             configure(builder);
             return services;
         }
+
     }
 }

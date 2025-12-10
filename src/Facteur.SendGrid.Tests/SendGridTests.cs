@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 using Facteur.SendGrid;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -36,7 +37,7 @@ namespace Facteur.Tests
         }
 
         [TestMethod]
-        public void Sendgrid_SendMail_KeyIsNotEmpty_ShouldConstruct()
+        public async Task Sendgrid_SendMail_KeyIsNotEmpty_ShouldConstruct()
         {
             EmailComposer composer = new();
             EmailRequest request = composer
@@ -46,6 +47,7 @@ namespace Facteur.Tests
                 .Build();
 
             IMailer mailer = new SendGridMailer("MySGKey");
+            await Assert.ThrowsAsync<Exception>(async () => await mailer.SendMailAsync(request));
         }
     }
 }

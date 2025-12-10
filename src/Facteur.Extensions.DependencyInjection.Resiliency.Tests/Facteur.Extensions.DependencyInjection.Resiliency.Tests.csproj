@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -21,8 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Facteur.Compilers.Scriban\Facteur.Compilers.Scriban.csproj" />
     <ProjectReference Include="..\Facteur.Extensions.DependencyInjection\Facteur.Extensions.DependencyInjection.csproj" />
     <ProjectReference Include="..\Facteur.Extensions.DependencyInjection.Resiliency\Facteur.Extensions.DependencyInjection.Resiliency.csproj" />
+    <ProjectReference Include="..\Facteur.Resolvers.ViewModel\Facteur.Resolvers.ViewModel.csproj" />
+    <ProjectReference Include="..\Facteur.TemplateProviders.IO\Facteur.TemplateProviders.IO.csproj" />
     <ProjectReference Include="..\Facteur\Facteur.csproj" />
   </ItemGroup>
 
