@@ -100,7 +100,7 @@ serviceCollection.AddFacteur(x =>
 
 Facteur supports failover scenarios where multiple mailers can be configured to try in sequence. If one mailer fails, the next mailer in the chain will be attempted. This is useful for high-availability scenarios where you want to ensure email delivery even if your primary mail service is unavailable.
 
-You can configure failover mailers using the `WithMailers` method from the `Facteur.Extensions.DependencyInjection.Resiliency` package, which allows you to specify multiple mailers with optional retry policies for each:
+You can configure failover mailers using the `WithMailer` method from the `Facteur.Extensions.DependencyInjection.Resiliency` package, which allows you to specify multiple mailers with optional retry policies for each:
 
 ```csharp
 using Facteur.Extensions.DependencyInjection.Resiliency;
@@ -109,21 +109,16 @@ using Polly.Retry;
 
 serviceCollection.AddFacteur(x =>
 {
-    x.WithMailers(config =>
-    {
-        // Primary mailer with retry policy (2 retries = 3 total attempts)
-        config.WithMailer(sp => new SendGridMailer(sendGridCredentials), policy =>
+    // Primary mailer with retry policy (2 retries = 3 total attempts)
+    x.WithMailer(
+        sp => new SendGridMailer(sendGridCredentials),
+        policy => policy.AddRetry(new RetryStrategyOptions
         {
-            policy.AddRetry(new RetryStrategyOptions
-            {
-                MaxRetryAttempts = 2,
-                ShouldHandle = new PredicateBuilder().Handle<Exception>()
-            });
-        });
-
-        // Fallback mailer (tried once if primary fails)
-        config.WithMailer(sp => new SmtpMailer(smtpCredentials));
-    })
+            MaxRetryAttempts = 2,
+            ShouldHandle = new PredicateBuilder().Handle<Exception>()
+        }))
+    // Fallback mailer (tried once if primary fails)
+    .WithMailer(sp => new SmtpMailer(smtpCredentials))
     .WithCompiler<ScribanCompiler>()
     .WithTemplateProvider(x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
     .WithResolver<ViewModelTemplateResolver>()
@@ -141,12 +136,9 @@ You can also configure failover without retry policies for simpler scenarios:
 ```csharp
 serviceCollection.AddFacteur(x =>
 {
-    x.WithMailers(config =>
-    {
-        config.WithMailer(sp => new SendGridMailer(sendGridCredentials));
-        config.WithMailer(sp => new ResendMailer(resendApiKey));
-        config.WithMailer(sp => new SmtpMailer(smtpCredentials));
-    })
+    x.WithMailer(sp => new SendGridMailer(sendGridCredentials))
+     .WithMailer(sp => new ResendMailer(resendApiKey))
+     .WithMailer(sp => new SmtpMailer(smtpCredentials))
     .WithCompiler<ScribanCompiler>()
     .WithTemplateProvider(x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
     .WithResolver<ViewModelTemplateResolver>()
