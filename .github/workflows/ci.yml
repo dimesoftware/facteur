@@ -65,7 +65,7 @@ jobs:
           retention-days: 30
 
       - name: Publish Code Coverage Report
-        uses: irongut/CodeCoverageSummary@v3.3.0
+        uses: irongut/CodeCoverageSummary@v1.3.0
         with:
           files: "${{ github.workspace }}/coverage-report/Cobertura.xml"
           badge: true
