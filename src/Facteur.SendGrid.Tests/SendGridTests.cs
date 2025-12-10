@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Facteur;
 using Facteur.SendGrid;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+using NSubstitute;
 using SendGrid.Helpers.Mail;
 
 namespace Facteur.Tests
@@ -66,7 +66,7 @@ namespace Facteur.Tests
         [TestMethod]
         public async Task Sendgrid_SendMailAsync_WithComposer_ShouldCallComposer()
         {
-            Mock<IEmailComposer> mockComposer = new();
+            IEmailComposer mockComposer = Substitute.For<IEmailComposer>();
             EmailRequest expectedRequest = new()
             {
                 Subject = "Test",
@@ -75,12 +75,12 @@ namespace Facteur.Tests
                 Body = "Test body"
             };
 
-            mockComposer.Setup(c => c.Subject(It.IsAny<string>())).Returns(mockComposer.Object);
-            mockComposer.Setup(c => c.From(It.IsAny<string>())).Returns(mockComposer.Object);
-            mockComposer.Setup(c => c.To(It.IsAny<string>())).Returns(mockComposer.Object);
-            mockComposer.Setup(c => c.BuildAsync()).ReturnsAsync(expectedRequest);
+            mockComposer.Subject(Arg.Any<string>()).Returns(mockComposer);
+            mockComposer.From(Arg.Any<string>()).Returns(mockComposer);
+            mockComposer.To(Arg.Any<string>()).Returns(mockComposer);
+            mockComposer.BuildAsync().Returns(expectedRequest);
 
-            SendGridMailer mailer = new("MySGKey", mockComposer.Object);
+            SendGridMailer mailer = new("MySGKey", mockComposer);
 
             await Assert.ThrowsAsync<Exception>(async () =>
                 await mailer.SendMailAsync(async composer => await composer
@@ -89,7 +89,7 @@ namespace Facteur.Tests
                     .To("recipient@example.com")
                     .BuildAsync()));
 
-            mockComposer.Verify(c => c.BuildAsync(), Times.Once);
+            await mockComposer.Received(1).BuildAsync();
         }
 
         [TestMethod]
@@ -269,7 +269,7 @@ namespace Facteur.Tests
         [TestMethod]
         public async Task SendgridPlainText_SendMailAsync_WithComposer_ShouldCallComposer()
         {
-            Mock<IEmailComposer> mockComposer = new();
+            IEmailComposer mockComposer = Substitute.For<IEmailComposer>();
             EmailRequest expectedRequest = new()
             {
                 Subject = "Test",
@@ -278,12 +278,12 @@ namespace Facteur.Tests
                 Body = "Test body"
             };
 
-            mockComposer.Setup(c => c.Subject(It.IsAny<string>())).Returns(mockComposer.Object);
-            mockComposer.Setup(c => c.From(It.IsAny<string>())).Returns(mockComposer.Object);
-            mockComposer.Setup(c => c.To(It.IsAny<string>())).Returns(mockComposer.Object);
-            mockComposer.Setup(c => c.BuildAsync()).ReturnsAsync(expectedRequest);
+            mockComposer.Subject(Arg.Any<string>()).Returns(mockComposer);
+            mockComposer.From(Arg.Any<string>()).Returns(mockComposer);
+            mockComposer.To(Arg.Any<string>()).Returns(mockComposer);
+            mockComposer.BuildAsync().Returns(expectedRequest);
 
-            SendGridPlainTextMailer mailer = new("MySGKey", mockComposer.Object);
+            SendGridPlainTextMailer mailer = new("MySGKey", mockComposer);
 
             await Assert.ThrowsAsync<Exception>(async () =>
                 await mailer.SendMailAsync(async composer => await composer
@@ -292,7 +292,7 @@ namespace Facteur.Tests
                     .To("recipient@example.com")
                     .BuildAsync()));
 
-            mockComposer.Verify(c => c.BuildAsync(), Times.Once);
+            await mockComposer.Received(1).BuildAsync();
         }
 
         [TestMethod]

@@ -1,10 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Facteur.Resend;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+using NSubstitute;
 using Resend;
 
 namespace Facteur.Tests
@@ -91,7 +90,7 @@ namespace Facteur.Tests
         [TestMethod]
         public async Task Resend_SendMailAsync_WithComposer_ShouldCallComposer()
         {
-            Mock<IEmailComposer> mockComposer = new();
+            IEmailComposer mockComposer = Substitute.For<IEmailComposer>();
             EmailRequest expectedRequest = new()
             {
                 Subject = "Test",
@@ -100,12 +99,12 @@ namespace Facteur.Tests
                 Body = "Test body"
             };
 
-            mockComposer.Setup(c => c.Subject(It.IsAny<string>())).Returns(mockComposer.Object);
-            mockComposer.Setup(c => c.From(It.IsAny<string>())).Returns(mockComposer.Object);
-            mockComposer.Setup(c => c.To(It.IsAny<string>())).Returns(mockComposer.Object);
-            mockComposer.Setup(c => c.BuildAsync()).ReturnsAsync(expectedRequest);
+            mockComposer.Subject(Arg.Any<string>()).Returns(mockComposer);
+            mockComposer.From(Arg.Any<string>()).Returns(mockComposer);
+            mockComposer.To(Arg.Any<string>()).Returns(mockComposer);
+            mockComposer.BuildAsync().Returns(expectedRequest);
 
-            ResendMailer mailer = new("MyResendKey", mockComposer.Object);
+            ResendMailer mailer = new("MyResendKey", mockComposer);
 
             await Assert.ThrowsAsync<Exception>(async () =>
                 await mailer.SendMailAsync(async composer => await composer
@@ -114,13 +113,13 @@ namespace Facteur.Tests
                     .To("recipient@example.com")
                     .BuildAsync()));
 
-            mockComposer.Verify(c => c.BuildAsync(), Times.Once);
+            await mockComposer.Received(1).BuildAsync();
         }
 
         [TestMethod]
         public async Task ResendPlainText_SendMailAsync_WithComposer_ShouldCallComposer()
         {
-            Mock<IEmailComposer> mockComposer = new();
+            IEmailComposer mockComposer = Substitute.For<IEmailComposer>();
             EmailRequest expectedRequest = new()
             {
                 Subject = "Test",
@@ -129,12 +128,12 @@ namespace Facteur.Tests
                 Body = "Test body"
             };
 
-            mockComposer.Setup(c => c.Subject(It.IsAny<string>())).Returns(mockComposer.Object);
-            mockComposer.Setup(c => c.From(It.IsAny<string>())).Returns(mockComposer.Object);
-            mockComposer.Setup(c => c.To(It.IsAny<string>())).Returns(mockComposer.Object);
-            mockComposer.Setup(c => c.BuildAsync()).ReturnsAsync(expectedRequest);
+            mockComposer.Subject(Arg.Any<string>()).Returns(mockComposer);
+            mockComposer.From(Arg.Any<string>()).Returns(mockComposer);
+            mockComposer.To(Arg.Any<string>()).Returns(mockComposer);
+            mockComposer.BuildAsync().Returns(expectedRequest);
 
-            ResendPlainTextMailer mailer = new("MyResendKey", mockComposer.Object);
+            ResendPlainTextMailer mailer = new("MyResendKey", mockComposer);
 
             await Assert.ThrowsAsync<Exception>(async () =>
                 await mailer.SendMailAsync(async composer => await composer
@@ -143,7 +142,7 @@ namespace Facteur.Tests
                     .To("recipient@example.com")
                     .BuildAsync()));
 
-            mockComposer.Verify(c => c.BuildAsync(), Times.Once);
+            await mockComposer.Received(1).BuildAsync();
         }
 
         [TestMethod]

@@ -11,8 +11,7 @@ using Facteur;
 using Facteur.Plunk;
 using Facteur.TemplateProviders.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using Moq.Protected;
+using NSubstitute;
 
 namespace Facteur.Tests
 {
@@ -139,19 +138,22 @@ namespace Facteur.Tests
         [TestMethod]
         public async Task Plunk_SendMailAsync_WithBasicRequest_ShouldSend()
         {
-            Mock<HttpMessageHandler> mockHandler = new();
-            mockHandler.Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent("{\"success\":true}")
-                });
+            TestableHttpMessageHandler testHandler = new();
+            HttpResponseMessage response = new()
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent("{\"success\":true}")
+            };
+            testHandler.SetResponse(response);
 
-            HttpClient httpClient = new(mockHandler.Object);
+            HttpRequestMessage? capturedRequest = null;
+            testHandler.SetHandler(async (req, ct) =>
+            {
+                capturedRequest = req;
+                return response;
+            });
+
+            HttpClient httpClient = new(testHandler);
             PlunkMailer mailer = new("test-api-key", null, httpClient);
 
             EmailRequest request = new()
@@ -164,38 +166,29 @@ namespace Facteur.Tests
 
             await mailer.SendMailAsync(request);
 
-            mockHandler.Protected().Verify(
-                "SendAsync",
-                Times.Once(),
-                ItExpr.Is<HttpRequestMessage>(req =>
-                    req.Method == HttpMethod.Post &&
-                    req.Headers.Authorization != null &&
-                    req.Headers.Authorization.Scheme == "Bearer" &&
-                    req.Headers.Authorization.Parameter == "test-api-key"),
-                ItExpr.IsAny<CancellationToken>());
+            Assert.IsNotNull(capturedRequest);
+            Assert.AreEqual(HttpMethod.Post, capturedRequest.Method);
+            Assert.IsNotNull(capturedRequest.Headers.Authorization);
+            Assert.AreEqual("Bearer", capturedRequest.Headers.Authorization.Scheme);
+            Assert.AreEqual("test-api-key", capturedRequest.Headers.Authorization.Parameter);
         }
 
         [TestMethod]
         public async Task Plunk_SendMailAsync_WithCcAndBcc_ShouldCombineRecipients()
         {
-            Mock<HttpMessageHandler> mockHandler = new();
+            TestableHttpMessageHandler testHandler = new();
             string capturedContent = null;
-            mockHandler.Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>())
-                .Returns<HttpRequestMessage, CancellationToken>(async (req, ct) =>
+            testHandler.SetHandler(async (req, ct) =>
+            {
+                capturedContent = await req.Content.ReadAsStringAsync(ct);
+                return new HttpResponseMessage
                 {
-                    capturedContent = await req.Content.ReadAsStringAsync(ct);
-                    return new HttpResponseMessage
-                    {
-                        StatusCode = HttpStatusCode.OK,
-                        Content = new StringContent("{\"success\":true}")
-                    };
-                });
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent("{\"success\":true}")
+                };
+            });
 
-            HttpClient httpClient = new(mockHandler.Object);
+            HttpClient httpClient = new(testHandler);
             PlunkMailer mailer = new("test-api-key", null, httpClient);
 
             EmailRequest request = new()
@@ -224,24 +217,19 @@ namespace Facteur.Tests
         [TestMethod]
         public async Task Plunk_SendMailAsync_WithSingleRecipient_ShouldSendAsString()
         {
-            Mock<HttpMessageHandler> mockHandler = new();
+            TestableHttpMessageHandler testHandler = new();
             string capturedContent = null;
-            mockHandler.Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>())
-                .Returns<HttpRequestMessage, CancellationToken>(async (req, ct) =>
+            testHandler.SetHandler(async (req, ct) =>
+            {
+                capturedContent = await req.Content.ReadAsStringAsync(ct);
+                return new HttpResponseMessage
                 {
-                    capturedContent = await req.Content.ReadAsStringAsync(ct);
-                    return new HttpResponseMessage
-                    {
-                        StatusCode = HttpStatusCode.OK,
-                        Content = new StringContent("{\"success\":true}")
-                    };
-                });
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent("{\"success\":true}")
+                };
+            });
 
-            HttpClient httpClient = new(mockHandler.Object);
+            HttpClient httpClient = new(testHandler);
             PlunkMailer mailer = new("test-api-key", null, httpClient);
 
             EmailRequest request = new()
@@ -267,24 +255,19 @@ namespace Facteur.Tests
         [TestMethod]
         public async Task Plunk_SendMailAsync_WithAttachments_ShouldIncludeAttachments()
         {
-            Mock<HttpMessageHandler> mockHandler = new();
+            TestableHttpMessageHandler testHandler = new();
             string capturedContent = null;
-            mockHandler.Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>())
-                .Returns<HttpRequestMessage, CancellationToken>(async (req, ct) =>
+            testHandler.SetHandler(async (req, ct) =>
+            {
+                capturedContent = await req.Content.ReadAsStringAsync(ct);
+                return new HttpResponseMessage
                 {
-                    capturedContent = await req.Content.ReadAsStringAsync(ct);
-                    return new HttpResponseMessage
-                    {
-                        StatusCode = HttpStatusCode.OK,
-                        Content = new StringContent("{\"success\":true}")
-                    };
-                });
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent("{\"success\":true}")
+                };
+            });
 
-            HttpClient httpClient = new(mockHandler.Object);
+            HttpClient httpClient = new(testHandler);
             PlunkMailer mailer = new("test-api-key", null, httpClient);
 
             EmailRequest request = new()
@@ -318,7 +301,7 @@ namespace Facteur.Tests
         [TestMethod]
         public async Task Plunk_SendMailAsync_WithComposer_ShouldCallComposer()
         {
-            Mock<IEmailComposer> mockComposer = new();
+            IEmailComposer mockComposer = Substitute.For<IEmailComposer>();
             EmailRequest expectedRequest = new()
             {
                 Subject = "Test",
@@ -327,25 +310,20 @@ namespace Facteur.Tests
                 Body = "Test body"
             };
 
-            mockComposer.Setup(c => c.Subject(It.IsAny<string>())).Returns(mockComposer.Object);
-            mockComposer.Setup(c => c.From(It.IsAny<string>())).Returns(mockComposer.Object);
-            mockComposer.Setup(c => c.To(It.IsAny<string>())).Returns(mockComposer.Object);
-            mockComposer.Setup(c => c.BuildAsync()).ReturnsAsync(expectedRequest);
+            mockComposer.Subject(Arg.Any<string>()).Returns(mockComposer);
+            mockComposer.From(Arg.Any<string>()).Returns(mockComposer);
+            mockComposer.To(Arg.Any<string>()).Returns(mockComposer);
+            mockComposer.BuildAsync().Returns(expectedRequest);
 
-            Mock<HttpMessageHandler> mockHandler = new();
-            mockHandler.Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent("{\"success\":true}")
-                });
+            TestableHttpMessageHandler testHandler = new();
+            testHandler.SetResponse(new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent("{\"success\":true}")
+            });
 
-            HttpClient httpClient = new(mockHandler.Object);
-            PlunkMailer mailer = new("test-api-key", mockComposer.Object, httpClient);
+            HttpClient httpClient = new(testHandler);
+            PlunkMailer mailer = new("test-api-key", mockComposer, httpClient);
 
             await mailer.SendMailAsync(async composer => await composer
                 .Subject("Test")
@@ -353,30 +331,25 @@ namespace Facteur.Tests
                 .To("recipient@example.com")
                 .BuildAsync());
 
-            mockComposer.Verify(c => c.BuildAsync(), Times.Once);
+            await mockComposer.Received(1).BuildAsync();
         }
 
         [TestMethod]
         public async Task Plunk_SendMailAsync_WithCustomBaseUrl_ShouldUseCustomUrl()
         {
-            Mock<HttpMessageHandler> mockHandler = new();
-            Uri capturedUri = null;
-            mockHandler.Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>())
-                .Returns<HttpRequestMessage, CancellationToken>((req, ct) =>
+            TestableHttpMessageHandler testHandler = new();
+            Uri? capturedUri = null;
+            testHandler.SetHandler((req, ct) =>
+            {
+                capturedUri = req.RequestUri;
+                return Task.FromResult(new HttpResponseMessage
                 {
-                    capturedUri = req.RequestUri;
-                    return Task.FromResult(new HttpResponseMessage
-                    {
-                        StatusCode = HttpStatusCode.OK,
-                        Content = new StringContent("{\"success\":true}")
-                    });
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent("{\"success\":true}")
                 });
+            });
 
-            HttpClient httpClient = new(mockHandler.Object);
+            HttpClient httpClient = new(testHandler);
             PlunkMailer mailer = new("test-api-key", null, httpClient, "https://custom.plunk.com/api");
 
             EmailRequest request = new()
@@ -396,24 +369,19 @@ namespace Facteur.Tests
         [TestMethod]
         public async Task Plunk_SendMailAsync_WithBaseUrlTrailingSlash_ShouldTrimSlash()
         {
-            Mock<HttpMessageHandler> mockHandler = new();
-            Uri capturedUri = null;
-            mockHandler.Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>())
-                .Returns<HttpRequestMessage, CancellationToken>((req, ct) =>
+            TestableHttpMessageHandler testHandler = new();
+            Uri? capturedUri = null;
+            testHandler.SetHandler((req, ct) =>
+            {
+                capturedUri = req.RequestUri;
+                return Task.FromResult(new HttpResponseMessage
                 {
-                    capturedUri = req.RequestUri;
-                    return Task.FromResult(new HttpResponseMessage
-                    {
-                        StatusCode = HttpStatusCode.OK,
-                        Content = new StringContent("{\"success\":true}")
-                    });
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent("{\"success\":true}")
                 });
+            });
 
-            HttpClient httpClient = new(mockHandler.Object);
+            HttpClient httpClient = new(testHandler);
             PlunkMailer mailer = new("test-api-key", null, httpClient, "https://custom.plunk.com/api/");
 
             EmailRequest request = new()
@@ -451,24 +419,19 @@ namespace Facteur.Tests
         [DataRow("", "application/octet-stream")]
         public async Task Plunk_SendMailAsync_WithDifferentAttachmentTypes_ShouldSetCorrectContentType(string fileName, string expectedContentType)
         {
-            Mock<HttpMessageHandler> mockHandler = new();
-            string capturedContent = null;
-            mockHandler.Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>())
-                .Returns<HttpRequestMessage, CancellationToken>(async (req, ct) =>
+            TestableHttpMessageHandler testHandler = new();
+            string? capturedContent = null;
+            testHandler.SetHandler(async (req, ct) =>
+            {
+                capturedContent = await req.Content.ReadAsStringAsync(ct);
+                return new HttpResponseMessage
                 {
-                    capturedContent = await req.Content.ReadAsStringAsync(ct);
-                    return new HttpResponseMessage
-                    {
-                        StatusCode = HttpStatusCode.OK,
-                        Content = new StringContent("{\"success\":true}")
-                    };
-                });
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent("{\"success\":true}")
+                };
+            });
 
-            HttpClient httpClient = new(mockHandler.Object);
+            HttpClient httpClient = new(testHandler);
             PlunkMailer mailer = new("test-api-key", null, httpClient);
 
             EmailRequest request = new()
@@ -497,24 +460,19 @@ namespace Facteur.Tests
         [TestMethod]
         public async Task Plunk_SendMailAsync_WithNullFileName_ShouldSetDefaultContentType()
         {
-            Mock<HttpMessageHandler> mockHandler = new();
-            string capturedContent = null;
-            mockHandler.Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>())
-                .Returns<HttpRequestMessage, CancellationToken>(async (req, ct) =>
+            TestableHttpMessageHandler testHandler = new();
+            string? capturedContent = null;
+            testHandler.SetHandler(async (req, ct) =>
+            {
+                capturedContent = await req.Content.ReadAsStringAsync(ct);
+                return new HttpResponseMessage
                 {
-                    capturedContent = await req.Content.ReadAsStringAsync(ct);
-                    return new HttpResponseMessage
-                    {
-                        StatusCode = HttpStatusCode.OK,
-                        Content = new StringContent("{\"success\":true}")
-                    };
-                });
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent("{\"success\":true}")
+                };
+            });
 
-            HttpClient httpClient = new(mockHandler.Object);
+            HttpClient httpClient = new(testHandler);
             PlunkMailer mailer = new("test-api-key", null, httpClient);
 
             EmailRequest request = new()

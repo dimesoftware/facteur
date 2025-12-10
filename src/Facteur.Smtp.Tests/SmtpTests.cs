@@ -105,8 +105,9 @@ namespace Facteur.Tests
         [TestMethod]
         public async Task Smtp_SendMail_WithUseDefaultCredentials_ShouldSetUseDefaultCredentials()
         {
-            SimpleSmtpServer server = SimpleSmtpServer.Start(2526);
-            SmtpCredentials credentials = new("localhost", "2526", "false", "true");
+            SimpleSmtpServer server = SimpleSmtpServer.Start(2527);
+            // UseDefaultCredentials = true, EnableSsl = false (test server doesn't support SSL)
+            SmtpCredentials credentials = new("localhost", "2527", "true", "false", null, null);
 
             EmailRequest request = new()
             {
@@ -118,6 +119,8 @@ namespace Facteur.Tests
 
             IMailer mailer = new SmtpMailer(credentials);
             await mailer.SendMailAsync(request);
+            
+            server.Stop();
         }
     }
 }

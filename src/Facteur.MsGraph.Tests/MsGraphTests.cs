@@ -6,7 +6,7 @@ using Facteur;
 using Facteur.MsGraph;
 using Microsoft.Graph.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+using NSubstitute;
 
 namespace Facteur.Tests
 {
@@ -34,8 +34,8 @@ namespace Facteur.Tests
                 .To("tibipi@getnada.com")
                 .BuildAsync(new TestMailModel { Email = "guy.gadbois@facteur.com", Name = "Guy Gadbois" });
 
-            Mock<IMailer> mock = new();
-            mock.Setup(foo => foo.SendMailAsync(request)).Returns(Task.CompletedTask);
+            IMailer mock = Substitute.For<IMailer>();
+            mock.SendMailAsync(request).Returns(Task.CompletedTask);
         }
     }
 
