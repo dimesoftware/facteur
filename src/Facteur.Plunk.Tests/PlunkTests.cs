@@ -293,11 +293,11 @@ namespace Facteur.Tests
                 From = new Sender("from@example.com", "From Name"),
                 To = ["to@example.com"],
                 Body = "Test body",
-                Attachments = new List<Attachment>
-                {
-                    new Attachment("test.txt", new byte[] { 1, 2, 3 }),
-                    new Attachment("test.pdf", new byte[] { 4, 5, 6 })
-                }
+                Attachments =
+                [
+                    new("test.txt", [1, 2, 3]),
+                    new("test.pdf", [4, 5, 6])
+                ]
             };
 
             await mailer.SendMailAsync(request);

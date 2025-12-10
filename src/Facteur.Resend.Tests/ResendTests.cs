@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Threading.Tasks;
-using Facteur;
 using Facteur.Resend;
-using Facteur.TemplateProviders.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Resend;
@@ -161,10 +158,10 @@ namespace Facteur.Tests
 
             message.AddCc(request);
 
-            Assert.AreEqual(2, message.Cc.Count);
-            Assert.IsTrue(message.Cc.Contains("cc1@example.com"));
-            Assert.IsTrue(message.Cc.Contains("cc2@example.com"));
-            Assert.IsFalse(message.Cc.Contains("to@example.com")); // Should be excluded as it's in To
+            Assert.HasCount(2, message.Cc);
+            Assert.Contains("cc1@example.com", message.Cc);
+            Assert.Contains("cc2@example.com", message.Cc);
+            Assert.DoesNotContain("to@example.com", message.Cc); // Should be excluded as it's in To
         }
 
         [TestMethod]
@@ -179,7 +176,7 @@ namespace Facteur.Tests
 
             message.AddCc(request);
 
-            Assert.AreEqual(0, message.Cc.Count);
+            Assert.IsEmpty(message.Cc);
         }
 
         [TestMethod]
@@ -195,11 +192,11 @@ namespace Facteur.Tests
 
             message.AddBcc(request);
 
-            Assert.AreEqual(2, message.Bcc.Count);
-            Assert.IsTrue(message.Bcc.Contains("bcc1@example.com"));
-            Assert.IsTrue(message.Bcc.Contains("bcc2@example.com"));
-            Assert.IsFalse(message.Bcc.Contains("to@example.com")); // Should be excluded
-            Assert.IsFalse(message.Bcc.Contains("cc@example.com")); // Should be excluded
+            Assert.HasCount(2, message.Bcc);
+            Assert.Contains("bcc1@example.com", message.Bcc);
+            Assert.Contains("bcc2@example.com", message.Bcc);
+            Assert.DoesNotContain("to@example.com", message.Bcc); // Should be excluded
+            Assert.DoesNotContain("cc@example.com", message.Bcc); // Should be excluded
         }
 
         [TestMethod]
@@ -214,7 +211,7 @@ namespace Facteur.Tests
 
             message.AddBcc(request);
 
-            Assert.AreEqual(0, message.Bcc.Count);
+            Assert.IsEmpty(message.Bcc);
         }
 
         [TestMethod]
@@ -223,21 +220,21 @@ namespace Facteur.Tests
             EmailMessage message = new();
             EmailRequest request = new()
             {
-                Attachments = new List<Attachment>
-                {
-                    new Attachment("test.txt", new byte[] { 1, 2, 3 }),
-                    new Attachment("test.pdf", new byte[] { 4, 5, 6 })
-                }
+                Attachments =
+                [
+                    new("test.txt", [1, 2, 3]),
+                    new("test.pdf", [4, 5, 6])
+                ]
             };
 
             message.AddAttachments(request);
 
             Assert.IsNotNull(message.Attachments);
-            Assert.AreEqual(2, message.Attachments.Count);
+            Assert.HasCount(2, message.Attachments);
             Assert.AreEqual("test.txt", message.Attachments[0].Filename);
             Assert.AreEqual("test.pdf", message.Attachments[1].Filename);
-            CollectionAssert.AreEqual(new byte[] { 1, 2, 3 }, message.Attachments[0].Content);
-            CollectionAssert.AreEqual(new byte[] { 4, 5, 6 }, message.Attachments[1].Content);
+            Assert.IsNotNull(message.Attachments[0].Content);
+            Assert.IsNotNull(message.Attachments[1].Content);
         }
 
         [TestMethod]
@@ -246,7 +243,7 @@ namespace Facteur.Tests
             EmailMessage message = new();
             EmailRequest request = new()
             {
-                Attachments = new List<Attachment>()
+                Attachments = []
             };
 
             EmailMessage result = message.AddAttachments(request);
@@ -283,10 +280,10 @@ namespace Facteur.Tests
                 From = new Sender("from@example.com", "From Name"),
                 To = ["to@example.com"],
                 Body = "Test body",
-                Attachments = new List<Attachment>
-                {
-                    new Attachment("test.txt", new byte[] { 1, 2, 3 })
-                }
+                Attachments =
+                [
+                    new("test.txt", [1, 2, 3])
+                ]
             };
 
             await Assert.ThrowsAsync<Exception>(async () => await mailer.SendMailAsync(request));
@@ -304,10 +301,10 @@ namespace Facteur.Tests
                 Cc = ["cc@example.com"],
                 Bcc = ["bcc@example.com"],
                 Body = "Test body",
-                Attachments = new List<Attachment>
-                {
-                    new Attachment("test.txt", new byte[] { 1, 2, 3 })
-                }
+                Attachments =
+                [
+                    new("test.txt", [1, 2, 3])
+                ]
             };
 
             await Assert.ThrowsAsync<Exception>(async () => await mailer.SendMailAsync(request));

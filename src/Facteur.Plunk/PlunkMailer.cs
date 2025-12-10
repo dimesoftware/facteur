@@ -51,7 +51,7 @@ namespace Facteur.Plunk
         public async Task SendMailAsync(EmailRequest request)
         {
             // Combine all recipients into the "to" field as Plunk API accepts array of recipients
-            List<string> allRecipients = new();
+            List<string> allRecipients = [];
 
             if (request.To != null)
                 allRecipients.AddRange(request.To);

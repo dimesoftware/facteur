@@ -120,17 +120,17 @@ namespace Facteur.Tests
             SendGridMessage message = new();
             EmailRequest request = new()
             {
-                Attachments = new List<Attachment>
-                {
-                    new Attachment("test.txt", new byte[] { 1, 2, 3 }),
-                    new Attachment("test.pdf", new byte[] { 4, 5, 6 })
-                }
+                Attachments =
+                [
+                    new("test.txt", [1, 2, 3]),
+                    new("test.pdf", [4, 5, 6])
+                ]
             };
 
             message.AddAttachments(request);
 
             Assert.IsNotNull(message.Attachments);
-            Assert.AreEqual(2, message.Attachments.Count);
+            Assert.HasCount(2, message.Attachments);
             Assert.AreEqual("test.txt", message.Attachments[0].Filename);
             Assert.AreEqual("test.pdf", message.Attachments[1].Filename);
             Assert.AreEqual("attachment", message.Attachments[0].Disposition);
@@ -143,7 +143,7 @@ namespace Facteur.Tests
             SendGridMessage message = new();
             EmailRequest request = new()
             {
-                Attachments = new List<Attachment>()
+                Attachments = []
             };
 
             SendGridMessage result = message.AddAttachments(request);
@@ -180,10 +180,10 @@ namespace Facteur.Tests
                 From = new Sender("from@example.com", "From Name"),
                 To = ["to@example.com"],
                 Body = "Test body",
-                Attachments = new List<Attachment>
-                {
-                    new Attachment("test.txt", new byte[] { 1, 2, 3 })
-                }
+                Attachments =
+                [
+                    new("test.txt", [1, 2, 3])
+                ]
             };
 
             await Assert.ThrowsAsync<Exception>(async () => await mailer.SendMailAsync(request));
@@ -307,10 +307,10 @@ namespace Facteur.Tests
                 Cc = ["cc@example.com"],
                 Bcc = ["bcc@example.com"],
                 Body = "Test body",
-                Attachments = new List<Attachment>
-                {
-                    new Attachment("test.txt", new byte[] { 1, 2, 3 })
-                }
+                Attachments =
+                [
+                    new("test.txt", [1, 2, 3])
+                ]
             };
 
             await Assert.ThrowsAsync<Exception>(async () => await mailer.SendMailAsync(request));
