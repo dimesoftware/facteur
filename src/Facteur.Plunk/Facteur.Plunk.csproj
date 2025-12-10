@@ -14,7 +14,7 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageTags>Facteur;Email;Mail;Plunk</PackageTags>
 		<Description>Send emails using the Plunk endpoint</Description>
-		<Version>0.1.0-alpha.2</Version>
+		<Version>0.1.0</Version>
 		<Authors>Dime Software</Authors>
 		<Company>Dime Software</Company>
 		<Product>Facteur</Product>
