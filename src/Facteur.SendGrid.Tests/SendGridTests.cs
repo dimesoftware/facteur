@@ -82,7 +82,7 @@ namespace Facteur.Tests
 
             SendGridMailer mailer = new("MySGKey", mockComposer.Object);
 
-            await Assert.ThrowsExceptionAsync<Exception>(async () =>
+            await Assert.ThrowsAsync<Exception>(async () =>
                 await mailer.SendMailAsync(async composer => await composer
                     .Subject("Test")
                     .From("test@example.com")
@@ -167,7 +167,7 @@ namespace Facteur.Tests
             };
 
             // This will fail because we don't have a real API key, but it will exercise the code paths
-            await Assert.ThrowsExceptionAsync<Exception>(async () => await mailer.SendMailAsync(request));
+            await Assert.ThrowsAsync<Exception>(async () => await mailer.SendMailAsync(request));
         }
 
         [TestMethod]
@@ -186,7 +186,7 @@ namespace Facteur.Tests
                 }
             };
 
-            await Assert.ThrowsExceptionAsync<Exception>(async () => await mailer.SendMailAsync(request));
+            await Assert.ThrowsAsync<Exception>(async () => await mailer.SendMailAsync(request));
         }
 
         [TestMethod]
@@ -202,7 +202,7 @@ namespace Facteur.Tests
                 Body = "Test body"
             };
 
-            await Assert.ThrowsExceptionAsync<Exception>(async () => await mailer.SendMailAsync(request));
+            await Assert.ThrowsAsync<Exception>(async () => await mailer.SendMailAsync(request));
         }
 
         [TestMethod]
@@ -219,7 +219,7 @@ namespace Facteur.Tests
                 Body = "Test body"
             };
 
-            await Assert.ThrowsExceptionAsync<Exception>(async () => await mailer.SendMailAsync(request));
+            await Assert.ThrowsAsync<Exception>(async () => await mailer.SendMailAsync(request));
         }
 
         [TestMethod]
@@ -236,7 +236,7 @@ namespace Facteur.Tests
                 Body = "Test body"
             };
 
-            await Assert.ThrowsExceptionAsync<Exception>(async () => await mailer.SendMailAsync(request));
+            await Assert.ThrowsAsync<Exception>(async () => await mailer.SendMailAsync(request));
         }
 
         [TestMethod]
@@ -285,7 +285,7 @@ namespace Facteur.Tests
 
             SendGridPlainTextMailer mailer = new("MySGKey", mockComposer.Object);
 
-            await Assert.ThrowsExceptionAsync<Exception>(async () =>
+            await Assert.ThrowsAsync<Exception>(async () =>
                 await mailer.SendMailAsync(async composer => await composer
                     .Subject("Test")
                     .From("test@example.com")
@@ -313,7 +313,7 @@ namespace Facteur.Tests
                 }
             };
 
-            await Assert.ThrowsExceptionAsync<Exception>(async () => await mailer.SendMailAsync(request));
+            await Assert.ThrowsAsync<Exception>(async () => await mailer.SendMailAsync(request));
         }
     }
 }
