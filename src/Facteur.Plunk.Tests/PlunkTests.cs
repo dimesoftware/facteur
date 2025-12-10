@@ -429,6 +429,116 @@ namespace Facteur.Tests
             Assert.IsNotNull(capturedUri);
             Assert.AreEqual("https://custom.plunk.com/api/v1/send", capturedUri.ToString());
         }
+
+        [TestMethod]
+        [DataRow("test.pdf", "application/pdf")]
+        [DataRow("test.txt", "text/plain")]
+        [DataRow("test.html", "text/html")]
+        [DataRow("test.htm", "text/html")]
+        [DataRow("test.jpg", "image/jpeg")]
+        [DataRow("test.jpeg", "image/jpeg")]
+        [DataRow("test.png", "image/png")]
+        [DataRow("test.gif", "image/gif")]
+        [DataRow("test.doc", "application/msword")]
+        [DataRow("test.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document")]
+        [DataRow("test.xls", "application/vnd.ms-excel")]
+        [DataRow("test.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")]
+        [DataRow("test.zip", "application/zip")]
+        [DataRow("test.json", "application/json")]
+        [DataRow("test.xml", "application/xml")]
+        [DataRow("test.csv", "text/csv")]
+        [DataRow("test.unknown", "application/octet-stream")]
+        [DataRow("", "application/octet-stream")]
+        public async Task Plunk_SendMailAsync_WithDifferentAttachmentTypes_ShouldSetCorrectContentType(string fileName, string expectedContentType)
+        {
+            Mock<HttpMessageHandler> mockHandler = new();
+            string capturedContent = null;
+            mockHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .Returns<HttpRequestMessage, CancellationToken>(async (req, ct) =>
+                {
+                    capturedContent = await req.Content.ReadAsStringAsync(ct);
+                    return new HttpResponseMessage
+                    {
+                        StatusCode = HttpStatusCode.OK,
+                        Content = new StringContent("{\"success\":true}")
+                    };
+                });
+
+            HttpClient httpClient = new(mockHandler.Object);
+            PlunkMailer mailer = new("test-api-key", null, httpClient);
+
+            EmailRequest request = new()
+            {
+                Subject = "Test Subject",
+                From = new Sender("from@example.com", "From Name"),
+                To = ["to@example.com"],
+                Body = "Test body",
+                Attachments = [new(fileName, [1, 2, 3])]
+            };
+
+            await mailer.SendMailAsync(request);
+
+            Assert.IsNotNull(capturedContent);
+            JsonDocument json = JsonDocument.Parse(capturedContent);
+            JsonElement root = json.RootElement;
+            
+            Assert.IsTrue(root.TryGetProperty("attachments", out JsonElement attachmentsElement));
+            Assert.AreEqual(JsonValueKind.Array, attachmentsElement.ValueKind);
+            Assert.AreEqual(1, attachmentsElement.GetArrayLength());
+            
+            JsonElement attachment = attachmentsElement[0];
+            Assert.AreEqual(expectedContentType, attachment.GetProperty("contentType").GetString());
+        }
+
+        [TestMethod]
+        public async Task Plunk_SendMailAsync_WithNullFileName_ShouldSetDefaultContentType()
+        {
+            Mock<HttpMessageHandler> mockHandler = new();
+            string capturedContent = null;
+            mockHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .Returns<HttpRequestMessage, CancellationToken>(async (req, ct) =>
+                {
+                    capturedContent = await req.Content.ReadAsStringAsync(ct);
+                    return new HttpResponseMessage
+                    {
+                        StatusCode = HttpStatusCode.OK,
+                        Content = new StringContent("{\"success\":true}")
+                    };
+                });
+
+            HttpClient httpClient = new(mockHandler.Object);
+            PlunkMailer mailer = new("test-api-key", null, httpClient);
+
+            EmailRequest request = new()
+            {
+                Subject = "Test Subject",
+                From = new Sender("from@example.com", "From Name"),
+                To = ["to@example.com"],
+                Body = "Test body",
+                Attachments = [new(null, [1, 2, 3])]
+            };
+
+            await mailer.SendMailAsync(request);
+
+            Assert.IsNotNull(capturedContent);
+            JsonDocument json = JsonDocument.Parse(capturedContent);
+            JsonElement root = json.RootElement;
+            
+            Assert.IsTrue(root.TryGetProperty("attachments", out JsonElement attachmentsElement));
+            Assert.AreEqual(JsonValueKind.Array, attachmentsElement.ValueKind);
+            Assert.AreEqual(1, attachmentsElement.GetArrayLength());
+            
+            JsonElement attachment = attachmentsElement[0];
+            Assert.AreEqual("application/octet-stream", attachment.GetProperty("contentType").GetString());
+        }
     }
 }
 

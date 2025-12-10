@@ -101,5 +101,23 @@ namespace Facteur.Tests
             //SmtpMessage smtpMessage = server.ReceivedEmail[0];
             //Assert.IsTrue(smtpMessage.FromAddress.Address == "info@facteur.com");
         }
+
+        [TestMethod]
+        public async Task Smtp_SendMail_WithUseDefaultCredentials_ShouldSetUseDefaultCredentials()
+        {
+            SimpleSmtpServer server = SimpleSmtpServer.Start(2526);
+            SmtpCredentials credentials = new("localhost", "2526", "false", "true");
+
+            EmailRequest request = new()
+            {
+                Subject = "Test",
+                From = new Sender("from@example.com", "From Name"),
+                To = ["to@example.com"],
+                Body = "Test body"
+            };
+
+            IMailer mailer = new SmtpMailer(credentials);
+            await mailer.SendMailAsync(request);
+        }
     }
 }

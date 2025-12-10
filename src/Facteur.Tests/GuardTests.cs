@@ -48,5 +48,19 @@ namespace Facteur.Tests
             Customer customer = new() { Name = "Customer #1" };
             Guard.ThrowIfNullOrEmpty(customer.Name, nameof(customer.Name));
         }
+
+        [TestMethod]
+        public void Guard_ThrowIfNull_IsNull_ShouldThrowArgumentNullException()
+        {
+            Customer customer = null;
+            Assert.Throws<ArgumentNullException>(() => Guard.ThrowIfNull(customer, nameof(customer)));
+        }
+
+        [TestMethod]
+        public void Guard_ThrowIfNull_IsNotNull_ShouldPass()
+        {
+            Customer customer = new() { Name = "Customer #1" };
+            Guard.ThrowIfNull(customer, nameof(customer));
+        }
     }
 }
