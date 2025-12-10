@@ -66,7 +66,7 @@ namespace Facteur.Extensions.DependencyInjection
         /// <typeparam name="TEmailComposer">The composer that constructs and populates email requests.</typeparam>
         /// <param name="implementationFactory">The factory that creates the service.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
-        public FacteurBuilder WithComposer<TEmailComposer>(Func<IServiceProvider, TEmailComposer> implementationFactory = null)
+        public FacteurBuilder WithComposer<TEmailComposer>(Func<IServiceProvider, TEmailComposer>? implementationFactory = null)
              where TEmailComposer : class, IEmailComposer
         {
             if (implementationFactory != null)
@@ -93,7 +93,7 @@ namespace Facteur.Extensions.DependencyInjection
         /// <typeparam name="TTemplateCompiler">The type of the implementation to use.</typeparam>
         /// <param name="implementationFactory">The factory that creates the service.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
-        public FacteurBuilder WithCompiler<TTemplateCompiler>(Func<IServiceProvider, TTemplateCompiler> implementationFactory = null)
+        public FacteurBuilder WithCompiler<TTemplateCompiler>(Func<IServiceProvider, TTemplateCompiler>? implementationFactory = null)
             where TTemplateCompiler : class, ITemplateCompiler
         {
             if (implementationFactory != null)
@@ -110,7 +110,7 @@ namespace Facteur.Extensions.DependencyInjection
         /// <typeparam name="TTemplateProvider">The type of the implementation to use.</typeparam>
         /// <param name="implementationFactory">The factory that creates the service.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
-        public FacteurBuilder WithTemplateProvider<TTemplateProvider>(Func<IServiceProvider, TTemplateProvider> implementationFactory = null)
+        public FacteurBuilder WithTemplateProvider<TTemplateProvider>(Func<IServiceProvider, TTemplateProvider>? implementationFactory = null)
             where TTemplateProvider : class, ITemplateProvider
         {
             if (implementationFactory != null)
@@ -127,7 +127,7 @@ namespace Facteur.Extensions.DependencyInjection
         /// <typeparam name="TTemplateResolver">The type of the implementation to use.</typeparam>
         /// <param name="implementationFactory">The factory that creates the service.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
-        public FacteurBuilder WithResolver<TTemplateResolver>(Func<IServiceProvider, TTemplateResolver> implementationFactory = null)
+        public FacteurBuilder WithResolver<TTemplateResolver>(Func<IServiceProvider, TTemplateResolver>? implementationFactory = null)
             where TTemplateResolver : class, ITemplateResolver
         {
             if (implementationFactory != null)

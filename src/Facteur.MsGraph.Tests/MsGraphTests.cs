@@ -84,7 +84,7 @@ namespace Facteur.Tests
             List<Microsoft.Graph.Models.Attachment> attachments = request.AddAttachments();
 
             Assert.IsNotNull(attachments);
-            Assert.AreEqual(0, attachments.Count);
+            Assert.IsEmpty(attachments);
         }
     }
 }
