@@ -8,3 +8,4 @@ src/packages
 *.cobertura*.xml
 
 .runsettings
+coverage-report
