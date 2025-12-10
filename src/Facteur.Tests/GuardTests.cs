@@ -10,14 +10,14 @@ namespace Facteur.Tests
         [TestMethod]
         public void Guard_ThrowIfNullOrEmpty_Collection_IsNotEmpty_ShouldPass()
         {
-            Customer customer = new() { Name = "Customer #1", Orders = new List<Order>() { new() } };
+            Customer customer = new() { Name = "Customer #1", Orders = [new()] };
             Guard.ThrowIfNullOrEmpty(customer.Orders, nameof(customer.Orders));
         }
 
         [TestMethod]
         public void Guard_ThrowIfNullOrEmpty_Collection_IsEmpty_ShouldThrowArgumentNullException()
         {
-            Customer customer = new() { Name = "Customer #1", Orders = new List<Order>() };
+            Customer customer = new() { Name = "Customer #1", Orders = [] };
             Assert.Throws<ArgumentNullException>(() => Guard.ThrowIfNullOrEmpty(customer.Orders, nameof(customer.Orders)));
         }
 
@@ -47,6 +47,20 @@ namespace Facteur.Tests
         {
             Customer customer = new() { Name = "Customer #1" };
             Guard.ThrowIfNullOrEmpty(customer.Name, nameof(customer.Name));
+        }
+
+        [TestMethod]
+        public void Guard_ThrowIfNull_IsNull_ShouldThrowArgumentNullException()
+        {
+            Customer customer = null;
+            Assert.Throws<ArgumentNullException>(() => Guard.ThrowIfNull(customer, nameof(customer)));
+        }
+
+        [TestMethod]
+        public void Guard_ThrowIfNull_IsNotNull_ShouldPass()
+        {
+            Customer customer = new() { Name = "Customer #1" };
+            Guard.ThrowIfNull(customer, nameof(customer));
         }
     }
 }

@@ -26,7 +26,7 @@ There are a few moving parts:
 
 The templates can be stored anywhere. By default they are stored in the folder where the application is hosted but it can also be retrieved from an Azure blob, FTP drive, etc. Using **template providers** and **resolvers**, you can write your own logic to fetch the right template for the job.
 
-Lastly and obviously, there are the various mail services, also known as **endpoints** in Facteur. emails can be sent with good old SMTP, Microsoft Graph API, SendGrid, etc.
+Lastly and obviously, there are the various mail services, also known as **endpoints** in Facteur. emails can be sent with good old SMTP, Microsoft Graph API, Plunk, Resend, SendGrid, etc.
 
 ## Installation
 
@@ -39,6 +39,8 @@ Next it is up to you to decide which *endpoint* you want to use:
 | Service             | Command                               |
 | ------------------- | ------------------------------------- |
 | Microsoft Graph API | `dotnet add package Facteur.MsGraph`  |
+| Plunk               | `dotnet add package Facteur.Plunk`    |
+| Resend              | `dotnet add package Facteur.Resend`   |
 | SMTP                | `dotnet add package Facteur.Smtp`     |
 | SendGrid            | `dotnet add package Facteur.SendGrid` |
 
@@ -63,9 +65,10 @@ The resolvers are the glue between the storage of templates and the runtime. Res
 
 Finally, there are some ancillary packages:
 
-| Purpose      | Command                                                     |
-| ------------ | ----------------------------------------------------------- |
-| .NET Core DI | `dotnet add package Facteur.Extensions.DependencyInjection` |
+| Purpose      | Command                                                              |
+| ------------ | -------------------------------------------------------------------- |
+| .NET Core DI | `dotnet add package Facteur.Extensions.DependencyInjection`          |
+| Failover     | `dotnet add package Facteur.Extensions.DependencyInjection.Resiliency` |
 
 ## Usage
 
@@ -140,3 +143,50 @@ serviceCollection.AddFacteur(x =>
     .WithDefaultComposer();
 });
 ```
+
+### Multiple mailers (failover support)
+
+Facteur supports failover scenarios where multiple mailers can be configured to try in sequence. If one mailer fails, the next mailer in the chain will be attempted. This is useful for high-availability scenarios where you want to ensure email delivery even if your primary mail service is unavailable.
+
+You can configure multiple mailers by simply calling `WithMailer` multiple times. When multiple mailers are added, they are automatically wrapped in a `CompositeMailer` that will try each mailer in sequence:
+
+```csharp
+serviceCollection.AddFacteur(x =>
+{
+    // Primary mailer
+    x.WithMailer(sp => new SendGridMailer(sendGridCredentials))
+     // Fallback mailer (tried if primary fails)
+     .WithMailer(sp => new ResendMailer(resendApiKey))
+     // Last resort mailer
+     .WithMailer(sp => new SmtpMailer(smtpCredentials))
+    .WithCompiler<ScribanCompiler>()
+    .WithTemplateProvider(x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
+    .WithResolver<ViewModelTemplateResolver>()
+    .WithDefaultComposer();
+});
+```
+
+In this example:
+- The SendGrid mailer will be tried first
+- If SendGrid fails, the Resend mailer will be tried
+- If Resend fails, the SMTP mailer will be tried
+- If all mailers fail, an `AggregateException` containing all exceptions will be thrown
+
+You can also use type-based registration (without a factory) if the mailer type is already registered in DI:
+
+```csharp
+serviceCollection.AddScoped<SendGridMailer>(sp => new SendGridMailer(credentials));
+serviceCollection.AddScoped<ResendMailer>(sp => new ResendMailer(apiKey));
+
+serviceCollection.AddFacteur(x =>
+{
+    x.WithMailer<SendGridMailer>()  // Uses DI to resolve
+     .WithMailer<ResendMailer>()    // Uses DI to resolve
+    .WithCompiler<ScribanCompiler>()
+    .WithTemplateProvider(x => new AppDirectoryTemplateProvider("Templates", ".sbnhtml"))
+    .WithResolver<ViewModelTemplateResolver>()
+    .WithDefaultComposer();
+});
+```
+
+For advanced retry policies and resilience patterns, see the `Facteur.Extensions.DependencyInjection.Resiliency` package, which provides Polly integration for managing retry behavior.

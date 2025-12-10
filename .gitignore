@@ -6,3 +6,6 @@ TestResults
 src/packages
 **.trx
 *.cobertura*.xml
+
+.runsettings
+coverage-report

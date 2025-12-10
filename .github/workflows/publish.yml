@@ -1,0 +1,58 @@
+name: Publish NuGet Packages
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+    
+    - name: Restore dependencies
+      run: dotnet restore src/Facteur.sln
+    
+    - name: Build solution
+      run: dotnet build src/Facteur.sln --configuration Release --no-restore
+    
+    - name: Find and list packages
+      run: |
+        echo "Packages to publish:"
+        echo "Regular packages:"
+        find src -path "*/bin/Release/*.nupkg" ! -name "*.symbols.nupkg" | while read package; do
+          echo "  - $package"
+        done
+        echo "Symbol packages:"
+        find src -path "*/bin/Release/*.snupkg" | while read package; do
+          echo "  - $package"
+        done
+    
+    - name: Publish to NuGet.org
+      run: |
+        echo "Publishing regular packages..."
+        find src -path "*/bin/Release/*.nupkg" ! -name "*.symbols.nupkg" | while read package; do
+          echo "Publishing $package..."
+          dotnet nuget push "$package" \
+            --source https://api.nuget.org/v3/index.json \
+            --api-key ${{ secrets.NUGET_API_KEY }} \
+            --skip-duplicate
+        done
+        
+        echo "Publishing symbol packages..."
+        find src -path "*/bin/Release/*.snupkg" | while read package; do
+          echo "Publishing $package..."
+          dotnet nuget push "$package" \
+            --source https://api.nuget.org/v3/index.json \
+            --api-key ${{ secrets.NUGET_API_KEY }} \
+            --skip-duplicate
+        done
+      env:
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+

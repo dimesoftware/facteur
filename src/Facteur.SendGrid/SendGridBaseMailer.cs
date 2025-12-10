@@ -51,6 +51,8 @@ namespace Facteur.SendGrid
                 message.AddBcc(bcc);
 
             Response res = await client.SendEmailAsync(message);
+            if (res.IsSuccessStatusCode == false)
+                throw new Exception($"Failed to send email via SendGrid. StatusCode: {res.StatusCode}");
         }
     }
 }

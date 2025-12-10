@@ -72,11 +72,11 @@ namespace Facteur.Tests
             byte[] txtBytes = File.ReadAllBytes("Attachments/Attachment.txt");
             byte[] pdfBytes = File.ReadAllBytes("Attachments/Attachment.pdf");
 
-            List<Attachment> attachments = new()
-            {
+            List<Attachment> attachments =
+            [
                 new Attachment() { ContentBytes = txtBytes, Name = "Attachment.txt" },
                 new Attachment() { ContentBytes = pdfBytes, Name = "Attachment.pdf" }
-            };
+            ];
 
             EmailComposer composer = new(
                 new ScribanCompiler(),
@@ -100,6 +100,27 @@ namespace Facteur.Tests
 
             //SmtpMessage smtpMessage = server.ReceivedEmail[0];
             //Assert.IsTrue(smtpMessage.FromAddress.Address == "info@facteur.com");
+        }
+
+        [TestMethod]
+        public async Task Smtp_SendMail_WithUseDefaultCredentials_ShouldSetUseDefaultCredentials()
+        {
+            SimpleSmtpServer server = SimpleSmtpServer.Start(2527);
+            // UseDefaultCredentials = true, EnableSsl = false (test server doesn't support SSL)
+            SmtpCredentials credentials = new("localhost", "2527", "true", "false", null, null);
+
+            EmailRequest request = new()
+            {
+                Subject = "Test",
+                From = new Sender("from@example.com", "From Name"),
+                To = ["to@example.com"],
+                Body = "Test body"
+            };
+
+            IMailer mailer = new SmtpMailer(credentials);
+            await mailer.SendMailAsync(request);
+            
+            server.Stop();
         }
     }
 }

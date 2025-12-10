@@ -29,7 +29,7 @@ namespace Facteur.SendGrid
         /// Sends out an email
         /// </summary>
         /// <param name="request">The subject</param>
-        /// <returns>An instance of <see cref="System.Threading.Tasks.Task"/></returns>
+        /// <returns>An instance of <see cref="Task"/></returns>
         public override async Task SendMailAsync(EmailRequest request)
         {
             SendGridClient client = new(ApiKey);
@@ -46,6 +46,8 @@ namespace Facteur.SendGrid
                 message.AddBcc(bcc);
 
             Response res = await client.SendEmailAsync(message);
+            if (res.IsSuccessStatusCode == false)
+                throw new Exception($"Failed to send email via SendGrid. StatusCode: {res.StatusCode}");
         }
 
         public async Task SendMailAsync(Func<IEmailComposer, Task<EmailRequest>> compose)
