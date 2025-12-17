@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la \"c:\\Source\\dimesoftware\\facteur\\src\"\" | grep -E \"^d \")",
+      "Bash(del /F \"c:\\Source\\dimesoftware\\facteur\\src\\Facteur.AzureCommunicationServices\\Class1.cs\")",
+      "Bash(dotnet build:*)",
+      "Bash(dotnet test:*)",
+      "Bash(dotnet add:*)"
+    ]
+  }
+}

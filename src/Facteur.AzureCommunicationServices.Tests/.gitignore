@@ -1,0 +1,5 @@
+# Ignore .env file containing secrets
+.env
+
+# Keep .env.example for documentation
+!.env.example

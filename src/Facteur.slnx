@@ -6,6 +6,7 @@
     <Project Path="Facteur.Compilers.Scriban/Facteur.Compilers.Scriban.csproj" />
   </Folder>
   <Folder Name="/Endpoints/">
+    <Project Path="Facteur.AzureCommunicationServices/Facteur.AzureCommunicationServices.csproj" Id="59d3825e-0262-4e5a-a986-15315d82ed27" />
     <Project Path="Facteur.MsGraph/Facteur.MsGraph.csproj" />
     <Project Path="Facteur.Plunk/Facteur.Plunk.csproj" />
     <Project Path="Facteur.Resend/Facteur.Resend.csproj" Id="4320ee2d-3ba2-45b3-b79c-bb5426f86685" />
@@ -23,6 +24,7 @@
   </Folder>
   <Folder Name="/Tests/">
     <Project Path="Facteur.Attachments.IO.Tests/Facteur.Attachments.IO.Tests.csproj" />
+    <Project Path="Facteur.AzureCommunicationServices.Tests/Facteur.AzureCommunicationServices.Tests.csproj" Id="2ade8b29-3427-4cca-88bd-bea69b008d4d" />
     <Project Path="Facteur.Compilers.Scriban.Tests/Facteur.Compilers.Scriban.Tests.csproj" />
     <Project Path="Facteur.Extensions.DependencyInjection.Resiliency.Tests/Facteur.Extensions.DependencyInjection.Resiliency.Tests.csproj" />
     <Project Path="Facteur.Extensions.DependencyInjection.Tests/Facteur.Extensions.DependencyInjection.Tests.csproj" />
