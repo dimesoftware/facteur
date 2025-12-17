@@ -39,9 +39,9 @@ namespace Facteur.AzureCommunicationServices
             EmailContent content = new(request.Subject) { Html = request.Body };
 
             EmailMessage message = new(
-                senderAddress: request.From.Email,
+                senderAddress: request.From.Email,                
                 content: content,
-                recipients: new EmailRecipients(request.To.Select(x => new EmailAddress(x)).ToList()));
+                recipients: new EmailRecipients([.. request.To.Select(x => new EmailAddress(x))]));
 
             message.AddCc(request);
             message.AddBcc(request);

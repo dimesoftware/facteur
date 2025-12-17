@@ -43,7 +43,7 @@ namespace Facteur.AzureCommunicationServices
             EmailMessage message = new(
                 senderAddress: request.From.Email,
                 content: content,
-                recipients: new EmailRecipients(request.To.Select(x => new EmailAddress(x)).ToList()));
+                recipients: new EmailRecipients([.. request.To.Select(x => new EmailAddress(x))]));
 
             message.AddCc(request);
             message.AddBcc(request);
