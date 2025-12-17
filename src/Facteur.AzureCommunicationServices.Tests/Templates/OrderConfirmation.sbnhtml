@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .header p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        .greeting {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .order-info {
+            background-color: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .order-info-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+        }
+        .order-info-label {
+            font-weight: 600;
+            color: #555;
+        }
+        .order-info-value {
+            color: #333;
+        }
+        .priority-badge {
+            display: inline-block;
+            background-color: #ff6b6b;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .items-section {
+            margin: 30px 0;
+        }
+        .section-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        .order-item {
+            display: flex;
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            align-items: center;
+        }
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        .item-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+        .item-details {
+            flex: 1;
+        }
+        .item-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .item-sku {
+            color: #888;
+            font-size: 12px;
+        }
+        .item-quantity {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .item-price {
+            text-align: right;
+            font-weight: 600;
+            color: #667eea;
+        }
+        .price-breakdown {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            color: #555;
+        }
+        .price-row.discount {
+            color: #28a745;
+        }
+        .price-row.total {
+            border-top: 2px solid #667eea;
+            margin-top: 10px;
+            padding-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        .shipping-info {
+            background-color: #fff9e6;
+            border: 1px solid #ffd700;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .shipping-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .shipping-address {
+            color: #555;
+            line-height: 1.6;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+        }
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✓ Order Confirmed!</h1>
+            <p>Thank you for your purchase</p>
+        </div>
+
+        <div class="content">
+            <p class="greeting">Hi {{ customer_name }},</p>
+            <p>We're excited to confirm that your order has been received and is being processed. You'll receive another email when your items ship.</p>
+
+            <div class="order-info">
+                <div class="order-info-row">
+                    <span class="order-info-label">Order Number:</span>
+                    <span class="order-info-value">{{ order_number }}</span>
+                </div>
+                <div class="order-info-row">
+                    <span class="order-info-label">Order Date:</span>
+                    <span class="order-info-value">{{ order_date | date.to_string "%B %d, %Y" }}</span>
+                </div>
+                <div class="order-info-row">
+                    <span class="order-info-label">Estimated Delivery:</span>
+                    <span class="order-info-value">
+                        {{ estimated_delivery_date | date.to_string "%B %d, %Y" }}
+                        {{ if is_priority_shipping }}<span class="priority-badge">PRIORITY</span>{{ end }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="items-section">
+                <h2 class="section-title">Order Items ({{ items | array.size }} {{ if items | array.size == 1 }}item{{ else }}items{{ end }})</h2>
+                {{ for item in items }}
+                <div class="order-item">
+                    {{ if item.image_url }}
+                    <img src="{{ item.image_url }}" alt="{{ item.product_name }}" class="item-image">
+                    {{ else }}
+                    <div class="item-image" style="background-color: #e0e0e0; display: flex; align-items: center; justify-content: center;">📦</div>
+                    {{ end }}
+                    <div class="item-details">
+                        <div class="item-name">{{ item.product_name }}</div>
+                        <div class="item-sku">SKU: {{ item.product_sku }}</div>
+                        <div class="item-quantity">Quantity: {{ item.quantity }}</div>
+                    </div>
+                    <div class="item-price">${{ item.total_price | math.format "0.00" }}</div>
+                </div>
+                {{ end }}
+            </div>
+
+            <div class="price-breakdown">
+                <div class="price-row">
+                    <span>Subtotal:</span>
+                    <span>${{ subtotal | math.format "0.00" }}</span>
+                </div>
+                {{ if discount_amount > 0 }}
+                <div class="price-row discount">
+                    <span>Discount ({{ discount_code }}):</span>
+                    <span>-${{ discount_amount | math.format "0.00" }}</span>
+                </div>
+                {{ end }}
+                <div class="price-row">
+                    <span>Shipping:</span>
+                    <span>{{ if shipping_cost == 0 }}FREE{{ else }}${{ shipping_cost | math.format "0.00" }}{{ end }}</span>
+                </div>
+                <div class="price-row">
+                    <span>Tax:</span>
+                    <span>${{ tax | math.format "0.00" }}</span>
+                </div>
+                <div class="price-row total">
+                    <span>Total:</span>
+                    <span>${{ total | math.format "0.00" }}</span>
+                </div>
+            </div>
+
+            <div class="shipping-info">
+                <div class="shipping-title">📍 Shipping Address</div>
+                <div class="shipping-address">
+                    {{ shipping_address }}<br>
+                    {{ shipping_city }}, {{ shipping_state }} {{ shipping_zip_code }}<br>
+                    {{ shipping_country }}
+                </div>
+            </div>
+
+            {{ if tracking_url }}
+            <center>
+                <a href="{{ tracking_url }}" class="cta-button">Track Your Order</a>
+            </center>
+            {{ end }}
+
+            <p style="margin-top: 30px; color: #666;">
+                If you have any questions about your order, please don't hesitate to contact our customer support team.
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>Thank you for shopping with us!</p>
+            <p>
+                <a href="#">View Order</a> |
+                <a href="#">Customer Support</a> |
+                <a href="#">Return Policy</a>
+            </p>
+            <p style="margin-top: 15px; font-size: 12px;">
+                You're receiving this email because you placed an order with us.<br>
+                This is an automated message, please do not reply.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

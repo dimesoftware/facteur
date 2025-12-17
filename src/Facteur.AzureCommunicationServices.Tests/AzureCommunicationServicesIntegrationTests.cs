@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DotNetEnv;
 using Facteur;
 using Facteur.AzureCommunicationServices;
+using Facteur.TemplateProviders.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Facteur.Tests
@@ -17,7 +18,7 @@ namespace Facteur.Tests
     /// </summary>
     [TestClass]
     [ExcludeFromCodeCoverage]
-    [Ignore("Integration tests - run manually with valid connection string")]
+    //[Ignore("Integration tests - run manually with valid connection string")]
     public class AzureCommunicationServicesIntegrationTests
     {
         [AssemblyInitialize]
@@ -251,9 +252,6 @@ namespace Facteur.Tests
                 .To(recipientAddress)
                 .Body("<html><body><h1>Hello from Facteur!</h1><p>This email was sent using the composer pattern.</p></body></html>")
                 .BuildAsync());
-
-            // Assert
-            Assert.IsTrue(true, "Email using composer sent successfully");
         }
 
         [TestMethod]
@@ -277,9 +275,93 @@ namespace Facteur.Tests
 
             // Act
             await mailer.SendMailAsync(request);
+        }
 
-            // Assert
-            Assert.IsTrue(true, "Email with multiple recipients sent successfully");
+        [TestMethod]
+        [TestCategory("Integration")]
+        public async Task SendEmailWithAdvancedScribanTemplate_ShouldSucceed()
+        {
+            // Arrange
+            string connectionString = GetConnectionString();
+            string senderAddress = GetSenderAddress();
+            string recipientAddress = GetRecipientAddress();
+
+            // Create a rich view model with sample order data
+            OrderConfirmationMailModel model = new()
+            {
+                CustomerName = "John Doe",
+                CustomerEmail = recipientAddress,
+                OrderNumber = "ORD-2025-001234",
+                OrderDate = DateTime.Now.AddHours(-2),
+                EstimatedDeliveryDate = DateTime.Now.AddDays(5),
+                Subtotal = 299.97m,
+                Tax = 24.00m,
+                ShippingCost = 0m, // Free shipping
+                Total = 323.97m,
+                ShippingAddress = "123 Main Street, Apt 4B",
+                ShippingCity = "San Francisco",
+                ShippingState = "CA",
+                ShippingZipCode = "94102",
+                ShippingCountry = "United States",
+                TrackingUrl = "https://example.com/track/ORD-2025-001234",
+                IsPriorityShipping = true,
+                DiscountCode = "WELCOME20",
+                DiscountAmount = 59.99m,
+                Items = new()
+                {
+                    new OrderItem
+                    {
+                        ProductName = "Wireless Bluetooth Headphones",
+                        ProductSku = "WBH-001",
+                        Quantity = 1,
+                        UnitPrice = 129.99m,
+                        TotalPrice = 129.99m,
+                        ImageUrl = "https://via.placeholder.com/80"
+                    },
+                    new OrderItem
+                    {
+                        ProductName = "USB-C Fast Charger",
+                        ProductSku = "USBC-CHRG-45W",
+                        Quantity = 2,
+                        UnitPrice = 34.99m,
+                        TotalPrice = 69.98m,
+                        ImageUrl = "https://via.placeholder.com/80"
+                    },
+                    new OrderItem
+                    {
+                        ProductName = "Phone Case - Premium Leather",
+                        ProductSku = "PC-LTHR-BLK",
+                        Quantity = 1,
+                        UnitPrice = 49.99m,
+                        TotalPrice = 49.99m,
+                        ImageUrl = "https://via.placeholder.com/80"
+                    },
+                    new OrderItem
+                    {
+                        ProductName = "Screen Protector (3-Pack)",
+                        ProductSku = "SP-GLASS-3PK",
+                        Quantity = 1,
+                        UnitPrice = 19.99m,
+                        TotalPrice = 19.99m
+                        // No image URL to test fallback
+                    }
+                }
+            };
+
+            // Create email composer with Scriban compiler and template provider
+            EmailComposer composer = new(
+                new ScribanCompiler(),
+                new AppDirectoryTemplateProvider("Templates", ".sbnhtml"),
+                new ViewModelTemplateResolver());
+
+            IMailer mailer = new AzureCommunicationServicesMailer(connectionString, composer);
+
+            // Act
+            await mailer.SendMailAsync(async c => await c
+                .Subject($"Order Confirmation - {model.OrderNumber}")
+                .From(senderAddress, "Your Store Name")
+                .To(recipientAddress)
+                .BuildAsync(model));
         }
     }
 }
