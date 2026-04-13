@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+		<LangVersion>latest</LangVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<NeutralLanguage>en</NeutralLanguage>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/dimesoftware/facteur</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/dimesoftware/facteur</PackageProjectUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Description>Create email bodies using the Handlebars template engine.</Description>
+		<PackageTags>Facteur;Email;Mail;Handlebars</PackageTags>
+		<PackageIconUrl>https://raw.githubusercontent.com/dimesoftware/facteur/master/assets/facteur.png?raw=true</PackageIconUrl>
+		<Version>0.1.0</Version>
+		<Authors>Dime Software</Authors>
+		<Company>Dime Software</Company>
+		<Product>Facteur</Product>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Handlebars.Net" Version="2.1.6" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Facteur\Facteur.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+</Project>

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
@@ -10,20 +10,24 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/dimesoftware/facteur</RepositoryUrl>
     <PackageProjectUrl>https://github.com/dimesoftware/facteur</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/dimesoftware/facteur/master/assets/facteur.png?raw=true</PackageIconUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageTags>Facteur;Email;Mail;SMTP</PackageTags>
-    <Description>Send emails using SMTP</Description>
-    <Version>3.1.0</Version>
+    <Description>Create email bodies using the Fluid template engine.</Description>
+    <PackageTags>Facteur;Email;Mail;Fluid;Liquid</PackageTags>
+    <PackageIconUrl>https://raw.githubusercontent.com/dimesoftware/facteur/master/assets/facteur.png?raw=true</PackageIconUrl>
+    <Version>0.1.0</Version>
     <Authors>Dime Software</Authors>
     <Company>Dime Software</Company>
     <Product>Facteur</Product>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Fluid.Core" Version="2.31.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Facteur\Facteur.csproj" />
   </ItemGroup>
-   <ItemGroup>
+  <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

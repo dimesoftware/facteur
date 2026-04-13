@@ -3,6 +3,8 @@
     <Project Path="Facteur.Attachments.IO/Facteur.Attachments.IO.csproj" />
   </Folder>
   <Folder Name="/Compilers/">
+    <Project Path="Facteur.Compilers.Fluid/Facteur.Compilers.Fluid.csproj" />
+    <Project Path="Facteur.Compilers.Handlebars/Facteur.Compilers.Handlebars.csproj" />
     <Project Path="Facteur.Compilers.Scriban/Facteur.Compilers.Scriban.csproj" />
   </Folder>
   <Folder Name="/Endpoints/">
@@ -25,6 +27,8 @@
   <Folder Name="/Tests/">
     <Project Path="Facteur.Attachments.IO.Tests/Facteur.Attachments.IO.Tests.csproj" />
     <Project Path="Facteur.AzureCommunicationServices.Tests/Facteur.AzureCommunicationServices.Tests.csproj" Id="2ade8b29-3427-4cca-88bd-bea69b008d4d" />
+    <Project Path="Facteur.Compilers.Fluid.Tests/Facteur.Compilers.Fluid.Tests.csproj" />
+    <Project Path="Facteur.Compilers.Handlebars.Tests/Facteur.Compilers.Handlebars.Tests.csproj" />
     <Project Path="Facteur.Compilers.Scriban.Tests/Facteur.Compilers.Scriban.Tests.csproj" />
     <Project Path="Facteur.Extensions.DependencyInjection.Resiliency.Tests/Facteur.Extensions.DependencyInjection.Resiliency.Tests.csproj" />
     <Project Path="Facteur.Extensions.DependencyInjection.Tests/Facteur.Extensions.DependencyInjection.Tests.csproj" />

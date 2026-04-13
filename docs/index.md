@@ -49,9 +49,11 @@ Next it is up to you to decide which _endpoint_ you want to use:
 
 Next, you should decide which _compiler_ to use to generate the body of your email. The following packages are available:
 
-| Resolvers | Command                                        |
-| --------- | ---------------------------------------------- |
-| Scriban   | `dotnet add package Facteur.Compilers.Scriban` |
+| Resolvers   | Command                                           |
+| ----------- | ------------------------------------------------- |
+| Scriban     | `dotnet add package Facteur.Compilers.Scriban`    |
+| Fluid       | `dotnet add package Facteur.Compilers.Fluid`      |
+| Handlebars  | `dotnet add package Facteur.Compilers.Handlebars` |
 
 You also have a choice in the template providers. Templates can be stored on a regular file drive but it might as well be stored on a blob on Azure.
 

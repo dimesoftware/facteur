@@ -5,7 +5,9 @@
       "Bash(del /F \"c:\\Source\\dimesoftware\\facteur\\src\\Facteur.AzureCommunicationServices\\Class1.cs\")",
       "Bash(dotnet build:*)",
       "Bash(dotnet test:*)",
-      "Bash(dotnet add:*)"
+      "Bash(dotnet add:*)",
+      "Bash(curl -s https://api.nuget.org/v3-flatcontainer/scriban/index.json)",
+      "Bash(dotnet restore:*)"
     ]
   }
 }
