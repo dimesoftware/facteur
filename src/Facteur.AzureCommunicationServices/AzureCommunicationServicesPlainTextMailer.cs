@@ -40,8 +40,12 @@ namespace Facteur.AzureCommunicationServices
                 PlainText = request.Body
             };
 
+            string senderAddress = !string.IsNullOrEmpty(request.From.Name)
+                ? $"{request.From.Name} <{request.From.Email}>"
+                : request.From.Email;
+
             EmailMessage message = new(
-                senderAddress: request.From.Email,
+                senderAddress: senderAddress,
                 content: content,
                 recipients: new EmailRecipients([.. request.To.Select(x => new EmailAddress(x))]));
 
