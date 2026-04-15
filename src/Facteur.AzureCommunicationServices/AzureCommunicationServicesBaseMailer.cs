@@ -35,17 +35,8 @@ namespace Facteur.AzureCommunicationServices
         public virtual async Task SendMailAsync(EmailRequest request)
         {
             EmailClient client = new(ConnectionString);
-
             EmailContent content = new(request.Subject) { Html = request.Body };
-
-            string senderAddress = !string.IsNullOrEmpty(request.From.Name)
-                ? $"{request.From.Name} <{request.From.Email}>"
-                : request.From.Email;
-
-            EmailMessage message = new(
-                senderAddress: senderAddress,
-                content: content,
-                recipients: new EmailRecipients([.. request.To.Select(x => new EmailAddress(x))]));
+            EmailMessage message = new(senderAddress: request.From.Email, content: content, recipients: new EmailRecipients([.. request.To.Select(x => new EmailAddress(x))]));
 
             message.AddCc(request);
             message.AddBcc(request);
